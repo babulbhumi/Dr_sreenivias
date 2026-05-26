@@ -1,0 +1,1034 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.name }} | Dr. Sreenivas Aesthetics{% endblock %}
+
+{% block meta_description %}{{ service.meta_description }}{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* =========================================================
+       SERVICE DETAIL PAGE — PREMIUM STYLES
+       Color Palette: Deep Navy (#0A1628), Soft Teal (#2A9D8F), Gold (#C9A84C)
+    ========================================================= */
+
+    :root {
+      --navy:   #0A1628;
+      --teal:   #2A9D8F;
+      --gold:   #C9A84C;
+      --gold-lt:#E8C97A;
+      --cream:  #FAF7F2;
+      --muted:  #6B7A8F;
+      --white:  #FFFFFF;
+    }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .service-hero {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--navy) 0%, #112240 60%, #0D3348 100%);
+      overflow: hidden;
+    }
+
+    .service-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(42,157,143,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.10) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* animated ambient orbs */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .12;
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+    .hero-orb-1 { width:420px; height:420px; background:var(--teal);  top:-80px;  right:-60px; animation-delay:0s; }
+    .hero-orb-2 { width:280px; height:280px; background:var(--gold);  bottom:0;   left:5%;     animation-delay:3s; }
+
+    @keyframes floatOrb {
+      0%,100% { transform:translateY(0)   scale(1);   }
+      50%      { transform:translateY(-30px) scale(1.06); }
+    }
+
+    /* decorative grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.35);
+      color: var(--gold-lt);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .45rem 1.1rem;
+      border-radius: 100px;
+      margin-bottom: 1.4rem;
+    }
+
+    .service-hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+
+    .service-hero h1 span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,.72);
+      line-height: 1.75;
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta-group { display:flex; gap:1rem; flex-wrap:wrap; }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color: var(--navy);
+      font-weight: 700;
+      padding: .85rem 2rem;
+      border-radius: 6px;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      transition: transform .25s, box-shadow .25s;
+      box-shadow: 0 8px 28px rgba(201,168,76,.30);
+    }
+    .btn-gold:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(201,168,76,.45);
+      color: var(--navy);
+    }
+
+    .btn-outline-light-custom {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      padding: .85rem 2rem;
+      border-radius: 6px;
+      border: 1.5px solid rgba(255,255,255,.35);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      transition: border-color .25s, background .25s;
+    }
+    .btn-outline-light-custom:hover {
+      border-color: var(--white);
+      background: rgba(255,255,255,.08);
+      color: var(--white);
+    }
+
+    /* hero stats strip */
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.8rem;
+      flex-wrap: wrap;
+    }
+    .hero-stat-item { text-align: left; }
+    .hero-stat-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+      display: block;
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: .78rem;
+      color: rgba(255,255,255,.55);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* hero side image / icon panel */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-icon-ring {
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(201,168,76,.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: spinRing 24s linear infinite;
+    }
+    @keyframes spinRing { to { transform:rotate(360deg); } }
+
+    .hero-icon-inner {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(42,157,143,.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: spinRing 24s linear infinite reverse;
+    }
+
+    .hero-service-icon {
+      font-size: 5rem;
+      filter: drop-shadow(0 0 24px rgba(42,157,143,.6));
+      animation: none;
+    }
+
+    /* floating accent dots */
+    .hero-dot {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .dot-1 { width:10px; height:10px; top:18%; right:22%; opacity:.6; }
+    .dot-2 { width:6px;  height:6px;  bottom:28%; left:15%; opacity:.45; }
+    .dot-3 { width:14px; height:14px; top:60%; right:10%; opacity:.3; background:var(--teal); }
+
+    /* ── BREADCRUMB ───────────────────────────────────────── */
+    .breadcrumb-section {
+      background: var(--cream);
+      padding: .85rem 0;
+      border-bottom: 1px solid rgba(0,0,0,.07);
+    }
+    .breadcrumb-section .breadcrumb { margin:0; }
+    .breadcrumb-item a { color:var(--teal); text-decoration:none; font-weight:500; }
+    .breadcrumb-item.active { color:var(--muted); }
+
+    /* ── SECTION COMMON ───────────────────────────────────── */
+    .section-label {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(42,157,143,.08);
+      padding: .35rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(42,157,143,.18);
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+      border-radius: 2px;
+      margin: 1rem 0 1.6rem;
+    }
+
+    /* ── OVERVIEW (NOW WITH SIDEBAR) ─────────────────────────────────────────── */
+    .overview-section { padding: 90px 0; background: var(--white); }
+
+    .overview-card {
+      background: var(--cream);
+      border-radius: 16px;
+      padding: 2.5rem;
+      border: 1px solid rgba(201,168,76,.15);
+      height: 100%;
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .overview-card::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height:3px;
+      background:linear-gradient(90deg, var(--teal), var(--gold));
+    }
+    .overview-card:hover { transform:translateY(-6px); box-shadow:0 20px 50px rgba(10,22,40,.10); }
+
+    .overview-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--teal), #1a7a6e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 1.2rem;
+      box-shadow: 0 8px 20px rgba(42,157,143,.25);
+    }
+
+    .overview-card h5 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .6rem;
+    }
+    .overview-card p { color: var(--muted); font-size: .95rem; line-height: 1.7; margin:0; }
+
+    /* overview main text area */
+    .overview-main p { color: #3a4a5c; font-size: 1.05rem; line-height: 1.85; margin-bottom: 1.2rem; }
+
+    .ideal-candidate {
+      background: linear-gradient(135deg, rgba(10,22,40,.04), rgba(42,157,143,.06));
+      border-radius: 12px;
+      padding: 1.8rem 2rem;
+      border-left: 4px solid var(--teal);
+      margin-top: 1.5rem;
+    }
+    .ideal-candidate h6 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--navy);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .ideal-candidate ul { padding-left: 1.2rem; margin: 0; }
+    .ideal-candidate ul li { color: var(--muted); font-size: .93rem; margin-bottom: .5rem; line-height: 1.6; }
+
+    /* ── SIDEBAR STYLES ── */
+    .sidebar-widget {
+      background-color: var(--cream);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0,0,0,.05);
+    }
+    .sidebar-widget-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--white);
+      color: var(--navy);
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+      border: 1px solid rgba(0,0,0,.04);
+    }
+    .sidebar-link:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      color: var(--teal);
+    }
+    .sidebar-link i { font-size: 1.1rem; transition: transform 0.3s ease; }
+    .sidebar-link:hover i { transform: translateX(4px); }
+
+    /* Active Sidebar Link */
+    .sidebar-link.active {
+      background: var(--teal);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(42,157,143, 0.3);
+      border-color: var(--teal);
+    }
+
+    .hours-widget {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--teal);
+      box-shadow: 0 2px 15px rgba(0,0,0,.05);
+    }
+    .hours-icon { font-size: 2.2rem; color: var(--teal); margin-bottom: 1rem; }
+    .hours-text { font-size: 0.9rem; color: var(--muted); border-bottom: 1px solid #eaeaea; padding-bottom: 1rem; margin-bottom: 1rem; line-height: 1.6;}
+
+    /* ── PROCEDURE STEPS ──────────────────────────────────── */
+    .procedure-section { padding: 90px 0; background: var(--cream); }
+
+    .step-timeline { position: relative; }
+    .step-timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--teal), var(--gold), transparent);
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+    .step-item:last-child { margin-bottom: 0; }
+
+    .step-num {
+      width: 58px;
+      height: 58px;
+      min-width: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), #1a3050);
+      border: 3px solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 16px rgba(42,157,143,.25);
+    }
+
+    .step-content {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.6rem 1.8rem;
+      border: 1px solid rgba(0,0,0,.07);
+      flex: 1;
+      transition: box-shadow .3s;
+    }
+    .step-content:hover { box-shadow: 0 8px 28px rgba(10,22,40,.08); }
+
+    .step-content h6 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.05rem;
+      color: var(--navy);
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+    .step-content p { color: var(--muted); font-size: .93rem; line-height: 1.7; margin: 0; }
+
+    /* ── BEFORE / AFTER ───────────────────────────────────── */
+    .results-section { padding: 90px 0; background: var(--white); }
+
+    .ba-card {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(10,22,40,.10);
+      transition: transform .35s, box-shadow .35s;
+      position: relative;
+      background: var(--navy);
+    }
+    .ba-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(10,22,40,.18); }
+
+    .ba-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 280px;
+      position: relative;
+    }
+
+    .ba-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: .5rem;
+      background: linear-gradient(135deg, #0d2235, #112240);
+      position: relative;
+    }
+    .ba-side:first-child { border-right: 2px solid var(--gold); }
+
+    .ba-placeholder-icon { font-size: 3rem; opacity: .25; }
+    .ba-placeholder-text {
+      font-size: .72rem;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .ba-divider-label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 10;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color: var(--navy);
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .3rem .7rem;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .ba-label {
+      position: absolute;
+      top: 12px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .25rem .7rem;
+      border-radius: 100px;
+    }
+    .ba-label-before { left:12px; background:rgba(107,122,143,.3); color:rgba(255,255,255,.7); }
+    .ba-label-after  { right:12px; background:rgba(42,157,143,.4); color:var(--white); }
+
+    .ba-card-body {
+      padding: 1.4rem 1.6rem;
+      background: var(--white);
+      border-top: 1px solid rgba(201,168,76,.2);
+    }
+    .ba-card-body h6 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+    }
+    .ba-card-body p { font-size: .85rem; color: var(--muted); margin: 0; }
+
+    /* disclaimer badge */
+    .results-disclaimer {
+      background: rgba(42,157,143,.07);
+      border: 1px solid rgba(42,157,143,.2);
+      border-radius: 10px;
+      padding: 1.2rem 1.6rem;
+      margin-top: 2.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .results-disclaimer i { color: var(--teal); font-size: 1.2rem; margin-top: .1rem; }
+    .results-disclaimer p { margin: 0; font-size: .85rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── FAQ ──────────────────────────────────────────────── */
+    .faq-section { padding: 90px 0; background: var(--cream); }
+
+    .faq-accordion .accordion-item {
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,.07) !important;
+      border-radius: 10px !important;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    .faq-accordion .accordion-button {
+      background: var(--white);
+      color: var(--navy);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 1.3rem 1.6rem;
+      box-shadow: none !important;
+    }
+    .faq-accordion .accordion-button:not(.collapsed) {
+      color: var(--teal);
+      background: rgba(42,157,143,.04);
+    }
+    .faq-accordion .accordion-button::after {
+      filter: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232A9D8F' viewBox='0 0 16 16'%3E%3Cpath d='M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z'/%3E%3C/svg%3E");
+    }
+    .faq-accordion .accordion-button.collapsed::after {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232A9D8F' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    }
+    .faq-accordion .accordion-body {
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.8;
+      padding: 0 1.6rem 1.4rem;
+    }
+
+    /* ── CTA BANNER ───────────────────────────────────────── */
+    .cta-banner {
+      padding: 90px 0;
+      background: linear-gradient(135deg, var(--navy) 0%, #112240 60%, #0D3348 100%);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .cta-banner::before {
+      content:'';
+      position:absolute; inset:0;
+      background:radial-gradient(ellipse 70% 60% at 50% 50%, rgba(42,157,143,.15) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .cta-banner-grid {
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size:50px 50px;
+      pointer-events:none;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .cta-banner h2 span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cta-banner p { color: rgba(255,255,255,.68); font-size: 1.1rem; margin-bottom: 2.2rem; max-width: 540px; margin-left:auto; margin-right:auto; }
+
+    .cta-trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
+    .cta-trust-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      color: rgba(255,255,255,.6);
+      font-size: .88rem;
+    }
+    .cta-trust-item i { color: var(--gold-lt); font-size: 1rem; }
+
+    /* ── SAFETY NOTICE ────────────────────────────────────── */
+    .safety-notice {
+      background: linear-gradient(135deg, rgba(42,157,143,.06), rgba(201,168,76,.04));
+      border: 1px solid rgba(42,157,143,.18);
+      border-radius: 12px;
+      padding: 1.8rem 2rem;
+      margin-top: 0;
+    }
+    .safety-notice h6 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: .8rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .safety-notice h6 i { color: var(--teal); }
+    .safety-notice p { font-size: .88rem; color: var(--muted); line-height: 1.75; margin:0; }
+
+    /* ── STICKY CTA ───────────────────────────────────────── */
+    .sticky-cta {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .4s, transform .4s;
+    }
+    .sticky-cta.visible { opacity:1; transform:translateY(0); }
+    .sticky-cta a {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color: var(--navy);
+      font-weight: 700;
+      font-size: .9rem;
+      padding: .85rem 1.6rem;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 8px 32px rgba(201,168,76,.45);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .sticky-cta a:hover { transform:translateY(-3px); box-shadow:0 14px 42px rgba(201,168,76,.55); color:var(--navy); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────── */
+    @media(max-width:768px) {
+      .service-hero { min-height:auto; padding:100px 0 60px; }
+      .hero-icon-ring { width:200px; height:200px; }
+      .hero-icon-inner { width:140px; height:140px; }
+      .hero-service-icon { font-size:3rem; }
+      .hero-stats { gap:1.5rem; }
+      .step-timeline::before { display:none; }
+      .step-item { flex-direction:column; gap:1rem; }
+      .ba-images { height:200px; }
+      .sticky-cta { bottom:1rem; right:1rem; }
+      .cta-trust-row { gap:1.2rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<nav class="breadcrumb-section" aria-label="breadcrumb">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}"><i class="bi bi-house-fill me-1"></i>Home</a>
+            </li>
+            <li class="breadcrumb-item"><a href="#">Services</a></li>
+            <li class="breadcrumb-item"><a href="#">{{ service.category }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ service.name }}</li>
+        </ol>
+    </div>
+</nav>
+
+<section class="service-hero" id="serviceHero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+    <div class="hero-dot dot-1" aria-hidden="true"></div>
+    <div class="hero-dot dot-2" aria-hidden="true"></div>
+    <div class="hero-dot dot-3" aria-hidden="true"></div>
+
+    <div class="container position-relative">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-7" data-aos="fade-right" data-aos-duration="900">
+                <div class="hero-badge">
+                    <i class="bi bi-award-fill"></i>
+                    {{ service.category }}
+                </div>
+                <h1>{{ service.name }}<br><span>at Dr. Sreenivas Aesthetics</span></h1>
+                <p class="hero-subtitle">{{ service.tagline }}</p>
+
+                <div class="hero-cta-group">
+                    <a href="{{ url_for('contact') }}" class="btn-gold">
+                        <i class="bi bi-calendar2-check-fill"></i>
+                        Book a Free Consultation
+                    </a>
+                    <a href="#overview" class="btn-outline-light-custom">
+                        <i class="bi bi-arrow-down-circle"></i>
+                        Learn More
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    {% if service.hero_stats %}
+                        {% for stat in service.hero_stats %}
+                        <div class="hero-stat-item" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 + 200 }}">
+                            <span class="hero-stat-num">{{ stat.value }}</span>
+                            <span class="hero-stat-label">{{ stat.label }}</span>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-duration="900" data-aos-delay="200">
+                <div class="hero-visual">
+                    <div class="hero-icon-ring">
+                        <div class="hero-icon-inner">
+                            <span class="hero-service-icon">{{ service.icon }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="overview-section" id="overview">
+    <div class="container">
+
+        <div class="row g-4 mb-5">
+            {% if service.highlight_cards %}
+                {% for card in service.highlight_cards %}
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+                    <div class="overview-card">
+                        <div class="overview-card-icon">
+                            <i class="bi {{ card.icon }}"></i>
+                        </div>
+                        <h5>{{ card.title }}</h5>
+                        <p>{{ card.text }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="row g-5 align-items-start">
+
+            <div class="col-lg-8 overview-main" data-aos="fade-right">
+                <span class="section-label">Overview</span>
+                <h2 class="section-heading">What is<br>{{ service.name }}?</h2>
+                <div class="section-divider"></div>
+
+                {% if service.overview_paragraphs %}
+                    {% for para in service.overview_paragraphs %}
+                    <p>{{ para }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                {% if service.ideal_candidates %}
+                <div class="ideal-candidate mb-4">
+                    <h6><i class="bi bi-person-check-fill me-2" style="color:var(--teal)"></i>Ideal Candidates</h6>
+                    <ul>
+                        {% for point in service.ideal_candidates %}
+                        <li>{{ point }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if service.glance %}
+                <div class="safety-notice mb-4">
+                    <h6><i class="bi bi-shield-check-fill"></i> Procedure at a Glance</h6>
+                    <table class="table table-sm mb-0" style="font-size:.9rem;color:var(--muted)">
+                        <tbody>
+                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Duration</td><td>{{ service.glance.duration }}</td></tr>
+                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Anaesthesia</td><td>{{ service.glance.anaesthesia }}</td></tr>
+                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Recovery</td><td>{{ service.glance.recovery }}</td></tr>
+                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Results Visible</td><td>{{ service.glance.results_visible }}</td></tr>
+                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Sessions</td><td>{{ service.glance.sessions }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-left" data-aos-delay="150">
+
+                <div class="sidebar-widget">
+                    <h4 class="sidebar-widget-title">Medical Services</h4>
+                    <div class="sidebar-menu">
+                        {% for s_slug, s_data in services.items() %}
+                        <a href="{{ url_for('service_detail', slug=s_slug) }}"
+                           class="sidebar-link {% if s_slug == slug %}active{% endif %}">
+                            {{ s_data.name | default(s_data.label | default(s_slug | title)) }}
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="hours-widget">
+                    <div class="hours-icon"><i class="bi bi-heart-pulse"></i></div>
+                    <h4 class="sidebar-widget-title mb-2" style="font-size: 1.2rem;">Opening Hours</h4>
+                    <p class="hours-text">Mon – Sat: 9.30 AM – 9:00 PM<br><br>(Sun: Closed)</p>
+                    <div class="d-flex justify-content-between align-items-center" style="font-size: 0.9rem; font-weight: 600; color: var(--navy);">
+                        <span>Emergency:</span>
+                        <span>+91 9502327644</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h4 class="sidebar-widget-title">Quick Links</h4>
+                    <div class="sidebar-menu">
+                        <a href="{{ url_for('about') }}" class="sidebar-link">About Us <i class="bi bi-arrow-right"></i></a>
+                        <a href="{{ url_for('contact') }}" class="sidebar-link">Contact Us <i class="bi bi-arrow-right"></i></a>
+                        <a href="{{ url_for('gallery_photos') }}" class="sidebar-link">Gallery <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="text-center p-4 rounded-3 mt-4" style="background:linear-gradient(135deg,var(--navy),#112240);">
+                    <p class="text-white fw-600 mb-2" style="font-size:.95rem;font-weight:600">Ready to take the first step?</p>
+                    <p style="color:rgba(255,255,255,.6);font-size:.85rem;margin-bottom:1.4rem">Book your private consultation with our specialists today.</p>
+                    <a href="{{ url_for('contact') }}" class="btn-gold w-100 justify-content-center">
+                        <i class="bi bi-telephone-fill"></i> Schedule Consultation
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if service.procedure_steps %}
+<section class="procedure-section" id="procedure">
+    <div class="container">
+        <div class="row justify-content-center mb-5 text-center">
+            <div class="col-lg-7" data-aos="fade-up">
+                <span class="section-label">The Process</span>
+                <h2 class="section-heading">Your Journey,<br>Step by Step</h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="text-muted">We guide you through every phase — from initial consultation to full recovery — with personalised care at each stage.</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="step-timeline">
+                    {% for step in service.procedure_steps %}
+                    <div class="step-item" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 80 }}">
+                        <div class="step-num">{{ loop.index }}</div>
+                        <div class="step-content">
+                            <h6><i class="bi {{ step.icon }} me-2" style="color:var(--teal)"></i>{{ step.title }}</h6>
+                            <p>{{ step.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if service.before_after_cases %}
+<section class="results-section" id="results">
+    <div class="container">
+        <div class="row justify-content-center mb-5 text-center">
+            <div class="col-lg-7" data-aos="fade-up">
+                <span class="section-label">Expertise & Results</span>
+                <h2 class="section-heading">Transformations That<br><span style="color:var(--teal)">Speak for Themselves</span></h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="text-muted">Every result is a testament to our commitment to natural-looking, personalised outcomes. Individual results may vary.</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for case in service.before_after_cases %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="ba-card">
+                    <div class="ba-images">
+                        <div class="ba-side">
+                            <span class="ba-label ba-label-before">Before</span>
+                            <span class="ba-placeholder-icon">🖼️</span>
+                        </div>
+                        <div class="ba-side">
+                            <span class="ba-label ba-label-after">After</span>
+                            <span class="ba-placeholder-icon">✨</span>
+                        </div>
+                        <div class="ba-divider-label">VS</div>
+                    </div>
+                    <div class="ba-card-body">
+                        <h6>{{ case.title }}</h6>
+                        <p>{{ case.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="results-disclaimer" data-aos="fade-up" data-aos-delay="100">
+            <i class="bi bi-info-circle-fill"></i>
+            <p><strong>Medical Disclaimer:</strong> Before & after photos shown are representative examples with patient consent. Individual results vary depending on anatomy, health status, and adherence to post-procedure care. A personalised consultation is required to determine your expected results.</p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if service.faqs %}
+<section class="faq-section" id="faq">
+    <div class="container">
+        <div class="row gy-5 align-items-start">
+            <div class="col-lg-4" data-aos="fade-right">
+                <span class="section-label">FAQ</span>
+                <h2 class="section-heading">Common<br>Questions</h2>
+                <div class="section-divider"></div>
+                <p class="text-muted mb-4">Can't find your answer here? Our team is happy to answer all your questions in a private, confidential consultation.</p>
+                <a href="{{ url_for('contact') }}" class="btn-gold">
+                    <i class="bi bi-chat-dots-fill"></i> Ask Us Directly
+                </a>
+            </div>
+
+            <div class="col-lg-8" data-aos="fade-left" data-aos-delay="100">
+                <div class="accordion faq-accordion" id="faqAccordion">
+                    {% for faq in service.faqs %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faqHead{{ loop.index }}">
+                            <button class="accordion-button {% if not loop.first %}collapsed{% endif %}"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#faqBody{{ loop.index }}"
+                                    aria-expanded="{{ 'true' if loop.first else 'false' }}"
+                                    aria-controls="faqBody{{ loop.index }}">
+                                {{ faq.question }}
+                            </button>
+                        </h2>
+                        <div id="faqBody{{ loop.index }}" class="accordion-collapse collapse {% if loop.first %}show{% endif %}"
+                             aria-labelledby="faqHead{{ loop.index }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">{{ faq.answer }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="cta-banner" id="bookNow">
+    <div class="cta-banner-grid" aria-hidden="true"></div>
+    <div class="container position-relative" data-aos="fade-up">
+        <h2>Ready to Begin Your<br><span>Transformation Journey?</span></h2>
+        <p>Your personalised consultation with Dr. Pavuluru Sreenivasa Rao or Dr. Veli Jaswantha Lakshmi is the first step. Confidential. No pressure. Expert advice.</p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('contact') }}" class="btn-gold" style="font-size:1.05rem;padding:1rem 2.4rem">
+                <i class="bi bi-calendar2-check-fill"></i> Book Your Free Consultation
+            </a>
+            <a href="tel:+919502327644" class="btn-outline-light-custom" style="font-size:1.05rem;padding:1rem 2.4rem">
+                <i class="bi bi-telephone-fill"></i> Call: 095023 27644
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="sticky-cta" id="stickyCta" aria-label="Book appointment">
+    <a href="{{ url_for('contact') }}">
+        <i class="bi bi-calendar2-check-fill"></i> Book Consultation
+    </a>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const stickyCta = document.getElementById('stickyCta');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 500) {
+        stickyCta.classList.add('visible');
+      } else {
+        stickyCta.classList.remove('visible');
+      }
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Dr. Sreenivas Aesthetics</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy   : #0a1628;
+      --navy-d : #050d1a;
+      --teal   : #2a9d8f;
+      --gold   : #c9a84c;
+      --gold-lt: #e8c97a;
+      --cream  : #faf8f4;
+      --border : #e2e8f0;
+      --muted  : #5a6a80;
+      --font-d : 'Cormorant Garamond',Georgia,serif;
+      --font-b : 'DM Sans',system-ui,sans-serif;
+    }
+    *, *::before, *::after { box-sizing:border-box; }
+    body { margin:0; font-family:var(--font-b); background:var(--cream); color:#1a2333; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width:240px; position:fixed; top:0; left:0; bottom:0;
+      background:var(--navy-d);
+      display:flex; flex-direction:column;
+      z-index:100; box-shadow:4px 0 20px rgba(0,0,0,.3);
+    }
+    .sidebar-brand {
+      padding:1.5rem 1.25rem 1.25rem;
+      border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .sidebar-brand-name {
+      font-family:var(--font-d); font-size:1.1rem; font-weight:600;
+      color:#fff; display:block; line-height:1.2;
+    }
+    .sidebar-brand-sub {
+      font-size:.6rem; font-weight:700; letter-spacing:.15em;
+      text-transform:uppercase; color:var(--gold); display:block; margin-top:.2rem;
+    }
+    .sidebar-nav { padding:.75rem 0; flex:1; }
+    .sidebar-item {
+      display:flex; align-items:center; gap:.75rem;
+      padding:.65rem 1.25rem; font-size:.84rem; font-weight:500;
+      color:rgba(255,255,255,.6); text-decoration:none;
+      border-left:3px solid transparent; transition:all .25s ease;
+      cursor:pointer; background:none; border-top:none; border-right:none; border-bottom:none;
+      width:100%; text-align:left;
+    }
+    .sidebar-item:hover,
+    .sidebar-item.active {
+      background:rgba(201,168,76,.1);
+      border-left-color:var(--gold);
+      color:#fff;
+    }
+    .sidebar-item i { font-size:.95rem; width:18px; text-align:center; flex-shrink:0; }
+    .sidebar-section-label {
+      font-size:.58rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+      color:rgba(255,255,255,.25); padding:.9rem 1.25rem .3rem;
+    }
+    .sidebar-footer {
+      padding:1rem 1.25rem;
+      border-top:1px solid rgba(255,255,255,.07);
+    }
+    .sidebar-logout {
+      display:flex; align-items:center; gap:.6rem;
+      color:rgba(255,255,255,.45); font-size:.82rem; text-decoration:none;
+      transition:color .25s ease;
+    }
+    .sidebar-logout:hover { color:#f87171; }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      margin-left:240px; min-height:100vh;
+      display:flex; flex-direction:column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background:#fff; border-bottom:1px solid var(--border);
+      padding:.85rem 1.75rem;
+      display:flex; align-items:center; justify-content:space-between;
+      position:sticky; top:0; z-index:50;
+      box-shadow:0 2px 8px rgba(0,0,0,.06);
+    }
+    .topbar-title { font-size:1.1rem; font-weight:600; color:var(--navy); }
+    .topbar-sub   { font-size:.72rem; color:var(--muted); }
+    .topbar-user  {
+      display:flex; align-items:center; gap:.6rem;
+      background:var(--cream); border:1px solid var(--border);
+      border-radius:100px; padding:.35rem .85rem .35rem .45rem;
+    }
+    .topbar-avatar {
+      width:28px; height:28px; border-radius:50%;
+      background:var(--navy); color:var(--gold);
+      display:flex; align-items:center; justify-content:center;
+      font-size:.75rem; font-weight:700;
+    }
+    .topbar-uname { font-size:.78rem; font-weight:600; color:var(--navy); }
+
+    /* ── PAGE BODY ── */
+    .page-body { padding:1.75rem; flex:1; }
+
+    /* ── STAT CARDS ── */
+    .stat-card {
+      background:#fff; border:1px solid var(--border);
+      border-radius:14px; padding:1.4rem 1.5rem;
+      position:relative; overflow:hidden;
+      transition:transform .25s, box-shadow .25s;
+    }
+    .stat-card:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,0,0,.09); }
+    .stat-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    }
+    .stat-card--blue::before   { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
+    .stat-card--green::before  { background:linear-gradient(90deg,var(--teal),#5ecec0); }
+    .stat-card--gold::before   { background:linear-gradient(90deg,var(--gold),var(--gold-lt)); }
+    .stat-card--red::before    { background:linear-gradient(90deg,#ef4444,#f87171); }
+    .stat-card--navy::before   { background:linear-gradient(90deg,var(--navy),#1e3a6e); }
+    .stat-card--purple::before { background:linear-gradient(90deg,#8b5cf6,#a78bfa); }
+
+    .stat-icon {
+      width:46px; height:46px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.2rem; margin-bottom:1rem;
+    }
+    .stat-icon--blue   { background:rgba(59,130,246,.1);  color:#3b82f6; }
+    .stat-icon--green  { background:rgba(42,157,143,.12); color:var(--teal); }
+    .stat-icon--gold   { background:rgba(201,168,76,.12); color:var(--gold); }
+    .stat-icon--red    { background:rgba(239,68,68,.1);   color:#ef4444; }
+    .stat-icon--navy   { background:rgba(10,22,40,.08);   color:var(--navy); }
+    .stat-icon--purple { background:rgba(139,92,246,.1);  color:#8b5cf6; }
+
+    .stat-val {
+      font-family:var(--font-d); font-size:2.2rem; font-weight:700;
+      color:var(--navy); line-height:1; display:block;
+    }
+    .stat-lbl { font-size:.72rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background:#fff; border:1px solid var(--border);
+      border-radius:14px; overflow:hidden; margin-bottom:1.5rem;
+    }
+    .section-card-header {
+      padding:1.1rem 1.5rem;
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      background:#fafafa;
+    }
+    .section-card-title {
+      font-size:.9rem; font-weight:700; color:var(--navy);
+      display:flex; align-items:center; gap:.5rem;
+    }
+    .section-card-title i { color:var(--gold); }
+    .section-card-body { padding:1.25rem 1.5rem; }
+
+    /* ── TABLE ── */
+    .appt-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    .appt-table th {
+      background:#f8f9fb; padding:.65rem 1rem;
+      font-size:.65rem; font-weight:700; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--muted);
+      border-bottom:2px solid var(--border); text-align:left;
+      white-space:nowrap;
+    }
+    .appt-table td {
+      padding:.75rem 1rem; border-bottom:1px solid var(--border);
+      vertical-align:middle;
+    }
+    .appt-table tr:last-child td { border-bottom:none; }
+    .appt-table tr:hover td { background:#f8f9fb; }
+
+    /* Status badges */
+    .badge-status {
+      display:inline-flex; align-items:center; gap:.3rem;
+      font-size:.65rem; font-weight:700; letter-spacing:.08em;
+      text-transform:uppercase; border-radius:100px; padding:.25rem .7rem;
+      white-space:nowrap;
+    }
+    .badge-status--new       { background:rgba(59,130,246,.12);  color:#1d4ed8; }
+    .badge-status--confirmed { background:rgba(42,157,143,.12);  color:#0d6450; }
+    .badge-status--completed { background:rgba(34,197,94,.12);   color:#166534; }
+    .badge-status--cancelled { background:rgba(239,68,68,.1);    color:#b91c1c; }
+
+    /* Action buttons */
+    .btn-action {
+      display:inline-flex; align-items:center; gap:.3rem;
+      font-size:.72rem; font-weight:600; padding:.3rem .7rem;
+      border-radius:6px; border:1px solid; cursor:pointer;
+      transition:all .2s ease; text-decoration:none; white-space:nowrap;
+    }
+    .btn-wa   { background:rgba(37,211,102,.1); border-color:rgba(37,211,102,.3); color:#15803d; }
+    .btn-wa:hover { background:#25d366; border-color:#25d366; color:#fff; }
+    .btn-del  { background:rgba(239,68,68,.08); border-color:rgba(239,68,68,.25); color:#dc2626; }
+    .btn-del:hover { background:#ef4444; border-color:#ef4444; color:#fff; }
+
+    /* Status select */
+    .status-select {
+      font-size:.72rem; font-weight:600; border-radius:6px;
+      border:1px solid var(--border); padding:.25rem .5rem;
+      background:#fff; cursor:pointer; outline:none;
+      transition:border-color .2s;
+    }
+    .status-select:focus { border-color:var(--teal); }
+
+    /* Service breakdown bars */
+    .svc-bar-label { font-size:.8rem; font-weight:500; color:var(--navy); }
+    .svc-bar-track {
+      height:8px; background:#f1f5f9; border-radius:4px; overflow:hidden;
+    }
+    .svc-bar-fill {
+      height:100%; border-radius:4px;
+      background:linear-gradient(90deg, var(--teal), var(--gold));
+      transition:width .6s ease;
+    }
+    .svc-bar-count { font-size:.72rem; font-weight:700; color:var(--muted); }
+
+    /* Search & filter bar */
+    .filter-bar {
+      display:flex; gap:.75rem; flex-wrap:wrap; align-items:center;
+      margin-bottom:1rem;
+    }
+    .filter-input {
+      border:1.5px solid var(--border); border-radius:8px;
+      padding:.45rem .85rem; font-size:.84rem; font-family:var(--font-b);
+      outline:none; transition:border-color .25s; flex:1; min-width:180px;
+    }
+    .filter-input:focus { border-color:var(--teal); }
+    .filter-select {
+      border:1.5px solid var(--border); border-radius:8px;
+      padding:.45rem .75rem; font-size:.84rem; font-family:var(--font-b);
+      outline:none; cursor:pointer; background:#fff;
+    }
+    .filter-select:focus { border-color:var(--teal); }
+
+    /* Toast notification */
+    .toast-pop {
+      position:fixed; bottom:1.5rem; right:1.5rem; z-index:9999;
+      background:var(--navy); color:#fff;
+      padding:.85rem 1.25rem; border-radius:10px;
+      display:flex; align-items:center; gap:.6rem; font-size:.85rem; font-weight:500;
+      box-shadow:0 10px 30px rgba(0,0,0,.3);
+      transform:translateY(20px); opacity:0; transition:all .35s ease;
+      pointer-events:none;
+    }
+    .toast-pop.show { transform:translateY(0); opacity:1; }
+    .toast-pop.success { border-left:4px solid #22c55e; }
+    .toast-pop.error   { border-left:4px solid #ef4444; }
+
+    /* Responsive */
+    @media(max-width:991px) {
+      .sidebar { width:200px; }
+      .main-content { margin-left:200px; }
+    }
+    @media(max-width:767px) {
+      .sidebar { display:none; }
+      .main-content { margin-left:0; }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align:center; padding:3rem 1rem; color:var(--muted);
+    }
+    .empty-state i { font-size:2.5rem; opacity:.3; display:block; margin-bottom:.75rem; }
+    .empty-state p { font-size:.88rem; margin:0; }
+  </style>
+</head>
+
+<body>
+
+<!-- ── SIDEBAR ─────────────────────────────────────────── -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <span class="sidebar-brand-name">Dr. Sreenivas<br>Aesthetics</span>
+    <span class="sidebar-brand-sub">Admin Portal</span>
+  </div>
+
+  <div class="sidebar-nav">
+    <p class="sidebar-section-label">Main</p>
+    <a href="#section-overview" class="sidebar-item active" onclick="scrollTo('section-overview',this)">
+      <i class="bi bi-grid-1x2"></i> Overview
+    </a>
+    <a href="#section-appointments" class="sidebar-item" onclick="scrollTo('section-appointments',this)">
+      <i class="bi bi-calendar2-check"></i> Appointments
+    </a>
+    <a href="#section-services" class="sidebar-item" onclick="scrollTo('section-services',this)">
+      <i class="bi bi-bar-chart"></i> Service Stats
+    </a>
+
+    <p class="sidebar-section-label">Clinic</p>
+    <a href="{{ url_for('index') }}" class="sidebar-item" target="_blank">
+      <i class="bi bi-globe"></i> View Website
+    </a>
+    <a href="{{ url_for('contact') }}" class="sidebar-item" target="_blank">
+      <i class="bi bi-envelope"></i> Contact Page
+    </a>
+  </div>
+
+  <div class="sidebar-footer">
+    <a href="{{ url_for('admin_logout') }}" class="sidebar-logout">
+      <i class="bi bi-box-arrow-left"></i> Sign Out
+    </a>
+  </div>
+</nav>
+
+
+<!-- ── MAIN CONTENT ────────────────────────────────────── -->
+<div class="main-content">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">Appointments Dashboard</div>
+      <div class="topbar-sub">Dr. Sreenivas Aesthetics — Nellore</div>
+    </div>
+    <div class="topbar-user">
+      <div class="topbar-avatar">A</div>
+      <span class="topbar-uname">Admin</span>
+    </div>
+  </div>
+
+  <!-- Page body -->
+  <div class="page-body">
+
+    <!-- ══ OVERVIEW STATS ═══════════════════════════════════ -->
+    <div id="section-overview" class="mb-4">
+      <div class="row g-3">
+
+        {% for icon, cls, val, lbl in [
+          ('bi-calendar2-check', 'blue',   stats.total,     'Total Appointments'),
+          ('bi-bell-fill',       'gold',   stats.new,       'New Requests'),
+          ('bi-check-circle',    'green',  stats.confirmed, 'Confirmed'),
+          ('bi-check2-all',      'purple', stats.completed, 'Completed'),
+          ('bi-x-circle',        'red',    stats.cancelled, 'Cancelled'),
+          ('bi-clock',           'navy',   stats.today,     'Today'),
+        ] %}
+        <div class="col-6 col-md-4 col-xl-2">
+          <div class="stat-card stat-card--{{ cls }}">
+            <div class="stat-icon stat-icon--{{ cls }}">
+              <i class="bi {{ icon }}"></i>
+            </div>
+            <span class="stat-val">{{ val }}</span>
+            <span class="stat-lbl">{{ lbl }}</span>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+
+
+    <!-- ══ ALL APPOINTMENTS TABLE ═══════════════════════════ -->
+    <div id="section-appointments" class="section-card mb-4">
+      <div class="section-card-header">
+        <div class="section-card-title">
+          <i class="bi bi-calendar2-check"></i>
+          All Appointment Requests
+          <span style="font-size:.72rem;font-weight:400;color:var(--muted);margin-left:.5rem;">
+            ({{ all_appointments|length }} total)
+          </span>
+        </div>
+      </div>
+      <div class="section-card-body">
+
+        <!-- Search + Filter -->
+        <div class="filter-bar">
+          <input type="text" class="filter-input" id="searchInput"
+                 placeholder="🔍  Search by name, phone, email or service…"
+                 oninput="filterTable()"/>
+          <select class="filter-select" id="statusFilter" onchange="filterTable()">
+            <option value="">All Status</option>
+            <option value="New">New</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        {% if all_appointments %}
+        <div style="overflow-x:auto;">
+          <table class="appt-table" id="apptTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date & Time</th>
+                <th>Patient</th>
+                <th>Contact</th>
+                <th>Service</th>
+                <th>Doctor Pref.</th>
+                <th>Message</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="apptBody">
+              {% for appt in all_appointments %}
+              <tr id="row-{{ appt.id }}"
+                  data-name="{{ appt.name|lower }}"
+                  data-phone="{{ appt.phone|lower }}"
+                  data-email="{{ appt.email|lower }}"
+                  data-service="{{ appt.service|lower }}"
+                  data-status="{{ appt.status }}">
+
+                <td style="font-weight:700;color:var(--muted);font-size:.8rem;">#{{ appt.id }}</td>
+
+                <td style="white-space:nowrap;font-size:.78rem;">
+                  <span style="font-weight:600;color:var(--navy);">
+                    {{ appt.created_at[:10] }}
+                  </span><br>
+                  <span style="color:var(--muted);">{{ appt.created_at[11:16] }}</span>
+                </td>
+
+                <td>
+                  <span style="font-weight:600;color:var(--navy);display:block;">{{ appt.name }}</span>
+                  {% if appt.preferred_date %}
+                  <span style="font-size:.7rem;color:var(--muted);">
+                    <i class="bi bi-calendar2"></i> {{ appt.preferred_date }}
+                  </span>
+                  {% endif %}
+                </td>
+
+                <td style="font-size:.8rem;">
+                  <a href="tel:{{ appt.phone }}" style="color:var(--teal);font-weight:500;">{{ appt.phone }}</a><br>
+                  <span style="color:var(--muted);">{{ appt.email }}</span>
+                </td>
+
+                <td>
+                  <span style="font-size:.78rem;font-weight:600;color:var(--navy);">{{ appt.service }}</span>
+                  {% if appt.source %}
+                  <br><span style="font-size:.68rem;color:var(--muted);">via {{ appt.source }}</span>
+                  {% endif %}
+                </td>
+
+                <td style="font-size:.78rem;color:var(--muted);">
+                  {{ appt.doctor or '—' }}
+                </td>
+
+                <td style="max-width:180px;">
+                  <span style="font-size:.78rem;color:var(--muted);
+                               display:-webkit-box;-webkit-line-clamp:2;
+                               -webkit-box-orient:vertical;overflow:hidden;">
+                    {{ appt.message or '—' }}
+                  </span>
+                </td>
+
+                <td>
+                  <select class="status-select"
+                          onchange="updateStatus({{ appt.id }}, this.value, this)"
+                          data-current="{{ appt.status }}">
+                    <option value="New"       {% if appt.status=='New'       %}selected{% endif %}>🔵 New</option>
+                    <option value="Confirmed" {% if appt.status=='Confirmed' %}selected{% endif %}>🟢 Confirmed</option>
+                    <option value="Completed" {% if appt.status=='Completed' %}selected{% endif %}>✅ Completed</option>
+                    <option value="Cancelled" {% if appt.status=='Cancelled' %}selected{% endif %}>🔴 Cancelled</option>
+                  </select>
+                </td>
+
+                <td>
+                  <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
+                    <!-- WhatsApp follow-up -->
+                    <a href="{{ url_for('whatsapp_followup', appt_id=appt.id) }}"
+                       target="_blank" class="btn-action btn-wa"
+                       title="Send WhatsApp follow-up">
+                      <i class="bi bi-whatsapp"></i> WA
+                    </a>
+                    <!-- Delete -->
+                    <button class="btn-action btn-del"
+                            onclick="deleteAppt({{ appt.id }})"
+                            title="Delete appointment">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  </div>
+                </td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="noResults" style="display:none;" class="empty-state">
+          <i class="bi bi-search"></i>
+          <p>No appointments match your search.</p>
+        </div>
+
+        {% else %}
+        <div class="empty-state">
+          <i class="bi bi-calendar2-x"></i>
+          <p>No appointments yet. They will appear here once patients submit the form.</p>
+        </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+
+    <!-- ══ SERVICE BREAKDOWN ════════════════════════════════ -->
+    <div id="section-services" class="section-card">
+      <div class="section-card-header">
+        <div class="section-card-title">
+          <i class="bi bi-bar-chart-fill"></i> Appointments by Speciality
+        </div>
+      </div>
+      <div class="section-card-body">
+
+        {% if service_stats %}
+          {% set max_count = service_stats[0].cnt %}
+          <div class="row g-3">
+            {% for row in service_stats %}
+            <div class="col-md-6">
+              <div style="margin-bottom:.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem;">
+                  <span class="svc-bar-label">{{ row.service }}</span>
+                  <span class="svc-bar-count">{{ row.cnt }} appt{{ 's' if row.cnt != 1 else '' }}</span>
+                </div>
+                <div class="svc-bar-track">
+                  <div class="svc-bar-fill"
+                       style="width:{{ (row.cnt / max_count * 100)|int }}%"></div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <i class="bi bi-bar-chart"></i>
+            <p>Service statistics will appear here once appointments are submitted.</p>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div><!-- /page-body -->
+</div><!-- /main-content -->
+
+
+<!-- Toast notification -->
+<div class="toast-pop" id="toast">
+  <i class="bi bi-check-circle-fill" id="toastIcon"></i>
+  <span id="toastMsg"></span>
+</div>
+
+
+<script>
+/* ── Sidebar smooth scroll ── */
+function scrollTo(id, el) {
+  event.preventDefault();
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const target = document.getElementById(id);
+  if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ── Toast ── */
+function showToast(msg, ok=true) {
+  const t    = document.getElementById('toast');
+  const icon = document.getElementById('toastIcon');
+  document.getElementById('toastMsg').textContent = msg;
+  icon.className = ok ? 'bi bi-check-circle-fill' : 'bi bi-exclamation-triangle-fill';
+  t.className    = 'toast-pop show ' + (ok ? 'success' : 'error');
+  setTimeout(() => { t.className = 'toast-pop'; }, 3000);
+}
+
+/* ── Update Status ── */
+async function updateStatus(id, status, selectEl) {
+  try {
+    const res  = await fetch(`/admin/appointment/${id}/status`, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body   : JSON.stringify({ status }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      selectEl.dataset.current = status;
+      const row = document.getElementById(`row-${id}`);
+      if (row) row.dataset.status = status;
+      showToast(`Status updated to "${status}"`);
+    } else {
+      showToast('Update failed', false);
+      selectEl.value = selectEl.dataset.current;
+    }
+  } catch {
+    showToast('Network error', false);
+    selectEl.value = selectEl.dataset.current;
+  }
+}
+
+/* ── Delete Appointment ── */
+async function deleteAppt(id) {
+  if (!confirm('Delete this appointment permanently? This cannot be undone.')) return;
+  try {
+    const res  = await fetch(`/admin/appointment/${id}/delete`, { method:'POST' });
+    const data = await res.json();
+    if (data.success) {
+      const row = document.getElementById(`row-${id}`);
+      if (row) {
+        row.style.opacity = '0';
+        row.style.transition = 'opacity .3s';
+        setTimeout(() => row.remove(), 300);
+      }
+      showToast('Appointment deleted');
+    } else {
+      showToast('Delete failed', false);
+    }
+  } catch {
+    showToast('Network error', false);
+  }
+}
+
+/* ── Search & Filter Table ── */
+function filterTable() {
+  const query  = document.getElementById('searchInput').value.toLowerCase();
+  const status = document.getElementById('statusFilter').value;
+  const rows   = document.querySelectorAll('#apptBody tr');
+  let   visible = 0;
+
+  rows.forEach(row => {
+    const matchText = (
+      row.dataset.name    ?.includes(query) ||
+      row.dataset.phone   ?.includes(query) ||
+      row.dataset.email   ?.includes(query) ||
+      row.dataset.service ?.includes(query)
+    );
+    const matchStatus = !status || row.dataset.status === status;
+
+    if (matchText && matchStatus) {
+      row.style.display = '';
+      visible++;
+    } else {
+      row.style.display = 'none';
+    }
+  });
+
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+/* ── Animate stat bars on load ── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.svc-bar-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    requestAnimationFrame(() => {
+      setTimeout(() => { bar.style.width = w; }, 100);
+    });
+  });
+});
+</script>
+
+</body>
+</html>

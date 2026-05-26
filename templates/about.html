@@ -1,0 +1,1036 @@
+{% extends "base.html" %}
+
+{# ══════════════════════════════════════════════════════════════════════════════
+   SEO overrides
+══════════════════════════════════════════════════════════════════════════════ #}
+{% block title %}About Us — Dr. Sreenivas Aesthetics | Expert Plastic & Aesthetic Surgeons, Nellore{% endblock %}
+{% block meta_description %}Meet Dr. Pavuluru Sreenivasa Rao (MCh Plastic Surgery) & Dr. Veli Velli Jaswantha Lakshmi (Aesthetic Medicine, PMU Artist, APMC/FMR/104005) — the specialists behind Nellore's premier aesthetic clinic.{% endblock %}
+{% block og_title %}Our Experts — Dr. Sreenivas Aesthetics{% endblock %}
+{% block og_desc %}Nellore's most trusted plastic surgeon and aesthetic medicine specialist. Advanced skills, compassionate care.{% endblock %}
+
+{# ══════════════════════════════════════════════════════════════════════════════
+   Page-scoped styles
+══════════════════════════════════════════════════════════════════════════════ #}
+{% block extra_head %}
+<style>
+
+/* ── PAGE HERO (inner) ─────────────────────────────────────────────────────── */
+.page-hero {
+  background  : var(--navy-950);
+  position    : relative;
+  overflow    : hidden;
+  padding     : 6rem 0 5rem;
+}
+.page-hero__bg {
+  position : absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 70% at 90% 50%, rgba(42,157,143,.14) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 5%  80%, rgba(201,168,76,.09) 0%, transparent 55%),
+    linear-gradient(160deg, #050d1a 0%, #0f2040 100%);
+}
+.page-hero__grid {
+  position  : absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+.page-hero__content { position: relative; z-index: 2; }
+
+.page-hero__breadcrumb {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : .45rem;
+  font-size     : .72rem;
+  font-weight   : 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color         : rgba(255,255,255,.4);
+  margin-bottom : 1.2rem;
+}
+.page-hero__breadcrumb a { color: rgba(255,255,255,.4); }
+.page-hero__breadcrumb a:hover { color: var(--gold-400); }
+.page-hero__breadcrumb .sep { color: rgba(255,255,255,.2); }
+
+.page-hero__eyebrow {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : .5rem;
+  background    : rgba(201,168,76,.12);
+  border        : 1px solid rgba(201,168,76,.28);
+  border-radius : var(--radius-pill);
+  padding       : .28rem .85rem;
+  font-size     : .68rem;
+  font-weight   : 700;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  color         : var(--gold-400);
+  margin-bottom : 1rem;
+}
+.page-hero__eyebrow-dot {
+  width:6px; height:6px;
+  border-radius:50%;
+  background: var(--gold-500);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{ opacity:1;transform:scale(1);}
+  50%    { opacity:.4;transform:scale(1.6);}
+}
+
+.page-hero__title {
+  font-family  : var(--font-display);
+  font-size    : clamp(2.4rem, 5.5vw, 4.2rem);
+  font-weight  : 300;
+  color        : var(--white);
+  line-height  : 1.1;
+  margin-bottom: 1rem;
+  letter-spacing: -.01em;
+}
+.page-hero__title em { font-style:italic; color:var(--gold-400); font-weight:400; }
+
+.page-hero__sub {
+  font-size  : 1.05rem;
+  color      : rgba(255,255,255,.58);
+  max-width  : 52ch;
+  line-height: 1.75;
+}
+
+/* doctor pill previews in hero */
+.hero-doctor-pills {
+  display  : flex;
+  gap      : .75rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.hero-doctor-pill {
+  display    : flex;
+  align-items: center;
+  gap        : .6rem;
+  background : rgba(255,255,255,.06);
+  border     : 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-pill);
+  padding    : .45rem 1rem .45rem .45rem;
+  backdrop-filter: blur(8px);
+}
+.hdp-avatar {
+  width       : 34px; height: 34px;
+  border-radius: 50%;
+  display     : flex; align-items: center; justify-content: center;
+  font-family : var(--font-display);
+  font-weight : 700; font-size: .9rem;
+  flex-shrink : 0;
+}
+.hdp-avatar--rao     { background:rgba(201,168,76,.22); color:var(--gold-400); border:1.5px solid rgba(201,168,76,.4); }
+.hdp-avatar--lakshmi { background:rgba(42,157,143,.22); color:var(--teal-400); border:1.5px solid rgba(42,157,143,.4); }
+.hdp-name  { font-size:.78rem; font-weight:600; color:var(--white); line-height:1.2; }
+.hdp-role  { font-size:.62rem; color:rgba(255,255,255,.45); letter-spacing:.04em; }
+
+/* gold rule divider */
+.gold-rule {
+  width:64px; height:3px;
+  background: linear-gradient(90deg, var(--teal-500), var(--gold-500));
+  border:none; border-radius:var(--radius-pill);
+  margin:1rem 0 1.5rem;
+}
+
+/* ── CLINIC STORY STRIP ────────────────────────────────────────────────────── */
+.story-section { background: var(--cream); }
+
+.story-card {
+  background  : var(--white);
+  border-radius: var(--radius-lg);
+  border      : 1px solid var(--clr-border);
+  padding     : 2.5rem;
+  height      : 100%;
+}
+.story-icon {
+  width:56px; height:56px;
+  border-radius: var(--radius-md);
+  background: var(--navy-900);
+  color: var(--gold-400);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem;
+  margin-bottom:1.1rem;
+}
+.story-card h3 {
+  font-family:var(--font-display);
+  font-size:1.2rem; font-weight:600;
+  color:var(--navy-900); margin-bottom:.5rem;
+}
+.story-card p { font-size:.88rem; color:var(--clr-text-muted); line-height:1.75; margin:0; }
+
+/* ── DOCTOR SECTION SHARED ─────────────────────────────────────────────────── */
+
+/* Full-width alternating layout wrapper */
+.doctor-section { overflow: hidden; }
+.doctor-section--rao     { background: var(--white); }
+.doctor-section--lakshmi { background: var(--cream); }
+
+/* Portrait panel */
+.doc-portrait-panel {
+  position    : relative;
+  min-height  : 560px;
+  border-radius: var(--radius-lg);
+  overflow    : hidden;
+}
+.doc-portrait-panel img {
+  width:100%; height:100%; object-fit:cover;
+  border-radius: var(--radius-lg);
+  transition: transform .7s ease;
+}
+.doc-portrait-panel:hover img { transform: scale(1.03); }
+
+/* Placeholder when no real photo yet */
+.doc-placeholder {
+  width:100%; height:100%; min-height:560px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:.75rem;
+  border-radius: var(--radius-lg);
+}
+.doc-placeholder--rao {
+  background: linear-gradient(145deg, #0f2040 0%, #1e3a6e 100%);
+}
+.doc-placeholder--lakshmi {
+  background: linear-gradient(145deg, #0e2a28 0%, #1a4a46 100%);
+}
+.doc-placeholder__initials {
+  font-family  : var(--font-display);
+  font-size    : 6rem;
+  font-weight  : 300;
+  line-height  : 1;
+  letter-spacing:-.02em;
+}
+.doc-placeholder--rao     .doc-placeholder__initials { color: var(--gold-400); }
+.doc-placeholder--lakshmi .doc-placeholder__initials { color: var(--teal-400); }
+.doc-placeholder__label {
+  font-size:.68rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  opacity:.45; color: var(--white);
+}
+
+/* Portrait accent badge */
+.doc-portrait-badge {
+  position    : absolute;
+  bottom      : 1.5rem; left: 1.5rem;
+  background  : rgba(5,13,26,.88);
+  border      : 1px solid rgba(201,168,76,.3);
+  border-left : 3px solid var(--gold-500);
+  border-radius: var(--radius-sm);
+  padding     : .75rem 1rem;
+  backdrop-filter: blur(10px);
+}
+.doc-portrait-badge__name {
+  font-family : var(--font-display);
+  font-size   : .95rem;
+  font-weight : 600;
+  color       : var(--white);
+  line-height : 1.2;
+  display     : block;
+}
+.doc-portrait-badge__qual {
+  font-size   : .65rem;
+  color       : var(--gold-400);
+  font-weight : 500;
+  letter-spacing:.04em;
+  display     : block;
+  margin-top  : .2rem;
+}
+
+/* Detail column */
+.doc-detail { padding: 1rem 0; }
+
+.doc-eyebrow {
+  font-size:.68rem; font-weight:700;
+  letter-spacing:.17em; text-transform:uppercase;
+  margin-bottom:.6rem; display:block;
+}
+.doc-eyebrow--rao     { color: var(--gold-500); }
+.doc-eyebrow--lakshmi { color: var(--teal-500); }
+
+.doc-name {
+  font-family  : var(--font-display);
+  font-size    : clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight  : 600;
+  color        : var(--navy-900);
+  line-height  : 1.12;
+  margin-bottom: .35rem;
+}
+.doc-title {
+  font-size  : .88rem;
+  color      : var(--clr-text-muted);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+/* APMC registration badge */
+.apmc-badge {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : .5rem;
+  background    : rgba(42,157,143,.1);
+  border        : 1.5px solid rgba(42,157,143,.35);
+  border-radius : var(--radius-pill);
+  padding       : .35rem .9rem;
+  font-size     : .72rem;
+  font-weight   : 700;
+  letter-spacing: .08em;
+  color         : var(--teal-500);
+  margin-bottom : 1.4rem;
+}
+.apmc-badge i { font-size:.8rem; }
+
+.doc-bio {
+  font-size  : 1rem;
+  line-height: 1.8;
+  color      : var(--clr-text-muted);
+  margin-bottom: 1.75rem;
+}
+
+/* ── EXPERTISE DEEP-DIVE CARDS ─────────────────────────────────────────────── */
+.expertise-heading {
+  font-size:.68rem; font-weight:700;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--clr-text-muted);
+  margin-bottom:.9rem; display:block;
+}
+
+/* Procedure cards — horizontal pill list */
+.proc-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:.6rem;
+  margin-bottom:1.6rem;
+}
+@media(max-width:480px){ .proc-grid{ grid-template-columns:1fr; } }
+
+.proc-card {
+  display    : flex;
+  align-items: flex-start;
+  gap        : .75rem;
+  background : var(--cream);
+  border     : 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding    : .85rem .9rem;
+  transition : var(--transition);
+}
+.proc-card:hover {
+  border-color: var(--gold-300);
+  background  : var(--gold-100);
+  transform   : translateX(3px);
+}
+.proc-card--teal:hover {
+  border-color: var(--teal-300);
+  background  : var(--teal-100);
+}
+.proc-icon {
+  width:34px; height:34px; flex-shrink:0;
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.9rem;
+}
+.proc-icon--gold  { background:rgba(201,168,76,.12); color:var(--gold-500); }
+.proc-icon--teal  { background:rgba(42,157,143,.12); color:var(--teal-500); }
+.proc-name  { font-size:.82rem; font-weight:600; color:var(--navy-900); line-height:1.3; }
+.proc-desc  { font-size:.72rem; color:var(--clr-text-muted); line-height:1.45; margin-top:.15rem; }
+
+/* Signature procedures — highlighted feature row */
+.signature-row {
+  display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.6rem;
+}
+.signature-chip {
+  display     : inline-flex;
+  align-items : center;
+  gap         : .35rem;
+  background  : var(--navy-900);
+  color       : var(--gold-300);
+  border-radius: var(--radius-pill);
+  padding     : .4rem 1rem;
+  font-size   : .75rem;
+  font-weight : 600;
+  letter-spacing: .03em;
+}
+.signature-chip i { font-size:.7rem; color:var(--gold-500); }
+
+/* PMU specialities for Dr. Lakshmi */
+.pmu-grid {
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:.55rem;
+  margin-bottom:1.6rem;
+}
+@media(max-width:576px){ .pmu-grid{ grid-template-columns:1fr 1fr; } }
+
+.pmu-card {
+  background   : var(--white);
+  border       : 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding      : .85rem .7rem;
+  text-align   : center;
+  transition   : var(--transition);
+}
+.pmu-card:hover {
+  border-color: var(--teal-300);
+  background  : var(--teal-100);
+  transform   : translateY(-2px);
+}
+.pmu-card i   { font-size:1.3rem; color:var(--teal-500); margin-bottom:.4rem; display:block; }
+.pmu-card span{ font-size:.72rem; font-weight:600; color:var(--navy-900); line-height:1.3; }
+
+/* CTA row */
+.doc-cta-row {
+  display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.5rem;
+}
+.btn-consult-primary {
+  display:inline-flex; align-items:center; gap:.45rem;
+  background: var(--gold-500);
+  color: var(--navy-950);
+  font-weight:700; font-size:.84rem;
+  padding:.65rem 1.6rem;
+  border-radius:var(--radius-pill);
+  border:2px solid var(--gold-500);
+  transition:var(--transition);
+}
+.btn-consult-primary:hover {
+  background:var(--navy-900); border-color:var(--navy-900);
+  color:var(--gold-400);
+  box-shadow:var(--shadow-sm);
+}
+.btn-consult-outline {
+  display:inline-flex; align-items:center; gap:.45rem;
+  background:transparent;
+  color:var(--navy-700);
+  font-weight:600; font-size:.84rem;
+  padding:.65rem 1.4rem;
+  border-radius:var(--radius-pill);
+  border:1.5px solid var(--clr-border);
+  transition:var(--transition);
+}
+.btn-consult-outline:hover {
+  border-color:var(--navy-700);
+  background:var(--navy-900);
+  color:var(--white);
+}
+
+/* ── PHILOSOPHY / VALUES BAND ──────────────────────────────────────────────── */
+.philosophy-band {
+  background: var(--navy-900);
+  position  : relative;
+  overflow  : hidden;
+}
+.philosophy-band::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 50% 90% at 100% 50%, rgba(42,157,143,.13) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 60% at 0%   50%, rgba(201,168,76,.08) 0%, transparent 55%);
+}
+.philosophy-band__content{ position:relative;z-index:1; }
+
+.philosophy-quote {
+  font-family : var(--font-display);
+  font-style  : italic;
+  font-size   : clamp(1.5rem,3.5vw,2.4rem);
+  font-weight : 300;
+  color       : var(--white);
+  line-height : 1.45;
+  max-width   : 70ch;
+  margin      : 0 auto;
+  text-align  : center;
+  position    : relative;
+}
+.philosophy-quote::before,
+.philosophy-quote::after {
+  font-family : var(--font-display);
+  font-size   : 5rem;
+  line-height : 0;
+  color       : rgba(201,168,76,.2);
+  position    : absolute;
+}
+.philosophy-quote::before { content:'\201C'; top:1.2rem; left:-1.5rem; }
+.philosophy-quote::after  { content:'\201D'; bottom:-1rem; right:-1.5rem; }
+.philosophy-cite {
+  display       : block;
+  font-family   : var(--font-body);
+  font-style    : normal;
+  font-size     : .72rem;
+  font-weight   : 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color         : var(--gold-400);
+  margin-top    : 1.25rem;
+  text-align    : center;
+}
+
+.value-pill {
+  display      : inline-flex;
+  align-items  : center;
+  gap          : .5rem;
+  background   : rgba(255,255,255,.06);
+  border       : 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-pill);
+  padding      : .5rem 1.1rem;
+  font-size    : .8rem;
+  font-weight  : 500;
+  color        : rgba(255,255,255,.75);
+  transition   : var(--transition);
+}
+.value-pill:hover {
+  background  : rgba(201,168,76,.15);
+  border-color: rgba(201,168,76,.3);
+  color       : var(--gold-300);
+}
+.value-pill i { color: var(--gold-500); font-size:.75rem; }
+
+/* ── CREDENTIALS TIMELINE (Dr. Rao) ────────────────────────────────────────── */
+.cred-timeline { position:relative; padding-left:2rem; }
+.cred-timeline::before {
+  content  :'';
+  position :absolute; left:.55rem; top:0; bottom:0;
+  width    :2px;
+  background:linear-gradient(to bottom, var(--gold-500), var(--teal-500));
+  border-radius:1px;
+}
+.cred-item {
+  position    : relative;
+  margin-bottom: 1.4rem;
+}
+.cred-item:last-child { margin-bottom:0; }
+.cred-dot {
+  position    : absolute;
+  left        : -1.75rem;
+  top         : .3rem;
+  width       : 10px; height:10px;
+  border-radius:50%;
+  background  : var(--gold-500);
+  border      : 2px solid var(--white);
+  box-shadow  : 0 0 0 2px var(--gold-300);
+}
+.cred-year {
+  font-size:.68rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--gold-500); margin-bottom:.15rem; display:block;
+}
+.cred-title-text {
+  font-family : var(--font-display);
+  font-size   : 1rem;
+  font-weight : 600;
+  color       : var(--navy-900);
+  line-height : 1.3;
+}
+.cred-body {
+  font-size  :.82rem;
+  color      :var(--clr-text-muted);
+  line-height:1.6;
+  margin-top :.2rem;
+}
+
+/* ── FINAL CTA ─────────────────────────────────────────────────────────────── */
+.about-cta {
+  background : var(--cream);
+  border-top : 4px solid var(--gold-500);
+}
+.about-cta-inner {
+  background   : var(--white);
+  border-radius: var(--radius-lg);
+  border       : 1px solid var(--clr-border);
+  padding      : 3rem 2.5rem;
+  text-align   : center;
+  position     : relative;
+  overflow     : hidden;
+}
+.about-cta-inner::before {
+  content  :'';
+  position :absolute; inset:0;
+  background:
+    radial-gradient(ellipse 60% 60% at 50% -10%, rgba(201,168,76,.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+.about-cta-inner h2 {
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,3.5vw,2.6rem);
+  font-weight:400; color:var(--navy-900);
+  margin-bottom:.75rem;
+}
+.about-cta-inner h2 em { font-style:italic; color:var(--gold-500); }
+.about-cta-inner p { color:var(--clr-text-muted); max-width:46ch; margin:0 auto 2rem; }
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §1 — PAGE HERO
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="page-hero" aria-label="About us hero">
+  <div class="page-hero__bg"></div>
+  <div class="page-hero__grid"></div>
+
+  <div class="container page-hero__content">
+
+    <!-- Breadcrumb -->
+    <nav class="page-hero__breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ url_for('index') }}">Home</a>
+      <span class="sep"><i class="bi bi-chevron-right"></i></span>
+      <span style="color:var(--gold-400);">About Us</span>
+    </nav>
+
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7" data-aos="fade-right" data-aos-duration="850">
+
+        <div class="page-hero__eyebrow">
+          <span class="page-hero__eyebrow-dot"></span>
+          Meet Our Specialists
+        </div>
+
+        <h1 class="page-hero__title">
+          Expertise Refined.<br>
+          <em>Results You Trust.</em>
+        </h1>
+
+        <p class="page-hero__sub">
+          Dr. Sreenivas Aesthetics is built on two pillars of clinical
+          excellence — advanced plastic surgery and specialist aesthetic
+          medicine — delivered with care, precision, and artistry in
+          Nellore, Andhra Pradesh.
+        </p>
+
+        <!-- Doctor pill previews -->
+        <div class="hero-doctor-pills">
+
+          <a href="#dr-rao" class="hero-doctor-pill">
+            <div class="hdp-avatar hdp-avatar--rao">SR</div>
+            <div>
+              <p class="hdp-name mb-0">Dr. Pavuluru Sreenivasa Rao</p>
+              <p class="hdp-role mb-0">MS, MCh — Plastic &amp; Reconstructive Surgery</p>
+            </div>
+          </a>
+
+          <a href="#dr-lakshmi" class="hero-doctor-pill">
+            <div class="hdp-avatar hdp-avatar--lakshmi">JL</div>
+            <div>
+              <p class="hdp-name mb-0">Dr. Veli Velli Jaswantha Lakshmi</p>
+              <p class="hdp-role mb-0">Aesthetic Medicine · PMU Artist</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Quick stats column -->
+      <div class="col-lg-4 offset-lg-1" data-aos="fade-left" data-aos-duration="850" data-aos-delay="120">
+        <div style="display:flex;flex-direction:column;gap:1rem;">
+          {% for icon, val, label, clr in [
+            ('bi-person-check','3500+','Surgeries Completed','var(--gold-400)'),
+            ('bi-calendar2','15+','Years Combined Experience','var(--teal-400)'),
+            ('bi-heart','5','Speciality Divisions','var(--gold-400)'),
+            ('bi-star','98%','Patient Satisfaction Rate','var(--teal-400)')
+          ] %}
+          <div style="display:flex;align-items:center;gap:1rem;
+                      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+                      border-radius:var(--radius-md);padding:.9rem 1.1rem;">
+            <div style="width:42px;height:42px;border-radius:10px;
+                        background:rgba(255,255,255,.07);
+                        display:flex;align-items:center;justify-content:center;
+                        font-size:1.1rem;color:{{ clr }};flex-shrink:0;">
+              <i class="bi {{ icon }}"></i>
+            </div>
+            <div>
+              <p style="font-family:var(--font-display);font-size:1.4rem;font-weight:600;
+                        color:{{ clr }};line-height:1;margin:0;">{{ val }}</p>
+              <p style="font-size:.7rem;color:rgba(255,255,255,.45);margin:0;
+                        letter-spacing:.07em;text-transform:uppercase;">{{ label }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §2 — CLINIC STORY
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="story-section section-pad-sm">
+  <div class="container">
+
+    <div class="text-center mb-4" data-aos="fade-up">
+      <span class="section-eyebrow">Our Story</span>
+      <h2 class="section-title">Where Precision Meets Artistry</h2>
+      <hr class="gold-rule mx-auto">
+    </div>
+
+    <div class="row g-4 justify-content-center">
+      {% for icon, heading, body in [
+        ('bi-geo-alt-fill',
+         'Rooted in Nellore',
+         'Founded to bring metropolitan-level aesthetic care to Andhra Pradesh, Dr. Sreenivas Aesthetics has grown into the region\'s most trusted name in plastic surgery and aesthetic medicine — without patients ever having to leave home.'),
+        ('bi-award',
+         'Clinical Excellence',
+         'Our team holds advanced qualifications across plastic surgery (MCh), aesthetic medicine, and certified PMU artistry. Every procedure is performed in a fully equipped, compliant facility with the highest standards of safety and sterility.'),
+        ('bi-heart',
+         'Patient-First Philosophy',
+         'We believe transformations are as much emotional as physical. Every consultation is unhurried, honest, and focused on what is genuinely right for you — not a sales pitch. Your well-being is always the primary outcome.')
+      ] %}
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+        <div class="story-card">
+          <div class="story-icon"><i class="bi {{ icon }}"></i></div>
+          <h3>{{ heading }}</h3>
+          <p>{{ body }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §3 — DR. PAVULURU SREENIVASA RAO
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="doctor-section doctor-section--rao section-pad" id="dr-rao"
+         aria-label="Dr. Pavuluru Sreenivasa Rao profile">
+  <div class="container">
+    <div class="row align-items-start g-5">
+
+      <!-- Portrait -->
+      <div class="col-lg-5" data-aos="fade-right" data-aos-duration="900">
+        <div class="doc-portrait-panel">
+          <div class="doc-placeholder doc-placeholder--rao">
+            <span class="doc-placeholder__initials">SR</span>
+            <span class="doc-placeholder__label">Add photo to static/images/dr_rao.jpg</span>
+          </div>
+          {#
+            Once you have the photo, replace the placeholder above with:
+            <img src="{{ url_for('static', filename='images/dr_rao.jpg') }}"
+                 alt="Dr. Pavuluru Sreenivasa Rao — Plastic & Cosmetic Surgeon, Nellore"
+                 loading="lazy" />
+          #}
+          <div class="doc-portrait-badge">
+            <span class="doc-portrait-badge__name">Dr. Pavuluru Sreenivasa Rao</span>
+            <span class="doc-portrait-badge__qual">MS · MCh Plastic &amp; Reconstructive Surgery</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail -->
+      <div class="col-lg-7" data-aos="fade-left" data-aos-duration="900" data-aos-delay="80">
+        <div class="doc-detail">
+
+          <span class="doc-eyebrow doc-eyebrow--rao">Plastic &amp; Cosmetic Surgery</span>
+          <h2 class="doc-name">Dr. Pavuluru<br>Sreenivasa Rao</h2>
+          <p class="doc-title">MS (General Surgery) &nbsp;·&nbsp; MCh (Plastic &amp; Reconstructive Surgery)</p>
+          <hr class="gold-rule">
+
+          <p class="doc-bio" data-aos="fade-up" data-aos-delay="100">
+            Dr. Pavuluru Sreenivasa Rao is one of Andhra Pradesh's most accomplished plastic and
+            cosmetic surgeons, with an MCh in Plastic &amp; Reconstructive Surgery and decades of
+            hands-on experience across the full spectrum of aesthetic and reconstructive procedures.
+            His surgical philosophy centres on natural, harmonious outcomes — reshaping form without
+            erasing identity. Patients travel from across the region and beyond, trusting him with
+            their most transformative decisions.
+          </p>
+
+          <!-- Signature procedures (highlighted) -->
+          <span class="expertise-heading" data-aos="fade-up" data-aos-delay="120">
+            Signature Procedures
+          </span>
+          <div class="signature-row" data-aos="fade-up" data-aos-delay="140">
+            {% for proc in [
+              'PAL Liposuction',
+              'Rhinoplasty',
+              'Breast Augmentation',
+              'Breast Reduction',
+              'Breast Lift (Mastopexy)',
+              'Tummy Tuck',
+              'Body Lift',
+              'Gynecomastia Correction'
+            ] %}
+            <span class="signature-chip">
+              <i class="bi bi-check-circle-fill"></i>{{ proc }}
+            </span>
+            {% endfor %}
+          </div>
+
+          <!-- Procedure deep-dive grid -->
+          <span class="expertise-heading" data-aos="fade-up" data-aos-delay="160">
+            Areas of Expertise
+          </span>
+          <div class="proc-grid" data-aos="fade-up" data-aos-delay="180">
+            {% for icon, name, desc in [
+              ('bi-person-standing',    'PAL Liposuction',           'Power-assisted precision fat removal for sculpted, even contours.'),
+              ('bi-emoji-smile',        'Rhinoplasty',               'Artful nose reshaping for balance, symmetry, and natural elegance.'),
+              ('bi-heart',              'Breast Augmentation',       'Implant or fat-transfer based enhancement with natural results.'),
+              ('bi-arrow-down-circle',  'Breast Reduction',          'Alleviates physical discomfort while restoring proportionate shape.'),
+              ('bi-arrow-up-circle',    'Mastopexy (Breast Lift)',   'Restores youthful projection and firmness without volume change.'),
+              ('bi-body-text',          'Abdominoplasty',            'Flattens and firms the abdomen post-pregnancy or post-bariatric.'),
+              ('bi-gender-male',        'Gynecomastia Correction',   'Male chest contouring for a flatter, naturally masculine profile.'),
+              ('bi-bandaid',            'Reconstructive Surgery',    'Complex wound, scar, and post-cancer reconstruction with precision.')
+            ] %}
+            <div class="proc-card" data-aos="fade-up" data-aos-delay="{{ 180 + loop.index0 * 40 }}">
+              <div class="proc-icon proc-icon--gold"><i class="bi {{ icon }}"></i></div>
+              <div>
+                <p class="proc-name">{{ name }}</p>
+                <p class="proc-desc mb-0">{{ desc }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- Education timeline -->
+          <span class="expertise-heading" data-aos="fade-up" data-aos-delay="200">
+            Academic &amp; Professional Background
+          </span>
+          <div class="cred-timeline" data-aos="fade-up" data-aos-delay="220">
+            {% for year, title_text, body in [
+              ('MCh','Plastic & Reconstructive Surgery','Specialisation in complex cosmetic, reconstructive, and microsurgical procedures.'),
+              ('MS','General Surgery','Foundational surgical training with broad operative exposure.'),
+              ('MBBS','Medical Degree','Core medical education — the bedrock of clinical practice.'),
+              ('CME','Continuing Medical Education','Regular training in the latest aesthetic techniques, implant technologies, and minimally invasive procedures.')
+            ] %}
+            <div class="cred-item">
+              <span class="cred-dot"></span>
+              <span class="cred-year">{{ year }}</span>
+              <p class="cred-title-text">{{ title_text }}</p>
+              <p class="cred-body">{{ body }}</p>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- CTA -->
+          <div class="doc-cta-row mt-4" data-aos="fade-up" data-aos-delay="240">
+            <a href="{{ url_for('contact') }}#book" class="btn-consult-primary">
+              <i class="bi bi-calendar2-check"></i> Book with Dr. Rao
+            </a>
+            <a href="{{ url_for('service_detail', slug='body-contouring') }}" class="btn-consult-outline">
+              <i class="bi bi-grid-3x2-gap"></i> View Procedures
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §4 — DR. VELI VELLI JASWANTHA LAKSHMI
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="doctor-section doctor-section--lakshmi section-pad" id="dr-lakshmi"
+         aria-label="Dr. Veli Velli Jaswantha Lakshmi profile">
+  <div class="container">
+    <div class="row align-items-start g-5 flex-lg-row-reverse">
+
+      <!-- Portrait (right side on desktop) -->
+      <div class="col-lg-5" data-aos="fade-left" data-aos-duration="900">
+        <div class="doc-portrait-panel">
+          <div class="doc-placeholder doc-placeholder--lakshmi">
+            <span class="doc-placeholder__initials">JL</span>
+            <span class="doc-placeholder__label">Add photo to static/images/dr_lakshmi.jpg</span>
+          </div>
+          {#
+            Once you have the photo, replace the placeholder above with:
+            <img src="{{ url_for('static', filename='images/dr_lakshmi.jpg') }}"
+                 alt="Dr. Veli Velli Jaswantha Lakshmi — Aesthetic Medicine Specialist & PMU Artist, Nellore"
+                 loading="lazy" />
+          #}
+          <div class="doc-portrait-badge" style="border-left-color:var(--teal-500);border-color:rgba(42,157,143,.35);">
+            <span class="doc-portrait-badge__name">Dr. Veli Velli Jaswantha Lakshmi</span>
+            <span class="doc-portrait-badge__qual" style="color:var(--teal-400);">Aesthetic Medicine · Certified PMU Artist</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail (left side on desktop) -->
+      <div class="col-lg-7" data-aos="fade-right" data-aos-duration="900" data-aos-delay="80">
+        <div class="doc-detail">
+
+          <span class="doc-eyebrow doc-eyebrow--lakshmi">Aesthetic Medicine &amp; PMU</span>
+          <h2 class="doc-name">Dr. Veli Velli<br>Jaswantha Lakshmi</h2>
+          <p class="doc-title">MBBS &nbsp;·&nbsp; Diploma in Aesthetic Medicine &nbsp;·&nbsp; Certified PMU Artist</p>
+
+          <!-- APMC Registration Badge — MUST be prominent -->
+          <div data-aos="fade-up" data-aos-delay="100">
+            <span class="apmc-badge">
+              <i class="bi bi-patch-check-fill"></i>
+              Registered: APMC / FMR / 104005
+            </span>
+          </div>
+
+          <hr class="gold-rule" style="background:linear-gradient(90deg,var(--teal-500),var(--gold-500));">
+
+          <p class="doc-bio" data-aos="fade-up" data-aos-delay="120">
+            Dr. Veli Velli Jaswantha Lakshmi is a specialist in aesthetic medicine who combines
+            rigorous clinical training with an artist's precision. Registered under the Andhra Pradesh
+            Medical Council (APMC / FMR / 104005), she brings a dual perspective to every
+            treatment — the accuracy of a physician and the sensitivity of a trained PMU artist.
+            She is celebrated for her mastery of injectables, non-surgical rejuvenation, and
+            permanent makeup techniques that look natural and last beautifully. Patients value
+            her empathetic, unhurried approach and her commitment to delivering exactly what
+            she promises.
+          </p>
+
+          <!-- PMU Specialities grid -->
+          <span class="expertise-heading" data-aos="fade-up" data-aos-delay="130">
+            PMU Artistry Specialities
+          </span>
+          <div class="pmu-grid" data-aos="fade-up" data-aos-delay="145">
+            {% for icon, label in [
+              ('bi-pencil',          'Microblading Brows'),
+              ('bi-eye',             'Eyeliner PMU'),
+              ('bi-heart',           'Lip Blush'),
+              ('bi-stars',           'Ombré / Powder Brows'),
+              ('bi-brush',           'Scalp Micropigmentation'),
+              ('bi-palette',         'Areola Repigmentation')
+            ] %}
+            <div class="pmu-card" data-aos="fade-up" data-aos-delay="{{ 145 + loop.index0 * 30 }}">
+              <i class="bi {{ icon }}"></i>
+              <span>{{ label }}</span>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- Aesthetic medicine procedure grid -->
+          <span class="expertise-heading" data-aos="fade-up" data-aos-delay="160">
+            Aesthetic Medicine Expertise
+          </span>
+          <div class="proc-grid" data-aos="fade-up" data-aos-delay="175">
+            {% for icon, name, desc in [
+              ('bi-lightning-charge', 'Botox &amp; Anti-Wrinkle',     'Targeted muscle relaxation for smooth, refreshed, natural-looking skin.'),
+              ('bi-droplet-half',     'Dermal Fillers',               'Hyaluronic acid volume restoration for lips, cheeks, and jawline.'),
+              ('bi-arrow-up-circle',  'Thread Lifts',                 'Non-surgical lift and facial tightening with dissolvable threads.'),
+              ('bi-activity',         'PRP Rejuvenation',             'Growth factor therapy for skin quality, hydration, and luminosity.'),
+              ('bi-brightness-high',  'Skin Brightening',             'Medical-grade peels and infusions targeting pigmentation and dullness.'),
+              ('bi-flower1',          'Microneedling RF',             'Controlled micro-injuries stimulating collagen and skin remodelling.')
+            ] %}
+            <div class="proc-card proc-card--teal" data-aos="fade-up" data-aos-delay="{{ 175 + loop.index0 * 40 }}">
+              <div class="proc-icon proc-icon--teal"><i class="bi {{ icon }}"></i></div>
+              <div>
+                <p class="proc-name">{{ name }}</p>
+                <p class="proc-desc mb-0">{{ desc }}</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- Registration & qualifications timeline -->
+          <span class="expertise-heading" data-aos="fade-up" data-aos-delay="200">
+            Qualifications &amp; Registration
+          </span>
+          <div class="cred-timeline" data-aos="fade-up" data-aos-delay="215">
+            {% for year, title_text, body in [
+              ('APMC Reg.','APMC / FMR / 104005','Officially registered with the Andhra Pradesh Medical Council — ensuring full compliance and professional accountability.'),
+              ('Diploma','Aesthetic Medicine','Advanced non-surgical cosmetic training covering injectables, skin therapies, and patient assessment protocols.'),
+              ('Certified','PMU Artistry','International certification in Permanent Makeup covering brows, eyeliner, lips, and scalp micropigmentation.'),
+              ('MBBS','Medical Degree','Core clinical education ensuring every aesthetic decision is rooted in sound medical science.')
+            ] %}
+            <div class="cred-item">
+              <span class="cred-dot" style="background:var(--teal-500);box-shadow:0 0 0 2px var(--teal-300);"></span>
+              <span class="cred-year" style="color:var(--teal-500);">{{ year }}</span>
+              <p class="cred-title-text">{{ title_text }}</p>
+              <p class="cred-body">{{ body }}</p>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- CTA -->
+          <div class="doc-cta-row mt-4" data-aos="fade-up" data-aos-delay="240">
+            <a href="{{ url_for('contact') }}#book" class="btn-consult-primary"
+               style="background:var(--teal-500);border-color:var(--teal-500);">
+              <i class="bi bi-calendar2-check"></i> Book with Dr. Lakshmi
+            </a>
+            <a href="{{ url_for('service_detail', slug='hair-and-skin') }}" class="btn-consult-outline">
+              <i class="bi bi-grid-3x2-gap"></i> View Treatments
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §5 — PHILOSOPHY BAND
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="philosophy-band section-pad" aria-label="Our philosophy">
+  <div class="container philosophy-band__content">
+
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow" style="color:var(--gold-400);">Our Guiding Principles</span>
+    </div>
+
+    <blockquote class="philosophy-quote" data-aos="fade-up" data-aos-delay="80">
+      "We do not simply alter appearances — we restore confidence,
+       dignity, and the freedom to feel completely yourself."
+      <cite>— Dr. Pavuluru Sreenivasa Rao &amp; Dr. Veli Velli Jaswantha Lakshmi</cite>
+    </blockquote>
+
+    <div class="d-flex flex-wrap gap-2 justify-content-center mt-5"
+         data-aos="fade-up" data-aos-delay="160">
+      {% for icon, label in [
+        ('bi-shield-check',       'Patient Safety First'),
+        ('bi-patch-check',        'Evidence-Based Practice'),
+        ('bi-palette',            'Artistry in Every Procedure'),
+        ('bi-person-heart',       'Empathy-Led Consultations'),
+        ('bi-lock',               'Complete Confidentiality'),
+        ('bi-graph-up-arrow',     'Continuous Learning'),
+        ('bi-geo-alt',            'Accessible Excellence'),
+        ('bi-chat-square-heart',  'Honest, Pressure-Free Advice')
+      ] %}
+      <span class="value-pill">
+        <i class="bi {{ icon }}"></i> {{ label }}
+      </span>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §6 — FINAL CTA
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="about-cta section-pad">
+  <div class="container">
+    <div class="about-cta-inner" data-aos="zoom-in" data-aos-duration="700">
+
+      <span class="section-eyebrow d-block mb-2">Begin Your Journey</span>
+      <h2>Meet Our Specialists.<br><em>In Person.</em></h2>
+      <p class="section-subtitle">
+        Book a private, no-obligation consultation at our Nellore clinic.
+        All enquiries are handled with complete discretion.
+      </p>
+
+      <div class="d-flex flex-wrap gap-3 justify-content-center">
+        <a href="{{ url_for('contact') }}#book"
+           class="btn-consult-primary" style="padding:.8rem 2rem;">
+          <i class="bi bi-calendar2-check"></i> Book a Consultation
+        </a>
+        <a href="tel:+919502327644"
+           class="btn-consult-outline" style="padding:.8rem 1.8rem;">
+          <i class="bi bi-telephone-fill"></i> 095023 27644
+        </a>
+        <a href="{{ url_for('services_overview') }}"
+           class="btn-consult-outline" style="padding:.8rem 1.8rem;">
+          <i class="bi bi-grid-3x2-gap"></i> Explore Services
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

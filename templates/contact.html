@@ -1,0 +1,1144 @@
+{% extends "base.html" %}
+
+{# ══════════════════════════════════════════════════════════════════════════════
+   SEO overrides
+══════════════════════════════════════════════════════════════════════════════ #}
+{% block title %}Contact & Book a Consultation — Dr. Sreenivas Aesthetics, Nellore{% endblock %}
+{% block meta_description %}Book a private consultation at Dr. Sreenivas Aesthetics, Nellore. Call 095023 27644 or email drsreenivasaesthetics@gmail.com. No 16/2/431, Mini Bypass Road, Ramamurthy Nagar, Nellore 524001.{% endblock %}
+{% block og_title %}Contact Dr. Sreenivas Aesthetics — Book Your Consultation{% endblock %}
+{% block og_desc %}Reach out to Nellore's premier aesthetic clinic. Call, email, or use our secure online booking form.{% endblock %}
+
+{# ══════════════════════════════════════════════════════════════════════════════
+   Page-scoped styles
+══════════════════════════════════════════════════════════════════════════════ #}
+{% block extra_head %}
+<style>
+
+/* ── PAGE HERO ─────────────────────────────────────────────────────────────── */
+.contact-hero {
+  background : var(--navy-950);
+  position   : relative;
+  overflow   : hidden;
+  padding    : 6rem 0 4.5rem;
+}
+.contact-hero__bg {
+  position : absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 55% 70% at 85% 40%, rgba(42,157,143,.15) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 55% at 8%  70%, rgba(201,168,76,.10) 0%, transparent 58%),
+    linear-gradient(155deg, #050d1a 0%, #0f2040 100%);
+}
+.contact-hero__grid {
+  position  : absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+.contact-hero__content { position: relative; z-index: 2; }
+
+.page-hero__breadcrumb {
+  display:inline-flex; align-items:center; gap:.45rem;
+  font-size:.72rem; font-weight:500; letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:1.2rem;
+}
+.page-hero__breadcrumb a { color:rgba(255,255,255,.4); }
+.page-hero__breadcrumb a:hover { color:var(--gold-400); }
+
+.contact-hero__eyebrow {
+  display:inline-flex; align-items:center; gap:.5rem;
+  background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.28);
+  border-radius:var(--radius-pill); padding:.28rem .85rem;
+  font-size:.68rem; font-weight:700; letter-spacing:.17em;
+  text-transform:uppercase; color:var(--gold-400); margin-bottom:1rem;
+}
+.contact-hero__dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--gold-500);
+  animation: ctaPulse 2s ease-in-out infinite;
+}
+@keyframes ctaPulse {
+  0%,100%{opacity:1;transform:scale(1);}
+  50%    {opacity:.4;transform:scale(1.6);}
+}
+
+.contact-hero__title {
+  font-family:var(--font-display);
+  font-size:clamp(2.4rem, 5vw, 4rem);
+  font-weight:300; color:var(--white);
+  line-height:1.1; letter-spacing:-.01em; margin-bottom:.9rem;
+}
+.contact-hero__title em { font-style:italic; color:var(--gold-400); font-weight:400; }
+
+.contact-hero__sub {
+  font-size:1rem; color:rgba(255,255,255,.55);
+  max-width:50ch; line-height:1.75;
+}
+
+/* Hero quick-contact pills */
+.hero-contact-pills {
+  display:flex; gap:.75rem; flex-wrap:wrap; margin-top:2rem;
+}
+.hcp {
+  display:inline-flex; align-items:center; gap:.55rem;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius-pill); padding:.45rem 1.1rem;
+  font-size:.8rem; font-weight:500; color:rgba(255,255,255,.75);
+  transition:var(--transition); backdrop-filter:blur(8px);
+}
+.hcp i { color:var(--gold-400); }
+.hcp:hover { background:rgba(201,168,76,.15); border-color:rgba(201,168,76,.3); color:var(--white); }
+
+/* ── MAIN CONTENT GRID ─────────────────────────────────────────────────────── */
+.contact-main { background:var(--cream); }
+
+/* ── BOOKING FORM CARD ─────────────────────────────────────────────────────── */
+.form-card {
+  background   :var(--white);
+  border-radius:var(--radius-lg);
+  border       :1px solid var(--clr-border);
+  overflow     :hidden;
+  box-shadow   :var(--shadow-md);
+}
+.form-card__header {
+  background:var(--navy-900);
+  padding:2rem 2rem 1.6rem;
+  position:relative; overflow:hidden;
+}
+.form-card__header::after {
+  content:''; position:absolute;
+  bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--teal-500), var(--gold-500));
+}
+.form-card__header h2 {
+  font-family:var(--font-display);
+  font-size:1.6rem; font-weight:500;
+  color:var(--white); margin-bottom:.3rem;
+}
+.form-card__header p {
+  font-size:.84rem; color:rgba(255,255,255,.55); margin:0;
+}
+.form-card__body { padding:2rem; }
+
+/* Form fields */
+.form-group { margin-bottom:1.3rem; }
+
+.form-label-custom {
+  display:block;
+  font-size:.72rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--clr-text-muted); margin-bottom:.45rem;
+}
+.form-label-custom span { color:var(--gold-500); }
+
+.form-control-custom {
+  width:100%; border-radius:var(--radius-sm);
+  border:1.5px solid var(--clr-border);
+  background:var(--cream); color:var(--clr-text);
+  font-family:var(--font-body); font-size:.9rem;
+  padding:.72rem 1rem;
+  transition:var(--transition);
+  outline:none;
+  appearance:none; -webkit-appearance:none;
+}
+.form-control-custom:focus {
+  border-color:var(--teal-500);
+  background:var(--white);
+  box-shadow:0 0 0 3px rgba(42,157,143,.12);
+}
+.form-control-custom.is-error {
+  border-color:#e05c5c;
+  box-shadow:0 0 0 3px rgba(224,92,92,.1);
+}
+.form-control-custom.is-valid {
+  border-color:#2a9d8f;
+}
+.field-error {
+  font-size:.72rem; color:#c0392b;
+  margin-top:.3rem; display:none;
+}
+.field-error.visible { display:block; }
+
+/* Input icon wrapper */
+.input-icon-wrap {
+  position:relative;
+}
+.input-icon-wrap .form-control-custom {
+  padding-left:2.6rem;
+}
+.input-icon-wrap .field-icon {
+  position:absolute; left:.85rem;
+  top:50%; transform:translateY(-50%);
+  color:var(--clr-text-muted); font-size:.9rem;
+  pointer-events:none; transition:var(--transition);
+}
+.input-icon-wrap .form-control-custom:focus ~ .field-icon,
+.input-icon-wrap:has(.form-control-custom:focus) .field-icon {
+  color:var(--teal-500);
+}
+
+/* Select arrow */
+select.form-control-custom {
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6a80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 1rem center;
+  padding-right:2.5rem;
+  cursor:pointer;
+}
+
+textarea.form-control-custom { resize:vertical; min-height:130px; }
+
+/* Submit button */
+.btn-submit {
+  width:100%; padding:.9rem;
+  background:var(--gold-500); color:var(--navy-950);
+  border:2px solid var(--gold-500);
+  border-radius:var(--radius-pill);
+  font-weight:700; font-size:.95rem; letter-spacing:.04em;
+  cursor:pointer; transition:var(--transition);
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+}
+.btn-submit:hover:not(:disabled) {
+  background:var(--navy-900); border-color:var(--navy-900);
+  color:var(--gold-400);
+  box-shadow:var(--shadow-sm);
+}
+.btn-submit:disabled { opacity:.65; cursor:not-allowed; }
+.btn-submit .spinner {
+  display:none; width:16px; height:16px;
+  border:2px solid rgba(0,0,0,.2);
+  border-top-color:var(--navy-950);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
+}
+.btn-submit.loading .spinner { display:inline-block; }
+.btn-submit.loading .btn-text { opacity:0; position:absolute; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* Privacy note */
+.privacy-note {
+  font-size:.72rem; color:var(--clr-text-muted);
+  text-align:center; margin-top:.9rem;
+  display:flex; align-items:center; justify-content:center; gap:.35rem;
+}
+.privacy-note i { color:var(--teal-500); }
+
+/* Toast alert */
+.form-toast {
+  display:none;
+  border-radius:var(--radius-md);
+  padding:1rem 1.25rem;
+  font-size:.875rem; font-weight:500;
+  margin-bottom:1.25rem;
+  align-items:flex-start; gap:.75rem;
+}
+.form-toast.visible { display:flex; }
+.form-toast--success {
+  background:rgba(42,157,143,.1);
+  border:1px solid rgba(42,157,143,.35);
+  color:#1a5c54;
+}
+.form-toast--error {
+  background:rgba(224,92,92,.08);
+  border:1px solid rgba(224,92,92,.3);
+  color:#a02020;
+}
+.form-toast i { font-size:1.1rem; flex-shrink:0; margin-top:.1rem; }
+
+/* ── CONTACT INFO SIDEBAR ──────────────────────────────────────────────────── */
+.info-card {
+  background   :var(--white);
+  border       :1px solid var(--clr-border);
+  border-radius:var(--radius-lg);
+  overflow     :hidden;
+  box-shadow   :var(--shadow-sm);
+}
+.info-card__header {
+  background:linear-gradient(135deg, var(--navy-900), var(--navy-800));
+  padding:1.75rem;
+  border-bottom:3px solid var(--gold-500);
+}
+.info-card__header h3 {
+  font-family:var(--font-display);
+  font-size:1.3rem; font-weight:600;
+  color:var(--white); margin:0;
+}
+.info-card__body { padding:1.75rem; }
+
+/* Contact items */
+.cinfo-item {
+  display:flex; gap:1rem; align-items:flex-start;
+  padding:1rem 0;
+  border-bottom:1px solid var(--clr-border);
+}
+.cinfo-item:last-child { border-bottom:none; padding-bottom:0; }
+.cinfo-icon {
+  width:42px; height:42px; flex-shrink:0;
+  border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.95rem;
+}
+.cinfo-icon--gold  { background:rgba(201,168,76,.12); color:var(--gold-500); }
+.cinfo-icon--teal  { background:rgba(42,157,143,.12); color:var(--teal-500); }
+.cinfo-icon--navy  { background:var(--navy-900);      color:var(--gold-400); }
+
+.cinfo-label {
+  font-size:.62rem; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--clr-text-muted);
+  display:block; margin-bottom:.25rem;
+}
+.cinfo-value {
+  font-size:.9rem; font-weight:500; color:var(--clr-text);
+  line-height:1.5;
+}
+.cinfo-value a { color:var(--clr-text); }
+.cinfo-value a:hover { color:var(--teal-500); }
+
+/* Hours table */
+.hours-table { width:100%; font-size:.82rem; }
+.hours-table tr td:first-child { color:var(--clr-text-muted); padding-right:1rem; }
+.hours-table tr td:last-child  { font-weight:600; color:var(--navy-900); text-align:right; }
+.hours-table tr.today td { color:var(--teal-500); }
+
+/* ── GOOGLE MAP ─────────────────────────────────────────────────────────────── */
+.map-card {
+  background:var(--white);
+  border:1px solid var(--clr-border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  margin-top:1.5rem;
+}
+.map-card__header {
+  padding:1rem 1.5rem;
+  display:flex; align-items:center; gap:.65rem;
+  border-bottom:1px solid var(--clr-border);
+}
+.map-card__header i { color:var(--gold-500); font-size:1rem; }
+.map-card__header span {
+  font-size:.78rem; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--clr-text-muted);
+}
+.map-iframe-wrap { position:relative; height:280px; }
+.map-iframe-wrap iframe {
+  width:100%; height:100%; border:none; display:block;
+}
+/* Stylish overlay label pinned bottom-left */
+.map-pin-label {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(to top, rgba(5,13,26,.85), transparent);
+  padding:.75rem 1rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.map-pin-label i { color:var(--gold-400); }
+.map-pin-label span { font-size:.72rem; font-weight:600; color:var(--white); letter-spacing:.04em; }
+.map-directions-btn {
+  margin-left:auto;
+  display:inline-flex; align-items:center; gap:.35rem;
+  background:var(--gold-500); color:var(--navy-950);
+  font-size:.7rem; font-weight:700; letter-spacing:.06em;
+  border-radius:var(--radius-pill); padding:.3rem .85rem;
+  transition:var(--transition);
+}
+.map-directions-btn:hover { background:var(--white); color:var(--navy-950); }
+
+/* ── SOCIAL LINKS ──────────────────────────────────────────────────────────── */
+.social-section { background:var(--white); }
+
+.social-card {
+  display:flex; align-items:center; gap:1.25rem;
+  padding:1.4rem 1.75rem;
+  border-radius:var(--radius-lg);
+  border:1.5px solid var(--clr-border);
+  text-decoration:none; color:inherit;
+  transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.social-card::before {
+  content:''; position:absolute; inset:0;
+  opacity:0; transition:opacity .3s ease;
+}
+.social-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:transparent; }
+.social-card:hover::before { opacity:1; }
+.social-card:hover .sc-arrow { transform:translateX(4px) rotate(-45deg); }
+
+/* Per-platform colours */
+.social-card--instagram::before {
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+}
+.social-card--facebook::before {
+  background:linear-gradient(135deg,#1877f2,#0d5dbf);
+}
+.social-card--youtube::before {
+  background:linear-gradient(135deg,#ff0000,#cc0000);
+}
+.social-card--whatsapp::before {
+  background:linear-gradient(135deg,#25d366,#128c7e);
+}
+
+/* Icon circle */
+.sc-icon-circle {
+  width:54px; height:54px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; flex-shrink:0;
+  transition:var(--transition);
+  position:relative; z-index:1;
+}
+.social-card--instagram .sc-icon-circle { background:rgba(253,29,29,.1);   color:#fd1d1d; }
+.social-card--facebook  .sc-icon-circle { background:rgba(24,119,242,.1);  color:#1877f2; }
+.social-card--youtube   .sc-icon-circle { background:rgba(255,0,0,.1);     color:#ff0000; }
+.social-card--whatsapp  .sc-icon-circle { background:rgba(37,211,102,.12); color:#25d366; }
+.social-card:hover .sc-icon-circle { background:rgba(255,255,255,.2); color:var(--white); }
+
+.sc-text { flex:1; position:relative; z-index:1; }
+.sc-platform {
+  font-size:.68rem; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--clr-text-muted);
+  margin-bottom:.15rem; display:block;
+  transition:var(--transition);
+}
+.sc-handle {
+  font-family:var(--font-display); font-size:1.1rem; font-weight:600;
+  color:var(--navy-900); display:block;
+  transition:var(--transition);
+}
+.sc-sub {
+  font-size:.75rem; color:var(--clr-text-muted);
+  margin-top:.1rem; display:block;
+  transition:var(--transition);
+}
+.social-card:hover .sc-platform,
+.social-card:hover .sc-handle,
+.social-card:hover .sc-sub { color:rgba(255,255,255,.9); }
+.social-card:hover .sc-handle { color:var(--white); }
+
+.sc-arrow {
+  font-size:1.1rem; color:var(--clr-text-muted);
+  position:relative; z-index:1;
+  transition:var(--transition);
+}
+.social-card:hover .sc-arrow { color:rgba(255,255,255,.8); }
+
+/* Follow badge */
+.sc-follow-badge {
+  position:absolute; top:.85rem; right:3rem;
+  font-size:.6rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase;
+  background:rgba(201,168,76,.15); color:var(--gold-500);
+  border:1px solid rgba(201,168,76,.3);
+  border-radius:var(--radius-pill); padding:.2rem .6rem;
+  z-index:2;
+}
+.social-card:hover .sc-follow-badge {
+  background:rgba(255,255,255,.2); color:var(--white); border-color:rgba(255,255,255,.3);
+}
+
+/* ── PROMISE STRIP ──────────────────────────────────────────────────────────── */
+.promise-strip {
+  background:var(--navy-900);
+  position:relative; overflow:hidden;
+}
+.promise-strip::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg,
+    rgba(42,157,143,.1) 0%, transparent 40%,
+    transparent 60%, rgba(201,168,76,.08) 100%);
+}
+.promise-strip__content { position:relative; z-index:1; }
+
+.promise-item {
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center; padding:2rem 1rem;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.promise-item:last-child { border-right:none; }
+.promise-icon {
+  font-size:1.5rem; color:var(--gold-400); margin-bottom:.6rem;
+}
+.promise-label {
+  font-size:.75rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--white); margin-bottom:.25rem;
+}
+.promise-sub { font-size:.72rem; color:rgba(255,255,255,.45); line-height:1.5; }
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §1 — PAGE HERO
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="contact-hero" aria-label="Contact page hero">
+  <div class="contact-hero__bg"></div>
+  <div class="contact-hero__grid"></div>
+
+  <div class="container contact-hero__content">
+
+    <nav class="page-hero__breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ url_for('index') }}">Home</a>
+      <span style="color:rgba(255,255,255,.2);"><i class="bi bi-chevron-right"></i></span>
+      <span style="color:var(--gold-400);">Contact &amp; Book</span>
+    </nav>
+
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7" data-aos="fade-right" data-aos-duration="850">
+
+        <div class="contact-hero__eyebrow">
+          <span class="contact-hero__dot"></span>
+          Book a Private Consultation
+        </div>
+
+        <h1 class="contact-hero__title">
+          Let's Begin Your<br>
+          <em>Transformation.</em>
+        </h1>
+
+        <p class="contact-hero__sub">
+          Every journey starts with a conversation. Reach out through any
+          channel below and our team will respond within 24 hours —
+          with complete discretion and zero pressure.
+        </p>
+
+        <div class="hero-contact-pills">
+          <a href="tel:+919502327644" class="hcp">
+            <i class="bi bi-telephone-fill"></i> 095023 27644
+          </a>
+          <a href="mailto:{{ clinic.email }}" class="hcp">
+            <i class="bi bi-envelope-fill"></i> {{ clinic.email }}
+          </a>
+          <a href="https://wa.me/919502327644" target="_blank" rel="noopener" class="hcp">
+            <i class="bi bi-whatsapp"></i> WhatsApp Us
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick-info side panel -->
+      <div class="col-lg-4 offset-lg-1 d-none d-lg-block"
+           data-aos="fade-left" data-aos-duration="850" data-aos-delay="120">
+        <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+                    border-radius:var(--radius-lg);padding:1.75rem;backdrop-filter:blur(12px);">
+          <p style="font-size:.65rem;font-weight:700;letter-spacing:.16em;
+                    text-transform:uppercase;color:var(--gold-400);margin-bottom:1.1rem;">
+            Clinic Information
+          </p>
+          {% for icon, label, val in [
+            ('bi-geo-alt-fill', 'Address',
+             'No 16/2/431, First Floor, Mini Bypass Road, above IDFC Bank, opposite Millineum Substation, Srinivasa Agraharam, Ramamurthy Nagar, Nellore, AP 524001'),
+            ('bi-telephone-fill','Phone',  '095023 27644'),
+            ('bi-envelope-fill', 'Email',  clinic.email),
+            ('bi-clock-fill',    'Hours',  'Mon – Sat · 9:00 AM – 7:00 PM')
+          ] %}
+          <div style="display:flex;gap:.75rem;align-items:flex-start;
+                      padding:.8rem 0;border-bottom:1px solid rgba(255,255,255,.07);">
+            <div style="width:32px;height:32px;border-radius:8px;flex-shrink:0;
+                        background:rgba(201,168,76,.15);color:var(--gold-400);
+                        display:flex;align-items:center;justify-content:center;font-size:.85rem;">
+              <i class="bi {{ icon }}"></i>
+            </div>
+            <div>
+              <p style="font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+                        color:rgba(255,255,255,.35);margin:0 0 .15rem;">{{ label }}</p>
+              <p style="font-size:.8rem;color:rgba(255,255,255,.7);margin:0;line-height:1.5;">{{ val }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §2 — MAIN CONTENT: FORM + SIDEBAR
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="contact-main section-pad" id="book">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+
+      <!-- ── LEFT: BOOKING FORM ─────────────────────────────────────────── -->
+      <div class="col-lg-7" data-aos="fade-right" data-aos-duration="800">
+        <div class="form-card">
+
+          <div class="form-card__header">
+            <h2>Book Your Consultation</h2>
+            <p>Fill in the form and our team will confirm your appointment within 24 hours.</p>
+          </div>
+
+          <div class="form-card__body">
+
+            <!-- Toast messages -->
+            <div class="form-toast form-toast--success" id="toastSuccess" role="alert">
+              <i class="bi bi-check-circle-fill"></i>
+              <div id="toastSuccessMsg"></div>
+            </div>
+            <div class="form-toast form-toast--error" id="toastError" role="alert">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+              <div id="toastErrorMsg"></div>
+            </div>
+
+            <form id="bookingForm" novalidate>
+
+              <!-- Row 1: Name + Phone -->
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="form-label-custom" for="inputName">
+                      Full Name <span>*</span>
+                    </label>
+                    <div class="input-icon-wrap">
+                      <input type="text" id="inputName" name="name"
+                             class="form-control-custom"
+                             placeholder="e.g. Priya Sharma"
+                             autocomplete="name" />
+                      <i class="bi bi-person field-icon"></i>
+                    </div>
+                    <p class="field-error" id="errName">Please enter your full name.</p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="form-label-custom" for="inputPhone">
+                      Phone Number <span>*</span>
+                    </label>
+                    <div class="input-icon-wrap">
+                      <input type="tel" id="inputPhone" name="phone"
+                             class="form-control-custom"
+                             placeholder="e.g. 09876 54321"
+                             autocomplete="tel" />
+                      <i class="bi bi-telephone field-icon"></i>
+                    </div>
+                    <p class="field-error" id="errPhone">Please enter a valid phone number.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 2: Email + Preferred Date -->
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="form-label-custom" for="inputEmail">
+                      Email Address <span>*</span>
+                    </label>
+                    <div class="input-icon-wrap">
+                      <input type="email" id="inputEmail" name="email"
+                             class="form-control-custom"
+                             placeholder="you@example.com"
+                             autocomplete="email" />
+                      <i class="bi bi-envelope field-icon"></i>
+                    </div>
+                    <p class="field-error" id="errEmail">Please enter a valid email address.</p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label class="form-label-custom" for="inputDate">
+                      Preferred Date
+                    </label>
+                    <div class="input-icon-wrap">
+                      <input type="date" id="inputDate" name="preferred_date"
+                             class="form-control-custom" />
+                      <i class="bi bi-calendar2 field-icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Service Interest -->
+              <div class="form-group">
+                <label class="form-label-custom" for="inputService">
+                  Service of Interest <span>*</span>
+                </label>
+                <div class="input-icon-wrap">
+                  <select id="inputService" name="service" class="form-control-custom">
+                    <option value="" disabled selected>Select a speciality…</option>
+                    <optgroup label="── Body Contouring">
+                      <option>Liposuction / PAL Liposuction</option>
+                      <option>Tummy Tuck (Abdominoplasty)</option>
+                      <option>Body Lift / Arm Lift</option>
+                    </optgroup>
+                    <optgroup label="── Facial Surgery">
+                      <option>Rhinoplasty (Nose Reshaping)</option>
+                      <option>Facelift / Blepharoplasty</option>
+                      <option>Chin &amp; Jaw Contouring</option>
+                    </optgroup>
+                    <optgroup label="── Breast &amp; Chest">
+                      <option>Breast Augmentation</option>
+                      <option>Breast Reduction / Lift</option>
+                      <option>Gynecomastia Correction</option>
+                    </optgroup>
+                    <optgroup label="── Hair &amp; Skin">
+                      <option>Hair Transplant (FUE/FUT)</option>
+                      <option>PRP Therapy</option>
+                      <option>Laser / Chemical Peels / Microneedling</option>
+                      <option>Botox &amp; Dermal Fillers</option>
+                    </optgroup>
+                    <optgroup label="── Aesthetic Medicine &amp; PMU">
+                      <option>Permanent Makeup (PMU)</option>
+                      <option>Thread Lifts</option>
+                      <option>Skin Brightening &amp; Pigmentation</option>
+                    </optgroup>
+                    <optgroup label="── Intimate Wellness">
+                      <option>Vaginal Rejuvenation</option>
+                      <option>Labiaplasty</option>
+                      <option>Other Intimate Procedure</option>
+                    </optgroup>
+                    <option value="other">Other / General Enquiry</option>
+                  </select>
+                  <i class="bi bi-grid-3x2-gap field-icon"></i>
+                </div>
+                <p class="field-error" id="errService">Please select a service.</p>
+              </div>
+
+              <!-- Doctor Preference -->
+              <div class="form-group">
+                <label class="form-label-custom" for="inputDoctor">
+                  Preferred Specialist
+                </label>
+                <div class="input-icon-wrap">
+                  <select id="inputDoctor" name="doctor" class="form-control-custom">
+                    <option value="" selected>No preference — advise me</option>
+                    <option>Dr. Pavuluru Sreenivasa Rao — Plastic &amp; Cosmetic Surgery</option>
+                    <option>Dr. Veli Velli Jaswantha Lakshmi — Aesthetic Medicine &amp; PMU</option>
+                  </select>
+                  <i class="bi bi-person-badge field-icon"></i>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div class="form-group">
+                <label class="form-label-custom" for="inputMessage">
+                  Your Message / Concerns <span>*</span>
+                </label>
+                <textarea id="inputMessage" name="message"
+                          class="form-control-custom"
+                          placeholder="Tell us briefly about your goals or any questions you have…"></textarea>
+                <p class="field-error" id="errMessage">Please add a brief message.</p>
+              </div>
+
+
+
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <span class="spinner"></span>
+                <span class="btn-text">
+                  <i class="bi bi-calendar2-check"></i> &nbsp;Request My Consultation
+                </span>
+              </button>
+
+              <p class="privacy-note">
+                <i class="bi bi-lock-fill"></i>
+                Your details are kept strictly confidential and never shared with third parties.
+              </p>
+
+            </form>
+          </div>
+        </div>
+      </div><!-- /form column -->
+
+
+      <!-- ── RIGHT: INFO + MAP ──────────────────────────────────────────── -->
+      <div class="col-lg-5" data-aos="fade-left" data-aos-duration="800" data-aos-delay="100">
+
+        <!-- Contact info card -->
+        <div class="info-card">
+          <div class="info-card__header">
+            <h3>Contact Information</h3>
+          </div>
+          <div class="info-card__body">
+
+            <!-- Address -->
+            <div class="cinfo-item">
+              <div class="cinfo-icon cinfo-icon--gold">
+                <i class="bi bi-geo-alt-fill"></i>
+              </div>
+              <div>
+                <span class="cinfo-label">Clinic Address</span>
+                <p class="cinfo-value mb-0">
+                  No 16/2/431, First Floor, Mini Bypass Road,<br>
+                  above IDFC Bank, opposite Millineum Substation,<br>
+                  Srinivasa Agraharam, Ramamurthy Nagar,<br>
+                  <strong>Nellore, Andhra Pradesh 524001</strong>
+                </p>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="cinfo-item">
+              <div class="cinfo-icon cinfo-icon--teal">
+                <i class="bi bi-telephone-fill"></i>
+              </div>
+              <div>
+                <span class="cinfo-label">Phone</span>
+                <p class="cinfo-value mb-0">
+                  <a href="tel:+919502327644">095023 27644</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="cinfo-item">
+              <div class="cinfo-icon cinfo-icon--gold">
+                <i class="bi bi-envelope-fill"></i>
+              </div>
+              <div>
+                <span class="cinfo-label">Email</span>
+                <p class="cinfo-value mb-0">
+                  <a href="mailto:{{ clinic.email }}">{{ clinic.email }}</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="cinfo-item">
+              <div class="cinfo-icon" style="background:rgba(37,211,102,.12);color:#25d366;">
+                <i class="bi bi-whatsapp"></i>
+              </div>
+              <div>
+                <span class="cinfo-label">WhatsApp</span>
+                <p class="cinfo-value mb-0">
+                  <a href="https://wa.me/919502327644?text=Hello%2C%20I%20would%20like%20to%20book%20a%20consultation."
+                     target="_blank" rel="noopener">
+                    Message us on WhatsApp
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Clinic Hours -->
+            <div class="cinfo-item">
+              <div class="cinfo-icon cinfo-icon--navy">
+                <i class="bi bi-clock-fill"></i>
+              </div>
+              <div style="width:100%;">
+                <span class="cinfo-label">Clinic Hours</span>
+                <table class="hours-table mt-1">
+                  <tbody>
+                    {% set today_num = now_dow if now_dow is defined else -1 %}
+                    {% for day, hours in [
+                      ('Monday',    '9:00 AM – 7:00 PM'),
+                      ('Tuesday',   '9:00 AM – 7:00 PM'),
+                      ('Wednesday', '9:00 AM – 7:00 PM'),
+                      ('Thursday',  '9:00 AM – 7:00 PM'),
+                      ('Friday',    '9:00 AM – 7:00 PM'),
+                      ('Saturday',  '9:00 AM – 5:00 PM'),
+                      ('Sunday',    'Closed')
+                    ] %}
+                    <tr>
+                      <td>{{ day }}</td>
+                      <td>{{ hours }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Map card -->
+        <div class="map-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="map-card__header">
+            <i class="bi bi-map-fill"></i>
+            <span>Find Us — Nellore, Andhra Pradesh</span>
+          </div>
+          <div class="map-iframe-wrap">
+            <!--
+              Replace the src with your exact Google Maps embed URL.
+              To get it: Google Maps → search your address → Share → Embed a map → copy src.
+            -->
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.5!2d79.9865!3d14.4426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4cf5b5b5b5b5b5%3A0x0!2sRamamurthy+Nagar%2C+Nellore%2C+Andhra+Pradesh+524001!5e0!3m2!1sen!2sin!4v1700000000000"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Dr. Sreenivas Aesthetics location on Google Maps"
+              aria-label="Google Map showing clinic location in Ramamurthy Nagar, Nellore">
+            </iframe>
+            <div class="map-pin-label">
+              <i class="bi bi-geo-alt-fill"></i>
+              <span>Mini Bypass Road, Nellore 524001</span>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Ramamurthy+Nagar+Nellore+Andhra+Pradesh+524001"
+                 target="_blank" rel="noopener" class="map-directions-btn">
+                <i class="bi bi-navigation-fill"></i> Directions
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /sidebar column -->
+
+    </div><!-- /row -->
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §3 — PROMISE STRIP
+═══════════════════════════════════════════════════════════════════════════ -->
+<div class="promise-strip" data-aos="fade-up">
+  <div class="container promise-strip__content">
+    <div class="row g-0">
+      {% for icon, label, sub in [
+        ('bi-lock-fill',         'Complete Privacy',     'All consultations are strictly confidential'),
+        ('bi-calendar2-check',   '24-Hr Response',       'We confirm every enquiry within one working day'),
+        ('bi-chat-dots',         'No Sales Pressure',    'Honest advice — you decide at your own pace'),
+        ('bi-shield-check',      'Registered Clinic',    'Licensed, compliant, and medically accountable')
+      ] %}
+      <div class="col-6 col-md-3">
+        <div class="promise-item">
+          <i class="bi {{ icon }} promise-icon"></i>
+          <p class="promise-label">{{ label }}</p>
+          <p class="promise-sub">{{ sub }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+  §4 — SOCIAL LINKS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="social-section section-pad" aria-label="Social media links">
+  <div class="container">
+
+    <div class="text-center mb-5" data-aos="fade-up">
+      <span class="section-eyebrow">Follow Our Journey</span>
+      <h2 class="section-title">Connect With Us</h2>
+      <hr class="divider-gold mx-auto">
+      <p class="section-subtitle mx-auto">
+        Stay up to date with the latest results, tips, and clinic updates
+        across our social channels.
+      </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+
+      <!-- Instagram -->
+      <div class="col-md-6 col-lg-5"
+           data-aos="fade-up" data-aos-delay="0">
+        <a href="{{ clinic.social.instagram }}"
+           target="_blank" rel="noopener"
+           class="social-card social-card--instagram"
+           aria-label="Follow Dr. Sreenivas Aesthetics on Instagram">
+          <span class="sc-follow-badge">Follow</span>
+          <div class="sc-icon-circle"><i class="bi bi-instagram"></i></div>
+          <div class="sc-text">
+            <span class="sc-platform">Instagram</span>
+            <span class="sc-handle">@drsreenivasaesthetics</span>
+            <span class="sc-sub">Before &amp; afters · Tips · Behind the scenes</span>
+          </div>
+          <i class="bi bi-arrow-up-right sc-arrow"></i>
+        </a>
+      </div>
+
+      <!-- Facebook -->
+      <div class="col-md-6 col-lg-5"
+           data-aos="fade-up" data-aos-delay="80">
+        <a href="{{ clinic.social.facebook }}"
+           target="_blank" rel="noopener"
+           class="social-card social-card--facebook"
+           aria-label="Like Dr. Sreenivas Aesthetics on Facebook">
+          <span class="sc-follow-badge">Like</span>
+          <div class="sc-icon-circle"><i class="bi bi-facebook"></i></div>
+          <div class="sc-text">
+            <span class="sc-platform">Facebook</span>
+            <span class="sc-handle">Dr. Sreenivas Aesthetics</span>
+            <span class="sc-sub">Patient reviews · Events · Updates</span>
+          </div>
+          <i class="bi bi-arrow-up-right sc-arrow"></i>
+        </a>
+      </div>
+
+      <!-- YouTube -->
+      <div class="col-md-6 col-lg-5"
+           data-aos="fade-up" data-aos-delay="160">
+        <a href="{{ clinic.social.youtube }}"
+           target="_blank" rel="noopener"
+           class="social-card social-card--youtube"
+           aria-label="Subscribe to Dr. Sreenivas Aesthetics on YouTube">
+          <span class="sc-follow-badge">Subscribe</span>
+          <div class="sc-icon-circle"><i class="bi bi-youtube"></i></div>
+          <div class="sc-text">
+            <span class="sc-platform">YouTube</span>
+            <span class="sc-handle">@drsreenivasaesthetics</span>
+            <span class="sc-sub">Procedure videos · Patient stories · Education</span>
+          </div>
+          <i class="bi bi-arrow-up-right sc-arrow"></i>
+        </a>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="col-md-6 col-lg-5"
+           data-aos="fade-up" data-aos-delay="240">
+        <a href="https://wa.me/919502327644?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20a%20consultation."
+           target="_blank" rel="noopener"
+           class="social-card social-card--whatsapp"
+           aria-label="Message Dr. Sreenivas Aesthetics on WhatsApp">
+          <span class="sc-follow-badge">Chat</span>
+          <div class="sc-icon-circle"><i class="bi bi-whatsapp"></i></div>
+          <div class="sc-text">
+            <span class="sc-platform">WhatsApp</span>
+            <span class="sc-handle">095023 27644</span>
+            <span class="sc-sub">Quickest way to reach us directly</span>
+          </div>
+          <i class="bi bi-arrow-up-right sc-arrow"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+
+{# ══════════════════════════════════════════════════════════════════════════════
+   Page JS — AJAX form submission + real-time validation
+══════════════════════════════════════════════════════════════════════════════ #}
+{% block extra_scripts %}
+<script>
+(function () {
+  'use strict';
+
+  /* ── Helpers ── */
+  const $  = id => document.getElementById(id);
+  const qs = sel => document.querySelector(sel);
+
+  const form      = $('bookingForm');
+  const submitBtn = $('submitBtn');
+
+  /* Set date input minimum to today */
+  const dateInput = $('inputDate');
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+  }
+
+  /* ── Per-field validation rules ── */
+  const rules = [
+    {
+      input : $('inputName'),
+      error : $('errName'),
+      test  : v => v.trim().length >= 2,
+    },
+    {
+      input : $('inputPhone'),
+      error : $('errPhone'),
+      test  : v => /^[\d\s\-\+\(\)]{7,15}$/.test(v.trim()),
+    },
+    {
+      input : $('inputEmail'),
+      error : $('errEmail'),
+      test  : v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+    },
+    {
+      input : $('inputService'),
+      error : $('errService'),
+      test  : v => v !== '',
+    },
+    {
+      input : $('inputMessage'),
+      error : $('errMessage'),
+      test  : v => v.trim().length >= 10,
+    },
+  ];
+
+  /* Live validation on blur */
+  rules.forEach(({ input, error, test }) => {
+    if (!input) return;
+    const validate = () => {
+      const ok = test(input.value);
+      input.classList.toggle('is-error', !ok);
+      input.classList.toggle('is-valid',  ok);
+      error.classList.toggle('visible',  !ok);
+      return ok;
+    };
+    input.addEventListener('blur', validate);
+    input.addEventListener('input', () => {
+      if (input.classList.contains('is-error')) validate();
+    });
+  });
+
+  /* ── Toast helpers ── */
+  function showToast(type, msg) {
+    ['Success','Error'].forEach(t => {
+      $('toast' + t).classList.remove('visible');
+    });
+    const el  = $('toast' + (type === 'success' ? 'Success' : 'Error'));
+    const txt = $('toast' + (type === 'success' ? 'Success' : 'Error') + 'Msg');
+    txt.textContent = msg;
+    el.classList.add('visible');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /* ── Form submit ── */
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    /* Validate all fields */
+    let allValid = true;
+    rules.forEach(({ input, error, test }) => {
+      if (!input) return;
+      const ok = test(input.value);
+      input.classList.toggle('is-error', !ok);
+      input.classList.toggle('is-valid',  ok);
+      error.classList.toggle('visible',  !ok);
+      if (!ok) allValid = false;
+    });
+    if (!allValid) {
+      showToast('error', 'Please correct the highlighted fields before submitting.');
+      return;
+    }
+
+    /* Loading state */
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    /* Build payload */
+    const payload = {
+      name           : $('inputName').value.trim(),
+      phone          : $('inputPhone').value.trim(),
+      email          : $('inputEmail').value.trim(),
+      preferred_date : $('inputDate').value,
+      service        : $('inputService').value,
+      doctor         : $('inputDoctor').value,
+      message        : $('inputMessage').value.trim(),
+      source         : $('inputSource').value,
+    };
+
+    try {
+      const res  = await fetch('{{ url_for("contact") }}', {
+        method  : 'POST',
+        headers : { 'Content-Type': 'application/json' },
+        body    : JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (res.ok && data.status === 'success') {
+        showToast('success', data.message);
+        form.reset();
+        rules.forEach(({ input }) => {
+          if (input) { input.classList.remove('is-valid','is-error'); }
+        });
+      } else {
+        showToast('error', data.message || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      showToast('error', 'Network error — please call us directly on 095023 27644.');
+    } finally {
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+    }
+  });
+
+})();
+</script>
+{% endblock %}

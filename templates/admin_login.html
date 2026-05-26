@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login — Dr. Sreenivas Aesthetics</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --navy  : #0a1628;
+      --teal  : #2a9d8f;
+      --gold  : #c9a84c;
+      --gold-lt: #e8c97a;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh;
+      background: linear-gradient(135deg, #050d1a 0%, #0f2040 60%, #0a1628 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-family:'DM Sans',sans-serif;
+    }
+    /* animated orbs */
+    .orb {
+      position:fixed; border-radius:50%; filter:blur(80px); opacity:.12; pointer-events:none;
+    }
+    .orb-1 { width:400px;height:400px;background:var(--teal); top:-80px; right:-60px; }
+    .orb-2 { width:260px;height:260px;background:var(--gold); bottom:0; left:5%; }
+
+    .login-card {
+      width:100%; max-width:420px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:20px; padding:2.5rem 2.25rem;
+      backdrop-filter:blur(16px);
+      position:relative; overflow:hidden;
+      box-shadow:0 30px 80px rgba(0,0,0,.4);
+    }
+    .login-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg, var(--teal), var(--gold));
+    }
+
+    .login-brand {
+      text-align:center; margin-bottom:1.75rem;
+    }
+    .login-brand-name {
+      font-family:'Cormorant Garamond',serif;
+      font-size:1.6rem; font-weight:600; color:#fff;
+      display:block; line-height:1.2;
+    }
+    .login-brand-sub {
+      font-size:.65rem; font-weight:700; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--gold); display:block; margin-top:.3rem;
+    }
+    .login-brand-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      background:rgba(201,168,76,.15); border:1px solid rgba(201,168,76,.3);
+      border-radius:100px; padding:.25rem .75rem;
+      font-size:.65rem; font-weight:700; letter-spacing:.14em;
+      text-transform:uppercase; color:var(--gold-lt); margin-top:.75rem;
+    }
+
+    .login-label {
+      font-size:.65rem; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:rgba(255,255,255,.45);
+      display:block; margin-bottom:.4rem;
+    }
+    .login-input {
+      width:100%; border-radius:8px;
+      border:1.5px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.07); color:#fff;
+      font-family:'DM Sans',sans-serif; font-size:.9rem;
+      padding:.72rem 1rem .72rem 2.6rem;
+      outline:none; transition:all .3s ease;
+    }
+    .login-input::placeholder { color:rgba(255,255,255,.3); }
+    .login-input:focus {
+      border-color:var(--teal);
+      background:rgba(255,255,255,.1);
+      box-shadow:0 0 0 3px rgba(42,157,143,.15);
+    }
+    .input-wrap { position:relative; }
+    .input-icon {
+      position:absolute; left:.85rem; top:50%;
+      transform:translateY(-50%);
+      color:rgba(255,255,255,.35); font-size:.9rem; pointer-events:none;
+    }
+
+    .btn-login {
+      width:100%; padding:.85rem;
+      background:linear-gradient(135deg, var(--gold), var(--gold-lt));
+      color:var(--navy); border:none; border-radius:100px;
+      font-weight:700; font-size:.95rem; letter-spacing:.04em;
+      cursor:pointer; transition:all .3s ease;
+      display:flex; align-items:center; justify-content:center; gap:.5rem;
+    }
+    .btn-login:hover {
+      transform:translateY(-2px);
+      box-shadow:0 8px 28px rgba(201,168,76,.4);
+    }
+
+    .error-box {
+      background:rgba(224,92,92,.1); border:1px solid rgba(224,92,92,.3);
+      border-radius:8px; padding:.75rem 1rem;
+      color:#e88; font-size:.84rem;
+      display:flex; align-items:center; gap:.5rem;
+      margin-bottom:1rem;
+    }
+
+    .login-note {
+      text-align:center; margin-top:1.25rem;
+      font-size:.72rem; color:rgba(255,255,255,.3);
+    }
+    .back-link {
+      display:inline-flex; align-items:center; gap:.35rem;
+      color:rgba(255,255,255,.4); font-size:.75rem; text-decoration:none;
+      margin-top:1.5rem; justify-content:center; width:100%;
+      transition:color .25s ease;
+    }
+    .back-link:hover { color:var(--gold-lt); }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="login-card">
+
+    <div class="login-brand">
+      <span class="login-brand-name">Dr. Sreenivas Aesthetics</span>
+      <span class="login-brand-sub">Administration Portal</span>
+      <div><span class="login-brand-badge"><i class="bi bi-shield-lock-fill"></i> Secure Access</span></div>
+    </div>
+
+    {% if error %}
+    <div class="error-box">
+      <i class="bi bi-exclamation-triangle-fill"></i> {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('admin_login') }}">
+
+      <div class="mb-3">
+        <label class="login-label" for="username">Username</label>
+        <div class="input-wrap">
+          <i class="bi bi-person-fill input-icon"></i>
+          <input type="text" id="username" name="username"
+                 class="login-input" placeholder="Enter username"
+                 autocomplete="username" required />
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label class="login-label" for="password">Password</label>
+        <div class="input-wrap">
+          <i class="bi bi-lock-fill input-icon"></i>
+          <input type="password" id="password" name="password"
+                 class="login-input" placeholder="Enter password"
+                 autocomplete="current-password" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn-login">
+        <i class="bi bi-box-arrow-in-right"></i> Sign In to Dashboard
+      </button>
+
+    </form>
+
+    <p class="login-note">
+      <i class="bi bi-lock-fill"></i>
+      Restricted to authorised clinic staff only
+    </p>
+
+    <a href="{{ url_for('index') }}" class="back-link">
+      <i class="bi bi-arrow-left"></i> Back to Website
+    </a>
+
+  </div>
+
+  <script>
+    /* Auto-focus username field */
+    document.getElementById('username').focus();
+  </script>
+</body>
+</html>

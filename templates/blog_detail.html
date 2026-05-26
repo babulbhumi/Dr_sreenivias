@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}{{ blog.title }} | Dr. Sreenivas Aesthetics{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ── BLOG READING PAGE STYLES ── */
+.article-header {
+    padding: 120px 0 6rem;
+    background: var(--navy-950);
+    color: var(--white);
+    text-align: center;
+}
+.article-meta {
+    font-size: .85rem;
+    color: rgba(255,255,255,.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: block;
+}
+.article-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.2;
+}
+.article-hero-img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    margin-top: -4rem;
+    position: relative;
+    z-index: 5;
+    box-shadow: var(--shadow-lg);
+}
+.article-body {
+    padding: 4rem 0 6rem;
+    background: var(--cream);
+}
+.article-content-wrapper {
+    background: var(--white);
+    padding: 3rem 4rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-top: 2rem;
+}
+.article-content {
+    font-size: 1.1rem;
+    color: var(--clr-text-muted);
+    line-height: 1.8;
+}
+.article-content h3 {
+    font-family: var(--font-display);
+    color: var(--navy-900);
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 2.5rem 0 1rem;
+}
+.article-content p { margin-bottom: 1.5rem; }
+.article-content ul { margin-bottom: 2rem; padding-left: 1.5rem;}
+.article-content li { margin-bottom: .8rem; }
+.article-content .lead {
+    font-size: 1.25rem;
+    color: var(--navy-900);
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .article-hero-img { height: 300px; }
+    .article-content-wrapper { padding: 2rem 1.5rem; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="article-header">
+    <div class="container" data-aos="fade-up">
+        <span class="article-meta">
+            <span style="color: var(--gold-400);">{{ blog.category }}</span> &nbsp;|&nbsp; {{ blog.date }}
+        </span>
+        <h1 class="article-title">{{ blog.title }}</h1>
+    </div>
+</header>
+
+<section class="article-body">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10 text-center" data-aos="fade-up" data-aos-delay="100">
+                <img src="{{ url_for('static', filename='images/' + blog.image) }}"
+                     alt="{{ blog.title }}"
+                     class="article-hero-img"
+                     onerror="this.src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=800&auto=format&fit=crop';">
+            </div>
+
+            <div class="col-lg-9">
+                <div class="article-content-wrapper" data-aos="fade-up">
+                    <div class="article-content">
+                        {{ blog.content|safe }}
+                    </div>
+
+                    <div class="mt-5 pt-4 border-top text-center">
+                        <a href="{{ url_for('blogs') }}" class="btn-hero-outline" style="border-color: var(--clr-border); color: var(--navy-900);">
+                            <i class="bi bi-arrow-left"></i> Back to All Articles
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}
