@@ -44,119 +44,157 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap"
-          rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
 
     {% block extra_head %}{% endblock %}
 
     <style>
         :root {
-          /* ── Core Palette ── */
-          --navy-950:  #050d1a;
-          --navy-900:  #0a1628;
-          --navy-800:  #0f2040;
-          --navy-700:  #162b55;
-          --navy-600:  #1e3a6e;
+          /* ── Client's Exact Clinic Palette ── */
+          --clinic-green:      #00d23a;
+          --clinic-green-dark: #00b332;
+          --clinic-blue:       #4da6d4;
+          --clinic-mint:       #e8f7f5;
 
-          --teal-500:  #2a9d8f;
-          --teal-400:  #3db8a8;
-          --teal-300:  #5ecec0;
-          --teal-100:  #d0f0ec;
+          --white:             #ffffff;
+          --off-white:         #f8f9fa;
+          --grey-light:        #eaeaea;
 
-          --gold-500:  #c9a84c;
-          --gold-400:  #d4b86a;
-          --gold-300:  --e2ce96;
-          --gold-100:  #f7f0dc;
-
-          --cream:     #faf8f4;
-          --white:     #ffffff;
+          --text-main:         #333333;
+          --text-muted:        #777777;
 
           /* ── Semantic Aliases ── */
-          --clr-bg:          var(--cream);
-          --clr-surface:     var(--white);
-          --clr-primary:     var(--navy-900);
-          --clr-secondary:   var(--teal-500);
-          --clr-accent:      var(--gold-500);
-          --clr-accent-lt:   var(--gold-100);
-          --clr-text:        #1a2333;
-          --clr-text-muted:  #5a6a80;
-          --clr-border:      #e2e8f0;
+          --clr-bg:          var(--white);
+          --clr-surface:     var(--off-white);
+          --clr-primary:     var(--clinic-green);
+          --clr-secondary:   var(--clinic-blue);
+          --clr-text:        var(--text-main);
+          --clr-text-muted:  var(--text-muted);
+          --clr-border:      var(--grey-light);
 
-          /* ── Typography ── */
-          --font-display: 'Cormorant Garamond', Georgia, serif;
-          --font-body:    'DM Sans', system-ui, sans-serif;
+          /* ── Legacy Re-maps ── */
+          --navy-950: var(--white);
+          --navy-900: var(--off-white);
+          --navy-800: var(--off-white);
+          --gold-500: var(--clinic-green);
+          --gold-400: var(--clinic-green);
+          --teal-500: var(--clinic-blue);
+          --teal-100: var(--clinic-mint);
+          --cream:    var(--white);
 
-          /* ── Sizing & Motion ── */
+          --font-display: 'Montserrat', system-ui, sans-serif;
+          --font-body:    'Montserrat', system-ui, sans-serif;
+
           --radius-sm:   6px;
           --radius-md:   12px;
           --radius-lg:   20px;
           --radius-pill: 999px;
-          --shadow-sm:   0 2px 8px rgba(5,13,26,.08);
-          --shadow-md:   0 6px 24px rgba(5,13,26,.12);
-          --shadow-lg:   0 16px 48px rgba(5,13,26,.18);
-          --transition:  all .3s cubic-bezier(.4,0,.2,1);
+          --shadow-sm:   0 2px 8px rgba(0,0,0,.04);
+          --shadow-md:   0 6px 24px rgba(0,0,0,.08);
+          --shadow-lg:   0 16px 48px rgba(0,0,0,.12);
+          --transition:  all .3s ease;
         }
 
-        /* ── MEGA MENU DROPDOWN STYLES & FIXES ── */
-        .navbar .nav-item.dropdown .dropdown-menu {
-            margin-top: 0;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            opacity: 0;
-            visibility: hidden;
-            display: block;
+        /* ── GLOBAL THEME OVERRIDES ── */
+        body { background-color: var(--white); color: var(--text-main); }
+        h1, h2, h3, h4, h5, h6 { color: var(--text-main); font-weight: 700; }
+        p { color: var(--text-muted); }
+
+        /* ── NAVBAR TEXT COLOR FIX ── */
+        .navbar .nav-link {
+            color: var(--text-main) !important;
+            font-weight: 600; font-size: 0.95rem; transition: color 0.3s ease;
+        }
+        .navbar .nav-link:hover, .navbar .nav-link.active {
+            color: var(--clinic-green) !important;
         }
 
+        /* ── FIX FOR DROPDOWN MENUS (GALLERY, ETC) ── */
+        .navbar .dropdown-menu {
+            background-color: var(--white) !important;
+            border: 1px solid var(--grey-light) !important;
+            box-shadow: var(--shadow-md) !important;
+            margin-top: 0; transition: opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 0; visibility: hidden; display: block;
+        }
         .navbar .nav-item.dropdown:hover .dropdown-menu,
-        .navbar .nav-item.dropdown .dropdown-menu.show {
-            opacity: 1;
-            visibility: visible;
+        .navbar .nav-item.dropdown .dropdown-menu.show { opacity: 1; visibility: visible; }
+        .navbar .nav-item.dropdown .dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; right: 0; height: 15px; }
+
+        .navbar .dropdown-item {
+            color: var(--text-main) !important;
+            font-weight: 500 !important;
+            padding: 0.75rem 1.5rem !important;
+            transition: all 0.3s ease;
+        }
+        .navbar .dropdown-item:hover {
+            background-color: var(--clinic-mint) !important;
+            color: var(--clinic-green) !important;
         }
 
-        /* Invisible bridge so the menu doesn't close when moving the mouse down */
-        .navbar .nav-item.dropdown .dropdown-menu::before {
-            content: ''; position: absolute; top: -15px; left: 0; right: 0; height: 15px;
+        /* ── BUTTONS ── */
+        .btn-book, .btn-book-footer {
+            background-color: var(--clinic-green) !important; color: var(--white) !important;
+            border: none !important; border-radius: 50px; font-weight: 600;
+        }
+        .btn-book:hover, .btn-book-footer:hover {
+            background-color: var(--clinic-green-dark) !important; transform: translateY(-2px);
         }
 
-        .dropdown-menu-services {
-            width: 650px;
-            padding: 0; border: none; border-radius: 0 0 12px 12px; overflow: hidden;
-        }
+        /* ── MEGA MENU SERVICES ── */
+        .dropdown-menu-services { width: 650px; padding: 0; border-radius: 0 0 12px 12px; overflow: hidden; box-shadow: var(--shadow-lg) !important;}
         .dropdown-header-row {
-            background: var(--navy-950); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
+            background: var(--off-white); padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--grey-light);
         }
-        .dropdown-header-row .dropdown-eyebrow {
-            color: var(--gold-400); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-        }
-        .dropdown-header-row .dropdown-view-all {
-            color: var(--white); font-size: 0.85rem; text-decoration: none; transition: color 0.3s;
-        }
-        .dropdown-header-row .dropdown-view-all:hover {
-            color: var(--teal-300);
-        }
-
+        .dropdown-header-row .dropdown-eyebrow { color: var(--text-main); font-size: 0.9rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+        .dropdown-header-row .dropdown-view-all { color: var(--clinic-green); font-size: 0.85rem; text-decoration: none; transition: color 0.3s; font-weight: 600; }
+        .dropdown-header-row .dropdown-view-all:hover { color: var(--clinic-blue); }
         .dropdown-service-card {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 1.5rem 1rem; text-align: center; border-right: 1px solid var(--clr-border); border-bottom: 1px solid var(--clr-border);
-            text-decoration: none; color: var(--navy-900); height: 100%; transition: all 0.3s ease; background: var(--white);
+            padding: 1.5rem 1rem; text-align: center; border-right: 1px solid var(--grey-light); border-bottom: 1px solid var(--grey-light);
+            text-decoration: none; color: var(--text-main); height: 100%; transition: all 0.3s ease; background: var(--white);
         }
-        .dropdown-service-card:hover {
-            background: var(--cream);
-        }
+        .dropdown-service-card:hover { background: var(--off-white); }
         .ds-icon {
-            width: 45px; height: 45px; border-radius: 50%; background: var(--teal-100); color: var(--teal-500);
+            width: 45px; height: 45px; border-radius: 50%; background: var(--clinic-mint); color: var(--clinic-green);
             display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 0.6rem; transition: all 0.3s ease;
         }
-        .dropdown-service-card:hover .ds-icon {
-            background: var(--gold-500); color: var(--navy-950); transform: scale(1.1);
+        .dropdown-service-card:hover .ds-icon { background: var(--clinic-green); color: var(--white); transform: scale(1.1); }
+        .ds-label { font-size: 0.8rem; font-weight: 600; line-height: 1.3; color: var(--text-main); }
+
+        /* ── SITE FOOTER REVISED (3 COLUMNS GRID) ── */
+        .site-footer { background: var(--white) !important; border-top: 1px solid var(--grey-light); color: var(--text-main) !important; padding: 4rem 0 0 0; }
+        .footer-top-rule { background: var(--clinic-green) !important; height: 4px; }
+        .footer-brand-name, .footer-heading { color: var(--clinic-blue) !important; font-family: var(--font-display); font-weight: 700; }
+        .footer-brand-name { font-size: 1.4rem; text-decoration: none; display: block; margin-bottom: 0.5rem; }
+        .footer-heading { font-size: 1.1rem; margin-bottom: 1.25rem; }
+        .footer-tagline { font-weight: 600; margin-bottom: 1rem; color: var(--text-muted) !important; }
+        .footer-blurb { color: var(--text-muted) !important; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem; }
+        .footer-links a, .footer-contact-item a { color: var(--text-main) !important; text-decoration: none; font-size: 0.95rem; transition: color 0.3s ease; }
+        .footer-links a:hover, .footer-contact-item a:hover { color: var(--clinic-green) !important; }
+        .fci-icon { color: var(--clinic-green) !important; font-size: 1.1rem; }
+        .footer-bottom { background: var(--off-white) !important; border-top: 1px solid var(--grey-light); color: var(--text-muted) !important; padding: 1.5rem 0; margin-top: 3rem; }
+        .social-icon { background: var(--clinic-mint) !important; color: var(--clinic-green) !important; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: var(--transition); }
+        .social-icon:hover { background: var(--clinic-green) !important; color: var(--white) !important; }
+        .footer-address { font-style: normal; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; }
+        .footer-contact-item { display: flex; gap: 0.75rem; align-items: flex-start; }
+        .footer-contact-item span { color: var(--text-main) !important; font-size: 0.9rem; line-height: 1.5; }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.8fr 1.1fr;
+            gap: 3rem;
         }
-        .ds-label {
-            font-size: 0.8rem; font-weight: 600; line-height: 1.3;
+        @media (max-width: 991px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+        }
+        @media (max-width: 767px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
     </style>
 </head>
@@ -165,53 +203,34 @@
 
 <nav class="navbar navbar-expand-lg sticky-top" id="mainNav" aria-label="Primary navigation">
     <div class="container">
-
         <a class="navbar-brand" href="/" style="padding: 0;">
-            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Dr. Sreenivas Aesthetics Logo"
-                 style="height: 65px; width: auto;">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Dr. Sreenivas Aesthetics Logo" style="height: 65px; width: auto;">
         </a>
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse" data-bs-target="#navMenu"
-                aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="toggler-icon"><i class="bi bi-list"></i></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}"
-                       href="{{ url_for('index') }}">Home</a>
+                    <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}"
-                       href="{{ url_for('about') }}">About Us</a>
+                    <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About Us</a>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if 'service' in (request.endpoint or '') %}active{% endif %}"
-                       href="{{ url_for('services_overview') }}"
-                       role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false" id="servicesDropdown">
-                        Services
-                    </a>
-
+                    <a class="nav-link dropdown-toggle {% if 'service' in (request.endpoint or '') %}active{% endif %}" href="{{ url_for('services_overview') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="servicesDropdown">Services</a>
                     <div class="dropdown-menu dropdown-menu-services shadow-lg" aria-labelledby="servicesDropdown">
                         <div class="row g-0">
                             <div class="col-12 dropdown-header-row">
                                 <span class="dropdown-eyebrow">Our Specialities</span>
-                                <a href="{{ url_for('services_overview') }}" class="dropdown-view-all">
-                                    View All Services <i class="bi bi-arrow-right"></i>
-                                </a>
+                                <a href="{{ url_for('services_overview') }}" class="dropdown-view-all">View All Services <i class="bi bi-arrow-right"></i></a>
                             </div>
-
                             {% for slug, svc in services.items() %}
                             <div class="col-6 col-md-4">
                                 <a href="{{ url_for('service_detail', slug=slug) }}" class="dropdown-service-card">
-                                    <span class="ds-icon">
-                                        <i class="bi {{ svc.icon | default('bi-plus-circle') }}"></i>
-                                    </span>
+                                    <span class="ds-icon"><i class="bi {{ svc.icon | default('bi-plus-circle') }}"></i></span>
                                     <span class="ds-label">{{ svc.name | default(svc.label) }}</span>
                                 </a>
                             </div>
@@ -221,47 +240,26 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if 'gallery' in (request.endpoint or '') %}active{% endif %}"
-                       href="#"
-                       role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Gallery
-                    </a>
-                    <ul class="dropdown-menu shadow-sm"
-                        style="border: 1px solid var(--clr-border); border-top: 3px solid var(--gold-500); border-radius: 0 0 var(--radius-md) var(--radius-md); margin-top: .3rem; padding: .5rem 0;">
-                        <li>
-                            <a class="dropdown-item" href="{{ url_for('gallery_photos') }}"
-                               style="font-size: .85rem; font-weight: 500; color: var(--navy-900); padding: .5rem 1.25rem;">
-                                <i class="bi bi-image text-teal me-2"></i> Clinic Photos
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ url_for('gallery_videos') }}"
-                               style="font-size: .85rem; font-weight: 500; color: var(--navy-900); padding: .5rem 1.25rem;">
-                                <i class="bi bi-play-circle text-teal me-2"></i> Video Gallery
-                            </a>
-                        </li>
+                    <a class="nav-link dropdown-toggle {% if 'gallery' in (request.endpoint or '') %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gallery</a>
+                    <ul class="dropdown-menu shadow-sm">
+                        <li><a class="dropdown-item" href="{{ url_for('gallery_photos') }}"><i class="bi bi-image me-2"></i> Clinic Photos</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('gallery_videos') }}"><i class="bi bi-play-circle me-2"></i> Video Gallery</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}"
-                       href="{{ url_for('contact') }}">Contact</a>
+                    <a class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}" href="{{ url_for('contact') }}">Contact</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link {% if request.endpoint == 'blogs' %}active{% endif %}"
-                       href="{{ url_for('blogs') }}">Blogs</a>
+                    <a class="nav-link {% if request.endpoint == 'blogs' %}active{% endif %}" href="{{ url_for('blogs') }}">Blogs</a>
                 </li>
-
                 <li class="nav-item ms-lg-3">
-                    <a href="{{ url_for('contact') }}#book" class="btn btn-book">
-                        Book Consultation
-                    </a>
+                    <a href="{{ url_for('contact') }}#book" class="btn btn-book">Book Consultation</a>
                 </li>
-
             </ul>
-        </div></div></nav>
+        </div>
+    </div>
+</nav>
 
 <main id="main-content">
     {% block content %}{% endblock %}
@@ -269,7 +267,6 @@
 
 <footer class="site-footer" aria-label="Site footer">
     <div class="footer-top-rule"></div>
-
     <div class="container">
         <div class="footer-grid">
 
@@ -278,37 +275,12 @@
                     Dr. Sreenivas Aesthetics
                 </a>
                 <p class="footer-tagline">Sculpting Confidence.<br>Redefining Beauty.</p>
-                <p class="footer-blurb">
-                    A centre of surgical excellence and aesthetic medicine in Nellore,
-                    Andhra Pradesh — where precision meets artistry.
-                </p>
-                <div class="footer-social">
-                    <a href="{{ clinic.social.instagram }}" target="_blank" rel="noopener"
-                       aria-label="Follow us on Instagram" class="social-icon">
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                    <a href="{{ clinic.social.facebook }}" target="_blank" rel="noopener"
-                       aria-label="Like us on Facebook" class="social-icon">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a href="{{ clinic.social.youtube }}" target="_blank" rel="noopener"
-                       aria-label="Subscribe on YouTube" class="social-icon">
-                        <i class="bi bi-youtube"></i>
-                    </a>
+                <p class="footer-blurb">A centre of surgical excellence and aesthetic medicine in Nellore, Andhra Pradesh — where precision meets artistry.</p>
+                <div class="footer-social" style="display: flex; gap: 0.75rem;">
+                    <a href="{{ clinic.social.instagram }}" target="_blank" rel="noopener" aria-label="Follow us on Instagram" class="social-icon"><i class="bi bi-instagram"></i></a>
+                    <a href="{{ clinic.social.facebook }}" target="_blank" rel="noopener" aria-label="Like us on Facebook" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="{{ clinic.social.youtube }}" target="_blank" rel="noopener" aria-label="Subscribe on YouTube" class="social-icon"><i class="bi bi-youtube"></i></a>
                 </div>
-            </div>
-
-            <div class="footer-col">
-                <h3 class="footer-heading">Our Services</h3>
-                <ul class="footer-links">
-                    {% for slug, svc in services.items() %}
-                    <li>
-                        <a href="{{ url_for('service_detail', slug=slug) }}">
-                            <i class="bi bi-arrow-right-short"></i> {{ svc.label }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
             </div>
 
             <div class="footer-col">
@@ -319,7 +291,6 @@
                     <li><a href="{{ url_for('services_overview') }}"><i class="bi bi-arrow-right-short"></i> Services</a></li>
                     <li><a href="{{ url_for('gallery_photos') }}"><i class="bi bi-arrow-right-short"></i> Gallery</a></li>
                     <li><a href="{{ url_for('contact') }}"><i class="bi bi-arrow-right-short"></i> Contact</a></li>
-                    <li><a href="{{ url_for('contact') }}#book"><i class="bi bi-arrow-right-short"></i> Book Consultation</a></li>
                 </ul>
             </div>
 
@@ -328,30 +299,22 @@
                 <address class="footer-address">
                     <div class="footer-contact-item">
                         <span class="fci-icon"><i class="bi bi-geo-alt-fill"></i></span>
-                        <span>
-                          No 16/2/431, First Floor, Mini Bypass Road,<br>
-                          above IDFC Bank, opposite Millineum Substation,<br>
-                          Srinivasa Agraharam, Ramamurthy Nagar,<br>
-                          Nellore, Andhra Pradesh 524001
-                        </span>
+                        <span>No 16/2/431, First Floor, Mini Bypass Road,<br>above IDFC Bank, opposite Millineum Substation,<br>Srinivasa Agraharam, Ramamurthy Nagar,<br>Nellore, Andhra Pradesh 524001</span>
                     </div>
-
                     <div class="footer-contact-item">
                         <span class="fci-icon"><i class="bi bi-telephone-fill"></i></span>
                         <a href="tel:+919502327644">095023 27644</a>
                     </div>
-
                     <div class="footer-contact-item">
                         <span class="fci-icon"><i class="bi bi-envelope-fill"></i></span>
                         <a href="mailto:drsreenivasaesthetics@gmail.com">drsreenivasaesthetics@gmail.com</a>
                     </div>
-
                     <div class="footer-contact-item">
                         <span class="fci-icon"><i class="bi bi-clock-fill"></i></span>
                         <span>Mon – Sat &nbsp;|&nbsp; 9:00 AM – 7:00 PM</span>
                     </div>
                 </address>
-                <a href="{{ url_for('contact') }}#book" class="btn btn-book-footer mt-3">
+                <a href="{{ url_for('contact') }}#book" class="btn btn-book-footer w-100 justify-content-center d-flex align-items-center gap-2" style="padding: 0.75rem;">
                     <i class="bi bi-calendar2-check"></i> Book a Consultation
                 </a>
             </div>
@@ -361,37 +324,26 @@
 
     <div class="footer-bottom">
         <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-            <p class="mb-0">&copy; {{ 2025 }} Dr. Sreenivas Aesthetics. All rights reserved.</p>
+            <p class="mb-0">&copy; 2026 Dr. Sreenivas Aesthetics. All rights reserved.</p>
             <p class="mb-0 text-muted small">Designed with <i class="bi bi-heart-fill text-danger"></i> for excellence in aesthetic care.</p>
         </div>
     </div>
 </footer>
 
-<a href="https://wa.me/919502327644?text=Hello%2C%20I%20would%20like%20to%20book%20a%20consultation."
-   class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
-    <i class="bi bi-whatsapp"></i>
-</a>
+<a href="https://wa.me/919502327644" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><i class="bi bi-whatsapp"></i></a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
     AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 80 });
 
-    (function () {
-      const nav = document.getElementById('mainNav');
-      const onScroll = () => { nav.classList.toggle('nav--scrolled', window.scrollY > 50); };
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    })();
-
-    /* ── Navbar: Dropdown Hover & Click Logic ── */
+    /* ── Navbar Logic ── */
     document.addEventListener('DOMContentLoaded', function() {
         const dropdowns = document.querySelectorAll('.navbar .nav-item.dropdown');
         dropdowns.forEach(item => {
             const toggle = item.querySelector('[data-bs-toggle="dropdown"]');
             const menu = item.querySelector('.dropdown-menu');
 
-            // Handle Click
             toggle.addEventListener('click', function(e) {
                 e.preventDefault(); e.stopPropagation();
                 if (menu.classList.contains('show')) {
@@ -402,14 +354,12 @@
                 }
             });
 
-            // Handle Hover
             if (window.innerWidth >= 992) {
                 item.addEventListener('mouseenter', () => menu.classList.add('show'));
                 item.addEventListener('mouseleave', () => menu.classList.remove('show'));
             }
         });
 
-        // Close dropdowns if clicking elsewhere
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.nav-item.dropdown')) {
                 document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
@@ -417,7 +367,6 @@
         });
     });
 </script>
-
 {% block extra_scripts %}{% endblock %}
 </body>
 </html>

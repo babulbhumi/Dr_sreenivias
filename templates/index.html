@@ -9,737 +9,541 @@ SEO overrides
 {% block og_desc %}Nellore's premier cosmetic & plastic surgery clinic. World-class results, compassionate care.{% endblock %}
 
 {# ══════════════════════════════════════════════════════════════════════════════
-Page-level styles (index only — no duplication with style.css)
+Page-level styles
 ══════════════════════════════════════════════════════════════════════════════ #}
 {% block extra_head %}
 <style>
-    /* ── HERO ──────────────────────────────────────────────────────────────────── */
-    .hero {
-      position        : relative;
-      min-height      : 100svh;
-      display         : flex;
-      align-items     : center;
-      background      : var(--navy-950);
-      overflow        : hidden;
+    /* ── HOMEPAGE SINGLE VIDEO HERO ── */
+    .hero-section {
+        position: relative;
+        height: 85vh;
+        min-height: 600px;
+        background-color: var(--off-white);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
     }
-
-    /* Decorative background layers */
-    .hero__bg-gradient {
-      position : absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(42,157,143,.18) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 70% at 10% 80%, rgba(201,168,76,.10) 0%, transparent 60%),
-        linear-gradient(135deg, #050d1a 0%, #0f2040 60%, #0a1628 100%);
+    .hero-video-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+        z-index: 0;
     }
-
-    .hero__grid-overlay {
-      position   : absolute; inset: 0;
-      background-image :
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image : linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        /* Dark gradient overlay so the white text is always readable */
+        background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.1) 100%);
+        z-index: 1;
     }
-
-    /* Gold floating orbs */
-    .hero__orb {
-      position     : absolute;
-      border-radius: 50%;
-      filter       : blur(80px);
-      pointer-events: none;
-      animation    : orbFloat 8s ease-in-out infinite alternate;
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
     }
-    .hero__orb--1 {
-      width: 380px; height: 380px;
-      background: rgba(201,168,76,.12);
-      top: -80px; right: 8%;
-      animation-delay: 0s;
+    .hero-caption {
+        max-width: 680px;
+        color: var(--white);
+        text-align: left;
     }
-    .hero__orb--2 {
-      width: 260px; height: 260px;
-      background: rgba(42,157,143,.15);
-      bottom: 10%; left: 5%;
-      animation-delay: -3s;
+    .hero-eyebrow {
+        display: inline-block;
+        background: rgba(0, 210, 58, 0.2);
+        border: 1px solid var(--clinic-green);
+        color: var(--clinic-green);
+        padding: 0.3rem 1rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
     }
-
-    @keyframes orbFloat {
-      from { transform: translate(0,0) scale(1); }
-      to   { transform: translate(20px,-30px) scale(1.08); }
+    .hero-caption h1 {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 5vw, 4.5rem);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 1rem;
     }
-
-    .hero__content { position: relative; z-index: 2; }
-
-    .hero__eyebrow {
-      display       : inline-flex;
-      align-items   : center;
-      gap           : .6rem;
-      background    : rgba(201,168,76,.12);
-      border        : 1px solid rgba(201,168,76,.3);
-      border-radius : var(--radius-pill);
-      padding       : .3rem .9rem;
-      font-size     : .68rem;
-      font-weight   : 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color         : var(--gold-400);
-      margin-bottom : 1.4rem;
+    .hero-caption p {
+        font-size: 1.15rem;
+        line-height: 1.6;
+        margin-bottom: 2.5rem;
+        color: rgba(255,255,255,0.9);
     }
-    .hero__eyebrow-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--gold-500);
-      animation: pulse 2s ease-in-out infinite;
+    .hero-btn-outline {
+        border: 2px solid var(--white);
+        color: var(--white);
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
     }
-    @keyframes pulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50%      { opacity:.5; transform:scale(1.5); }
-    }
-
-    .hero__heading {
-      font-family : var(--font-display);
-      font-size   : clamp(2.6rem, 6vw, 5.2rem);
-      font-weight : 300;
-      color       : var(--white);
-      line-height : 1.08;
-      margin-bottom: 1.5rem;
-      letter-spacing: -.01em;
-    }
-    .hero__heading em {
-      font-style  : italic;
-      color       : var(--gold-400);
-      font-weight : 400;
-    }
-    .hero__heading strong {
-      font-weight : 600;
-      color       : var(--white);
-    }
-
-    .hero__sub {
-      font-size   : 1.05rem;
-      color       : rgba(255,255,255,.62);
-      max-width   : 46ch;
-      line-height : 1.75;
-      margin-bottom: 2.4rem;
-    }
-
-    .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-    .btn-hero-primary {
-      display     : inline-flex;
-      align-items : center;
-      gap         : .55rem;
-      background  : var(--gold-500);
-      color       : var(--navy-950);
-      font-weight : 700;
-      font-size   : .9rem;
-      padding     : .85rem 2rem;
-      border-radius: var(--radius-pill);
-      border      : 2px solid var(--gold-500);
-      letter-spacing: .04em;
-      transition  : var(--transition);
-    }
-    .btn-hero-primary:hover {
-      background : var(--white);
-      border-color: var(--white);
-      color      : var(--navy-950);
-      transform  : translateY(-2px);
-      box-shadow : 0 8px 28px rgba(201,168,76,.35);
-    }
-
-    .btn-hero-outline {
-      display     : inline-flex;
-      align-items : center;
-      gap         : .55rem;
-      background  : transparent;
-      color       : rgba(255,255,255,.85);
-      font-weight : 500;
-      font-size   : .9rem;
-      padding     : .85rem 2rem;
-      border-radius: var(--radius-pill);
-      border      : 1.5px solid rgba(255,255,255,.25);
-      transition  : var(--transition);
-    }
-    .btn-hero-outline:hover {
-      background  : rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.5);
-      color       : var(--white);
-    }
-
-    /* Right side — doctor credential card */
-    .hero__card {
-      background   : rgba(255,255,255,.05);
-      border       : 1px solid rgba(255,255,255,.1);
-      border-radius: var(--radius-lg);
-      padding      : 2rem;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      position     : relative;
-      overflow     : hidden;
-    }
-    .hero__card::before {
-      content  : '';
-      position : absolute;
-      top      : 0; left: 0; right: 0;
-      height   : 3px;
-      background: linear-gradient(90deg, var(--teal-400), var(--gold-500));
-    }
-
-    .hero__card-label {
-      font-size     : .65rem;
-      font-weight   : 700;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color         : var(--teal-400);
-      margin-bottom : 1.2rem;
-    }
-
-    .hero__doc-item {
-      display      : flex;
-      align-items  : flex-start;
-      gap          : 1rem;
-      padding      : .9rem 0;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-    .hero__doc-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-    .hero__doc-avatar {
-      width       : 46px;
-      height      : 46px;
-      border-radius: 50%;
-      flex-shrink : 0;
-      display     : flex;
-      align-items : center;
-      justify-content: center;
-      font-size   : 1.1rem;
-      font-weight : 700;
-      font-family : var(--font-display);
-    }
-    .avatar--rao     { background: rgba(201,168,76,.2); color: var(--gold-400); border: 1.5px solid rgba(201,168,76,.4); }
-    .avatar--lakshmi { background: rgba(42,157,143,.2); color: var(--teal-400); border: 1.5px solid rgba(42,157,143,.4); }
-
-    .hero__doc-name {
-      font-family : var(--font-display);
-      font-size   : .95rem;
-      font-weight : 600;
-      color       : var(--white);
-      line-height : 1.2;
-      margin-bottom: .15rem;
-    }
-    .hero__doc-spec {
-      font-size  : .72rem;
-      color      : rgba(255,255,255,.5);
-      line-height: 1.4;
-    }
-    .hero__doc-cred {
-      display       : inline-block;
-      font-size     : .6rem;
-      font-weight   : 700;
-      letter-spacing: .08em;
-      background    : rgba(42,157,143,.2);
-      color         : var(--teal-300);
-      border-radius : var(--radius-pill);
-      padding       : .1rem .5rem;
-      margin-top    : .3rem;
-    }
-
-    /* Hero scroll cue */
-    .hero__scroll-cue {
-      position  : absolute;
-      bottom    : 2rem;
-      left      : 50%;
-      transform : translateX(-50%);
-      z-index   : 2;
-      display   : flex;
-      flex-direction: column;
-      align-items: center;
-      gap       : .4rem;
-      color     : rgba(255,255,255,.35);
-      font-size : .68rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-    .hero__scroll-icon {
-      width       : 28px;
-      height      : 44px;
-      border      : 1.5px solid rgba(255,255,255,.2);
-      border-radius: 14px;
-      position    : relative;
-    }
-    .hero__scroll-icon::after {
-      content   : '';
-      position  : absolute;
-      top       : 7px;
-      left      : 50%;
-      transform : translateX(-50%);
-      width     : 4px;
-      height    : 8px;
-      background: var(--gold-400);
-      border-radius: 2px;
-      animation : scrollBounce 2s ease-in-out infinite;
-    }
-    @keyframes scrollBounce {
-      0%,100% { top:7px; opacity:1; }
-      60%     { top:18px; opacity:.3; }
+    .hero-btn-outline:hover {
+        background: var(--white);
+        color: var(--text-main);
     }
 
     /* ── STATS RIBBON ──────────────────────────────────────────────────────────── */
     .stats-ribbon {
-      background : var(--white);
-      border-top : 3px solid var(--gold-500);
-      box-shadow : var(--shadow-md);
+        background : var(--white);
+        border-top : 3px solid var(--clinic-green);
+        box-shadow : var(--shadow-md);
     }
     .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
     }
     @media(max-width:767px){ .stats-grid { grid-template-columns: repeat(2,1fr); } }
     @media(max-width:400px){ .stats-grid { grid-template-columns: 1fr; } }
 
     .stat-item {
-      padding    : 2rem 1.5rem;
-      text-align : center;
-      border-right: 1px solid var(--clr-border);
+        padding    : 2rem 1.5rem;
+        text-align : center;
+        border-right: 1px solid var(--clr-border);
     }
     .stat-item:last-child { border-right: none; }
 
     .stat-number {
-      font-family   : var(--font-display);
-      font-size     : clamp(2rem, 4vw, 2.8rem);
-      font-weight   : 600;
-      color         : var(--navy-900);
-      line-height   : 1;
-      margin-bottom : .3rem;
-      display       : block;
+        font-family   : var(--font-display);
+        font-size     : clamp(2rem, 4vw, 2.8rem);
+        font-weight   : 600;
+        color         : var(--text-main);
+        line-height   : 1;
+        margin-bottom : .3rem;
+        display       : block;
     }
-    .stat-number span { color: var(--gold-500); }
+    .stat-number span { color: var(--clinic-green); }
     .stat-label {
-      font-size  : .78rem;
-      font-weight: 500;
-      color      : var(--clr-text-muted);
-      letter-spacing: .05em;
-      text-transform: uppercase;
+        font-size  : .78rem;
+        font-weight: 600;
+        color      : var(--text-muted);
+        letter-spacing: .05em;
+        text-transform: uppercase;
     }
 
     /* ── SERVICES OVERVIEW ──────────────────────────────────────────────────────── */
-    .services-section { background: var(--cream); }
+    .services-section { background: var(--off-white); }
 
     .service-card {
-      background    : var(--white);
-      border        : 1px solid var(--clr-border);
-      border-radius : var(--radius-lg);
-      padding       : 2rem 1.75rem;
-      height        : 100%;
-      transition    : var(--transition);
-      position      : relative;
-      overflow      : hidden;
-      display       : flex;
-      flex-direction: column;
+        background    : var(--white);
+        border        : 1px solid var(--clr-border);
+        border-radius : var(--radius-lg);
+        padding       : 2rem 1.75rem;
+        height        : 100%;
+        transition    : var(--transition);
+        position      : relative;
+        overflow      : hidden;
+        display       : flex;
+        flex-direction: column;
     }
     .service-card::after {
-      content   : '';
-      position  : absolute;
-      bottom    : 0; left: 0; right: 0;
-      height    : 3px;
-      background: linear-gradient(90deg, var(--teal-500), var(--gold-500));
-      transform : scaleX(0);
-      transition: transform .35s ease;
+        content   : '';
+        position  : absolute;
+        bottom    : 0; left: 0; right: 0;
+        height    : 3px;
+        background: linear-gradient(90deg, var(--clinic-blue), var(--clinic-green));
+        transform : scaleX(0);
+        transition: transform .35s ease;
     }
     .service-card:hover {
-      transform : translateY(-6px);
-      box-shadow: var(--shadow-lg);
-      border-color: transparent;
+        transform : translateY(-6px);
+        box-shadow: var(--shadow-lg);
+        border-color: transparent;
     }
     .service-card:hover::after { transform: scaleX(1); }
 
     .sc-icon-wrap {
-      width       : 60px;
-      height      : 60px;
-      border-radius: var(--radius-md);
-      background  : var(--teal-100);
-      display     : flex;
-      align-items : center;
-      justify-content: center;
-      font-size   : 1.5rem;
-      color       : var(--teal-500);
-      margin-bottom: 1.25rem;
-      transition  : var(--transition);
+        width       : 60px;
+        height      : 60px;
+        border-radius: var(--radius-md);
+        background  : var(--clinic-mint);
+        display     : flex;
+        align-items : center;
+        justify-content: center;
+        font-size   : 1.5rem;
+        color       : var(--clinic-green);
+        margin-bottom: 1.25rem;
+        transition  : var(--transition);
     }
     .service-card:hover .sc-icon-wrap {
-      background: var(--navy-900);
-      color     : var(--gold-400);
+        background: var(--clinic-green);
+        color     : var(--white);
     }
 
     .sc-title {
-      font-family : var(--font-display);
-      font-size   : 1.25rem;
-      font-weight : 600;
-      color       : var(--navy-900);
-      margin-bottom: .5rem;
+        font-family : var(--font-display);
+        font-size   : 1.25rem;
+        font-weight : 600;
+        color       : var(--text-main);
+        margin-bottom: .5rem;
     }
     .sc-desc {
-      font-size  : .875rem;
-      color      : var(--clr-text-muted);
-      line-height: 1.7;
-      flex       : 1;
+        font-size  : .875rem;
+        color      : var(--text-muted);
+        line-height: 1.7;
+        flex       : 1;
     }
     .sc-link {
-      display     : inline-flex;
-      align-items : center;
-      gap         : .35rem;
-      font-size   : .82rem;
-      font-weight : 600;
-      color       : var(--teal-500);
-      margin-top  : 1.25rem;
-      transition  : var(--transition);
+        display     : inline-flex;
+        align-items : center;
+        gap         : .35rem;
+        font-size   : .82rem;
+        font-weight : 600;
+        color       : var(--clinic-blue);
+        margin-top  : 1.25rem;
+        transition  : var(--transition);
     }
     .sc-link i { transition: transform .25s ease; }
-    .service-card:hover .sc-link { color: var(--gold-500); }
+    .service-card:hover .sc-link { color: var(--clinic-green); }
     .service-card:hover .sc-link i { transform: translateX(4px); }
 
     /* ── OUR EXPERTISE (DOCTORS) ───────────────────────────────────────────────── */
-    .expertise-section { background: var(--navy-950); }
+    .expertise-section { background: var(--off-white); border-top: 1px solid var(--grey-light); }
 
     .doctor-card {
-      background   : rgba(255,255,255,.04);
-      border       : 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius-lg);
-      overflow     : hidden;
-      transition   : var(--transition);
-      height       : 100%;
+        background   : var(--white);
+        border       : 1px solid var(--grey-light);
+        border-radius: var(--radius-lg);
+        overflow     : hidden;
+        transition   : var(--transition);
+        height       : 100%;
     }
     .doctor-card:hover {
-      border-color: rgba(201,168,76,.35);
-      box-shadow  : 0 20px 60px rgba(0,0,0,.4);
-      transform   : translateY(-4px);
+        border-color: rgba(0,210,58,.35);
+        box-shadow  : var(--shadow-lg);
+        transform   : translateY(-4px);
     }
 
     .doctor-card__image-wrap {
-      position     : relative;
-      height       : 320px;
-      background   : var(--navy-800);
-      overflow     : hidden;
+        position     : relative;
+        height       : 320px;
+        background   : var(--off-white);
+        overflow     : hidden;
     }
     .doctor-card__image-wrap img {
-      width    : 100%;
-      height   : 100%;
-      object-fit: cover;
-      transition: transform .6s ease;
+        width    : 100%;
+        height   : 100%;
+        object-fit: cover;
+        transition: transform .6s ease;
     }
     .doctor-card:hover .doctor-card__image-wrap img { transform: scale(1.04); }
 
-    /* Placeholder when no photo uploaded yet */
-    .doctor-card__placeholder {
-      width            : 100%;
-      height           : 100%;
-      display          : flex;
-      flex-direction   : column;
-      align-items      : center;
-      justify-content  : center;
-      gap              : .75rem;
-      font-family      : var(--font-display);
-      font-size        : 4rem;
-      font-weight      : 300;
-      letter-spacing   : -.02em;
-    }
-    .placeholder--rao     { background: linear-gradient(135deg, #0f2040, #162b55); color: var(--gold-400); }
-    .placeholder--lakshmi { background: linear-gradient(135deg, #0e2a28, #1a4440); color: var(--teal-400); }
-    .placeholder-initials-label { font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; opacity: .6; }
-
-    /* Gold accent band on image */
     .doctor-card__image-wrap::after {
-      content   : '';
-      position  : absolute;
-      bottom    : 0; left: 0; right: 0;
-      height    : 4px;
-      background: linear-gradient(90deg, var(--teal-500), var(--gold-500));
+        content   : '';
+        position  : absolute;
+        bottom    : 0; left: 0; right: 0;
+        height    : 4px;
+        background: linear-gradient(90deg, var(--clinic-blue), var(--clinic-green));
     }
 
     .doctor-card__body { padding: 1.75rem; }
 
     .doctor-card__name {
-      font-family   : var(--font-display);
-      font-size     : 1.4rem;
-      font-weight   : 600;
-      color         : var(--white);
-      margin-bottom : .25rem;
-      line-height   : 1.2;
+        font-family   : var(--font-display);
+        font-size     : 1.4rem;
+        font-weight   : 700;
+        color         : var(--text-main);
+        margin-bottom : .25rem;
+        line-height   : 1.2;
     }
     .doctor-card__title {
-      font-size     : .75rem;
-      color         : var(--gold-400);
-      font-weight   : 500;
-      letter-spacing: .04em;
-      margin-bottom : .6rem;
+        font-size     : .75rem;
+        color         : var(--clinic-green);
+        font-weight   : 600;
+        letter-spacing: .04em;
+        margin-bottom : .6rem;
     }
     .doctor-card__cred {
-      display       : inline-block;
-      font-size     : .62rem;
-      font-weight   : 700;
-      letter-spacing: .1em;
-      background    : rgba(42,157,143,.2);
-      color         : var(--teal-300);
-      border        : 1px solid rgba(42,157,143,.3);
-      border-radius : var(--radius-pill);
-      padding       : .2rem .65rem;
-      margin-bottom : .9rem;
+        display       : inline-block;
+        font-size     : .62rem;
+        font-weight   : 700;
+        letter-spacing: .1em;
+        background    : var(--clinic-mint);
+        color         : var(--clinic-green);
+        border        : 1px solid rgba(0,210,58,.3);
+        border-radius : var(--radius-pill);
+        padding       : .2rem .65rem;
+        margin-bottom : .9rem;
     }
     .doctor-card__bio {
-      font-size  : .865rem;
-      color      : rgba(255,255,255,.58);
-      line-height: 1.75;
-      margin-bottom: 1.25rem;
+        font-size  : .865rem;
+        color      : var(--text-muted);
+        line-height: 1.75;
+        margin-bottom: 1.25rem;
     }
 
     /* Expertise tags */
     .expertise-tags {
-      display  : flex;
-      flex-wrap: wrap;
-      gap      : .45rem;
-      margin-bottom: 1.4rem;
+        display  : flex;
+        flex-wrap: wrap;
+        gap      : .45rem;
+        margin-bottom: 1.4rem;
     }
     .expertise-tag {
-      display       : inline-flex;
-      align-items   : center;
-      gap           : .3rem;
-      font-size     : .7rem;
-      font-weight   : 500;
-      background    : rgba(255,255,255,.06);
-      color         : rgba(255,255,255,.75);
-      border        : 1px solid rgba(255,255,255,.1);
-      border-radius : var(--radius-pill);
-      padding       : .25rem .7rem;
-      transition    : var(--transition);
+        display       : inline-flex;
+        align-items   : center;
+        gap           : .3rem;
+        font-size     : .7rem;
+        font-weight   : 600;
+        background    : var(--off-white);
+        color         : var(--text-muted);
+        border        : 1px solid var(--grey-light);
+        border-radius : var(--radius-pill);
+        padding       : .25rem .7rem;
+        transition    : var(--transition);
     }
-    .expertise-tag i { color: var(--gold-500); font-size: .65rem; }
+    .expertise-tag i { color: var(--clinic-green); font-size: .65rem; }
     .doctor-card:hover .expertise-tag {
-      background : rgba(201,168,76,.1);
-      border-color: rgba(201,168,76,.25);
+        background : var(--clinic-mint);
+        border-color: rgba(0,210,58,.25);
+        color      : var(--clinic-green);
     }
 
     .btn-doc-profile {
-      display     : inline-flex;
-      align-items : center;
-      gap         : .4rem;
-      font-size   : .82rem;
-      font-weight : 600;
-      color       : var(--gold-400);
-      border      : 1.5px solid rgba(201,168,76,.4);
-      border-radius: var(--radius-pill);
-      padding     : .5rem 1.2rem;
-      transition  : var(--transition);
+        display     : inline-flex;
+        align-items : center;
+        gap         : .4rem;
+        font-size   : .82rem;
+        font-weight : 700;
+        color       : var(--clinic-blue);
+        border      : 1.5px solid var(--clinic-blue);
+        border-radius: var(--radius-pill);
+        padding     : .5rem 1.2rem;
+        transition  : var(--transition);
     }
     .btn-doc-profile:hover {
-      background  : var(--gold-500);
-      border-color: var(--gold-500);
-      color       : var(--navy-950);
+        background  : var(--clinic-green);
+        border-color: var(--clinic-green);
+        color       : var(--white);
     }
 
     /* ── WHY CHOOSE US / PHILOSOPHY ──────────────────────────────────────────────────────────── */
     .why-section { background: var(--white); }
 
     .why-card {
-      display     : flex;
-      gap         : 1.25rem;
-      align-items : flex-start;
-      padding     : 1.5rem;
-      border-radius: var(--radius-md);
-      border      : 1px solid var(--clr-border);
-      transition  : var(--transition);
-      height      : 100%;
+        display     : flex;
+        gap         : 1.25rem;
+        align-items : flex-start;
+        padding     : 1.5rem;
+        border-radius: var(--radius-md);
+        border      : 1px solid var(--clr-border);
+        transition  : var(--transition);
+        height      : 100%;
     }
     .why-card:hover {
-      border-color: var(--gold-300);
-      background  : var(--gold-100);
-      transform   : translateY(-3px);
-      box-shadow  : var(--shadow-sm);
+        border-color: rgba(0,210,58,.3);
+        background  : var(--clinic-mint);
+        transform   : translateY(-3px);
+        box-shadow  : var(--shadow-sm);
     }
     .why-icon {
-      width       : 52px;
-      height      : 52px;
-      border-radius: var(--radius-md);
-      background  : var(--navy-900);
-      color       : var(--gold-400);
-      display     : flex;
-      align-items : center;
-      justify-content: center;
-      font-size   : 1.3rem;
-      flex-shrink : 0;
-      transition  : var(--transition);
+        width       : 52px;
+        height      : 52px;
+        border-radius: var(--radius-md);
+        background  : var(--clinic-mint);
+        color       : var(--clinic-green);
+        display     : flex;
+        align-items : center;
+        justify-content: center;
+        font-size   : 1.3rem;
+        flex-shrink : 0;
+        transition  : var(--transition);
     }
-    .why-card:hover .why-icon { background: var(--gold-500); color: var(--navy-950); }
+    .why-card:hover .why-icon { background: var(--clinic-green); color: var(--white); }
     .why-title {
-      font-family  : var(--font-display);
-      font-size    : 1.1rem;
-      font-weight  : 600;
-      color        : var(--navy-900);
-      margin-bottom: .35rem;
+        font-family  : var(--font-display);
+        font-size    : 1.1rem;
+        font-weight  : 700;
+        color        : var(--text-main);
+        margin-bottom: .35rem;
     }
-    .why-desc { font-size: .86rem; color: var(--clr-text-muted); line-height: 1.7; margin-bottom: 0; }
+    .why-desc { font-size: .86rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 0; }
 
     /* Full-bleed image panel */
     .why-image-panel {
-      border-radius: var(--radius-lg);
-      overflow     : hidden;
-      height       : 520px;
-      position     : relative;
+        border-radius: var(--radius-lg);
+        overflow     : hidden;
+        height       : 520px;
+        position     : relative;
     }
     .why-image-panel img {
-      width: 100%; height: 100%; object-fit: cover;
+        width: 100%; height: 100%; object-fit: cover;
     }
     .why-image-panel__overlay {
-      position  : absolute; inset: 0;
-      background: linear-gradient(to top, rgba(5,13,26,.9) 0%, rgba(5,13,26,.4) 55%);
-      display   : flex;
-      align-items: flex-end;
-      padding   : 2.5rem 2rem;
+        position  : absolute; inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.8) 0%, rgba(0,0,0,.2) 55%);
+        display   : flex;
+        align-items: flex-end;
+        padding   : 2.5rem 2rem;
     }
     .why-image-panel__quote {
-      font-family : var(--font-display);
-      font-style  : italic;
-      font-size   : 1.4rem;
-      color       : var(--white);
-      line-height : 1.6;
-      max-width   : 32ch;
-      margin      : 0;
+        font-family : var(--font-display);
+        font-style  : italic;
+        font-size   : 1.4rem;
+        color       : var(--white);
+        line-height : 1.6;
+        max-width   : 32ch;
+        margin      : 0;
     }
     .why-image-panel__quote cite {
-      display   : block;
-      font-style: normal;
-      font-size : .72rem;
-      font-weight: 600;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color     : var(--gold-400);
-      margin-top: .8rem;
+        display   : block;
+        font-style: normal;
+        font-size : .72rem;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color     : var(--clinic-green);
+        margin-top: .8rem;
     }
 
     /* ── TESTIMONIALS ───────────────────────────────────────────────────────────── */
-    .testimonials-section { background: var(--cream); }
+    .testimonials-section { background: var(--off-white); }
 
     .testimonial-card {
-      background   : var(--white);
-      border       : 1px solid var(--clr-border);
-      border-radius: var(--radius-lg);
-      padding      : 2rem;
-      height       : 100%;
-      position     : relative;
-      transition   : var(--transition);
+        background   : var(--white);
+        border       : 1px solid var(--clr-border);
+        border-radius: var(--radius-lg);
+        padding      : 2rem;
+        height       : 100%;
+        position     : relative;
+        transition   : var(--transition);
     }
     .testimonial-card:hover {
-      box-shadow : var(--shadow-md);
-      border-color: var(--gold-300);
-      transform  : translateY(-4px);
+        box-shadow : var(--shadow-md);
+        border-color: rgba(0,210,58,.3);
+        transform  : translateY(-4px);
     }
     .testimonial-card__quote-mark {
-      font-family : var(--font-display);
-      font-size   : 5rem;
-      line-height : .6;
-      color       : var(--gold-200, #eedfa8);
-      position    : absolute;
-      top         : 1.25rem;
-      right       : 1.5rem;
-      pointer-events: none;
-      opacity     : .5;
+        font-family : var(--font-display);
+        font-size   : 5rem;
+        line-height : .6;
+        color       : var(--clinic-mint);
+        position    : absolute;
+        top         : 1.25rem;
+        right       : 1.5rem;
+        pointer-events: none;
     }
-    .testimonial-stars { color: var(--gold-500); font-size: .85rem; margin-bottom: .85rem; }
+    .testimonial-stars { color: var(--clinic-green); font-size: .85rem; margin-bottom: .85rem; }
     .testimonial-text {
-      font-family : var(--font-display);
-      font-style  : italic;
-      font-size   : 1rem;
-      line-height : 1.75;
-      color       : var(--clr-text);
-      margin-bottom: 1.25rem;
+        font-family : var(--font-display);
+        font-style  : italic;
+        font-size   : 1rem;
+        line-height : 1.75;
+        color       : var(--text-main);
+        margin-bottom: 1.25rem;
     }
     .testimonial-author {
-      display    : flex;
-      align-items: center;
-      gap        : .75rem;
+        display    : flex;
+        align-items: center;
+        gap        : .75rem;
     }
     .testimonial-avatar {
-      width       : 40px;
-      height      : 40px;
-      border-radius: 50%;
-      background  : var(--navy-900);
-      display     : flex;
-      align-items : center;
-      justify-content: center;
-      font-family : var(--font-display);
-      font-weight : 600;
-      font-size   : 1rem;
-      color       : var(--gold-400);
-      flex-shrink : 0;
+        width       : 40px;
+        height      : 40px;
+        border-radius: 50%;
+        background  : var(--clinic-mint);
+        display     : flex;
+        align-items : center;
+        justify-content: center;
+        font-family : var(--font-display);
+        font-weight : 700;
+        font-size   : 1rem;
+        color       : var(--clinic-green);
+        flex-shrink : 0;
     }
-    .testimonial-name  { font-weight: 600; font-size: .875rem; color: var(--navy-900); }
-    .testimonial-meta  { font-size: .75rem; color: var(--teal-500); text-transform: uppercase; font-weight: 600; letter-spacing: 1px;}
-
+    .testimonial-name  { font-weight: 700; font-size: .875rem; color: var(--text-main); }
+    .testimonial-meta  { font-size: .75rem; color: var(--clinic-blue); text-transform: uppercase; font-weight: 600; letter-spacing: 1px;}
 
     /* ── FINAL CTA BAND ─────────────────────────────────────────────────────────── */
     .cta-band {
-      background : var(--navy-900);
-      position   : relative;
-      overflow   : hidden;
-    }
-    .cta-band::before {
-      content   : '';
-      position  : absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 60% 80% at 90% 50%, rgba(42,157,143,.15) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 60% at 5%  50%, rgba(201,168,76,.10) 0%, transparent 55%);
+        background : var(--clinic-green);
+        position   : relative;
+        overflow   : hidden;
     }
     .cta-band__content { position: relative; z-index: 1; }
     .cta-band__heading {
-      font-family : var(--font-display);
-      font-size   : clamp(2rem, 4vw, 3.2rem);
-      font-weight : 400;
-      color       : var(--white);
-      line-height : 1.2;
+        font-family : var(--font-display);
+        font-size   : clamp(2rem, 4vw, 3.2rem);
+        font-weight : 700;
+        color       : var(--white);
+        line-height : 1.2;
     }
     .cta-band__heading em {
-      font-style: italic;
-      color     : var(--gold-400);
+        font-style: normal;
+        color     : var(--navy-900);
     }
     .cta-band__sub {
-      color    : rgba(255,255,255,.6);
-      font-size: 1rem;
-      max-width: 42ch;
+        color    : rgba(255,255,255,.9);
+        font-size: 1.05rem;
+        max-width: 42ch;
     }
     .btn-cta-gold {
-      display     : inline-flex;
-      align-items : center;
-      gap         : .55rem;
-      background  : var(--gold-500);
-      color       : var(--navy-950);
-      font-weight : 700;
-      font-size   : .92rem;
-      padding     : .9rem 2.2rem;
-      border-radius: var(--radius-pill);
-      border      : 2px solid var(--gold-500);
-      transition  : var(--transition);
-      letter-spacing: .03em;
+        display     : inline-flex;
+        align-items : center;
+        gap         : .55rem;
+        background  : var(--navy-900);
+        color       : var(--white);
+        font-weight : 700;
+        font-size   : .92rem;
+        padding     : .9rem 2.2rem;
+        border-radius: var(--radius-pill);
+        border      : none;
+        transition  : var(--transition);
+        letter-spacing: .03em;
     }
     .btn-cta-gold:hover {
-      background  : var(--white);
-      border-color: var(--white);
-      color       : var(--navy-950);
-      transform   : translateY(-2px);
-      box-shadow  : 0 8px 30px rgba(201,168,76,.35);
+        background  : var(--white);
+        color       : var(--navy-900);
+        transform   : translateY(-2px);
+        box-shadow  : var(--shadow-md);
     }
     .btn-cta-phone {
-      display     : inline-flex;
-      align-items : center;
-      gap         : .55rem;
-      color       : rgba(255,255,255,.8);
-      font-weight : 500;
-      font-size   : .92rem;
-      padding     : .9rem 1.8rem;
-      border-radius: var(--radius-pill);
-      border      : 1.5px solid rgba(255,255,255,.2);
-      transition  : var(--transition);
+        display     : inline-flex;
+        align-items : center;
+        gap         : .55rem;
+        color       : var(--white);
+        font-weight : 600;
+        font-size   : .92rem;
+        padding     : .9rem 1.8rem;
+        border-radius: var(--radius-pill);
+        border      : 2px solid rgba(255,255,255,.5);
+        transition  : var(--transition);
     }
     .btn-cta-phone:hover {
-      border-color: rgba(255,255,255,.5);
-      color       : var(--white);
-      background  : rgba(255,255,255,.08);
+        border-color: var(--white);
+        color       : var(--clinic-green);
+        background  : var(--white);
+    }
+
+    /* ── Section Eyebrow (Global Fix) ── */
+    .section-eyebrow {
+        color: var(--clinic-green);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.8rem;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .section-title {
+        color: var(--text-main);
+        font-weight: 700;
+        font-family: var(--font-display);
+    }
+    .divider-gold {
+        border-top: 3px solid var(--clinic-blue);
+        opacity: 1;
+        width: 60px;
     }
 </style>
 {% endblock %}
@@ -750,99 +554,36 @@ PAGE CONTENT
 ══════════════════════════════════════════════════════════════════════════════ #}
 {% block content %}
 
-<section class="hero" aria-label="Hero">
-    <div class="hero__bg-gradient"></div>
-    <div class="hero__grid-overlay"></div>
-    <div class="hero__orb hero__orb--1"></div>
-    <div class="hero__orb hero__orb--2"></div>
+<section class="hero-section">
 
-    <div class="container hero__content py-5">
-        <div class="row align-items-center g-5">
+    <video class="hero-video-bg" autoplay muted loop playsinline>
+        <source src="{{ url_for('static', filename='videos/hero-video.mp4') }}" type="video/mp4">
+    </video>
 
-            <div class="col-lg-6"
-                 data-aos="fade-right" data-aos-duration="900">
+    <div class="hero-overlay"></div>
 
-                <div class="hero__eyebrow">
-                    <span class="hero__eyebrow-dot"></span>
-                    Nellore's Premier Aesthetic Clinic
-                </div>
+    <div class="container hero-content">
+        <div class="hero-caption" data-aos="fade-up" data-aos-duration="1000">
+            <span class="hero-eyebrow">Nellore's Premier Clinic</span>
 
-                <h1 class="hero__heading">
-                    Mission to vision<br>
-                    <em>beyond perfection.</em>
-                </h1>
+            <h1>Mission to vision beyond perfection.</h1>
 
-                <p class="hero__sub">
-                    Perfection is what we want for our patients. World-class plastic surgery and aesthetic medicine,
-                    delivered with surgical precision and an artist's sensitivity.
-                </p>
+            <p>World-class plastic surgery and aesthetic medicine, delivered with surgical precision and an artist's
+                sensitivity by our expert specialists.</p>
 
-                <div class="hero__actions">
-                    <a href="{{ url_for('contact') }}#book" class="btn-hero-primary">
-                        <i class="bi bi-calendar2-check"></i>
-                        Book a Consultation
-                    </a>
-                    <a href="{{ url_for('services_overview') }}" class="btn-hero-outline">
-                        <i class="bi bi-grid-3x2-gap"></i>
-                        Explore Services
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-lg-5 offset-lg-1"
-                 data-aos="fade-left" data-aos-duration="900" data-aos-delay="150">
-
-                <div class="hero__card">
-                    <p class="hero__card-label">Meet Our Specialists</p>
-
-                    <div class="hero__doc-item">
-                        <div class="hero__doc-avatar avatar--rao">SR</div>
-                        <div>
-                            <p class="hero__doc-name">Dr. Pavuluru Sreenivasa Rao</p>
-                            <p class="hero__doc-spec">
-                                MS, MCh — Plastic & Reconstructive Surgery<br>
-                                Advanced Cosmetic & Body Contouring Expert
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="hero__doc-item">
-                        <div class="hero__doc-avatar avatar--lakshmi">JL</div>
-                        <div>
-                            <p class="hero__doc-name">Dr. Veli Velli Jaswantha Lakshmi</p>
-                            <p class="hero__doc-spec">
-                                MBBS · Diploma in Aesthetic Medicine<br>
-                                Certified PMU Artist
-                            </p>
-                            <span class="hero__doc-cred">APMC / FMR / 104005</span>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-3 mt-3 pt-3"
-                         style="border-top:1px solid rgba(255,255,255,.08);">
-                        {% for item in [
-                        ('bi-patch-check-fill','NABH Compliant'),
-                        ('bi-shield-fill-check','ISO Certified'),
-                        ('bi-award-fill','15+ Years')
-                        ] %}
-                        <div class="text-center flex-fill">
-                            <i class="bi {{ item[0] }}" style="color:var(--gold-400);font-size:1.1rem;"></i>
-                            <p style="font-size:.6rem;color:rgba(255,255,255,.45);margin:.2rem 0 0;letter-spacing:.07em;text-transform:uppercase;">
-                                {{ item[1] }}</p>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
+            <div class="d-flex flex-wrap gap-3">
+                <a href="{{ url_for('contact') }}#book"
+                   class="btn btn-book px-4 py-3 d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-calendar2-check"></i> Book Consultation
+                </a>
+                <a href="{{ url_for('services_overview') }}" class="hero-btn-outline">
+                    <i class="bi bi-grid-3x2-gap"></i> Explore Services
+                </a>
             </div>
         </div>
     </div>
-    <div class="hero__scroll-cue" aria-hidden="true">
-        <div class="hero__scroll-icon"></div>
-        <span>Scroll</span>
-    </div>
-</section>
 
+</section>
 
 <div class="stats-ribbon" data-aos="fade-up" data-aos-duration="600">
     <div class="container px-0">
@@ -869,7 +610,7 @@ PAGE CONTENT
             <span class="section-eyebrow">What We Offer</span>
             <h2 class="section-title">Our Speciality Divisions</h2>
             <hr class="divider-gold mx-auto">
-            <p class="section-subtitle mx-auto">
+            <p class="section-subtitle mx-auto" style="color: var(--text-muted);">
                 We provide all kinds of skin and aesthetic care for you and your family, equipped with state-of-the-art
                 technology.
             </p>
@@ -911,15 +652,15 @@ PAGE CONTENT
                  data-aos="fade-up"
                  data-aos-delay="200">
                 <div class="service-card d-flex flex-column justify-content-center align-items-center text-center"
-                     style="background:var(--navy-900);border-color:transparent;min-height:220px;">
+                     style="background:var(--clinic-mint);border-color:transparent;min-height:220px;">
                     <i class="bi bi-grid-3x2-gap"
-                       style="font-size:2rem;color:var(--gold-400);margin-bottom:1rem;"></i>
-                    <h3 class="sc-title" style="color:var(--white);">View All Services</h3>
-                    <p class="sc-desc" style="color:rgba(255,255,255,.5);">
+                       style="font-size:2rem;color:var(--clinic-green);margin-bottom:1rem;"></i>
+                    <h3 class="sc-title" style="color:var(--text-main);">View All Services</h3>
+                    <p class="sc-desc" style="color:var(--text-muted);">
                         Explore our complete range of aesthetic and surgical treatments.
                     </p>
                     <a href="{{ url_for('services_overview') }}" class="sc-link"
-                       style="color:var(--gold-400);">
+                       style="color:var(--clinic-blue);">
                         See Everything <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
@@ -933,10 +674,10 @@ PAGE CONTENT
     <div class="container">
 
         <div class="text-center mb-5" data-aos="fade-up">
-            <span class="section-eyebrow" style="color:var(--gold-400);">The Hands Behind the Results</span>
-            <h2 class="section-title" style="color:var(--white);">Our Expertise</h2>
+            <span class="section-eyebrow">The Hands Behind the Results</span>
+            <h2 class="section-title">Our Expertise</h2>
             <hr class="divider-gold mx-auto">
-            <p class="section-subtitle mx-auto" style="color:rgba(255,255,255,.55);">
+            <p class="section-subtitle mx-auto" style="color:var(--text-muted);">
                 Two distinct domains. One shared commitment —
                 natural results, compassionate care, and your absolute confidence.
             </p>
@@ -986,25 +727,22 @@ PAGE CONTENT
     </div>
 </section>
 
-
 <section class="why-section section-pad" aria-label="Why Choose Dr. Sreenivas Aesthetics">
     <div class="container">
         <div class="row g-5 align-items-center">
 
+            <!-- ── LEFT SIDE: Pure Image (No text overlay) ── -->
             <div class="col-lg-5" data-aos="fade-right" data-aos-duration="900">
-                <div class="why-image-panel">
+                <div class="why-image-panel"
+                     style="border: 6px solid var(--white); box-shadow: var(--shadow-lg); border-radius: var(--radius-lg); height: 550px;">
+                    <!-- The image will automatically fill this box perfectly -->
                     <img src="{{ url_for('static', filename='images/clinic-interior.jpg') }}"
-                         alt="Dr. Sreenivas Aesthetics clinic interior"
-                         onerror="this.parentElement.style.background='linear-gradient(135deg,#0f2040,#1e3a6e)';this.remove();"/>
-                    <div class="why-image-panel__overlay">
-                        <blockquote class="why-image-panel__quote">
-                            "We blend service, quality, and science to create the ultimate professional experience."
-                            <cite>— Our Core Philosophy</cite>
-                        </blockquote>
-                    </div>
+                         alt="Dr. Sreenivas Aesthetics Clinic"
+                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
 
+            <!-- ── RIGHT SIDE: Core Values Cards ── -->
             <div class="col-lg-7">
 
                 <div data-aos="fade-left">
@@ -1016,17 +754,17 @@ PAGE CONTENT
                 <div class="row g-3">
                     {% set reasons = [
                     ('bi-shield-check', 'Integrity & Honesty', 'We provide transparent, honest consultations with
-                    realistic expectations and ethical medical advice.'),
+                    realistic expectations.'),
                     ('bi-heart-pulse', 'Compassionate Care', 'Our warm, friendly approach allows you to feel comfortable
-                    and respected throughout your treatment process.'),
+                    and respected.'),
                     ('bi-award', 'Profound Experience', 'MCh-qualified surgical precision combined with cutting-edge
-                    aesthetic medicine expertise.'),
-                    ('bi-star', 'Quality Treatments', 'We employ the latest and innovative technology (like PAL
-                    machines) for safer, longer-lasting results.'),
+                    expertise.'),
+                    ('bi-star', 'Quality Treatments', 'We employ the latest and innovative technology for safer
+                    results.'),
                     ('bi-people', 'Patient-Centred', 'We believe in serving the community and improving the quality of
-                    their lives through renewed confidence.'),
+                    their lives.'),
                     ('bi-clipboard-check', 'Accountability', 'Dedicated protocols and strict medico-legal assistance to
-                    protect patients and ensure the highest safety standards.')
+                    protect patients.')
                     ] %}
                     {% for icon, title, desc in reasons %}
                     <div class="col-md-6"
@@ -1047,8 +785,6 @@ PAGE CONTENT
         </div>
     </div>
 </section>
-
-
 <section class="testimonials-section section-pad" aria-label="Patient testimonials">
     <div class="container">
 
@@ -1109,9 +845,9 @@ PAGE CONTENT
 
                 <div class="contact-info-list mt-4">
                     <div class="d-flex align-items-start mb-4">
-                        <i class="bi bi-geo-alt-fill me-3" style="font-size: 1.8rem; color: var(--teal-500);"></i>
+                        <i class="bi bi-geo-alt-fill me-3" style="font-size: 1.8rem; color: var(--clinic-green);"></i>
                         <div>
-                            <h5 class="fw-bold mb-1" style="color: var(--navy-900); font-size: 1.1rem;">Clinic
+                            <h5 class="fw-bold mb-1" style="color: var(--text-main); font-size: 1.1rem;">Clinic
                                 Address</h5>
                             <p class="text-muted mb-0" style="line-height: 1.6;">
                                 No 16/2/431, First Floor, Mini Bypass Road,<br>
@@ -1123,9 +859,9 @@ PAGE CONTENT
                     </div>
 
                     <div class="d-flex align-items-start">
-                        <i class="bi bi-telephone-fill me-3" style="font-size: 1.8rem; color: var(--teal-500);"></i>
+                        <i class="bi bi-telephone-fill me-3" style="font-size: 1.8rem; color: var(--clinic-green);"></i>
                         <div>
-                            <h5 class="fw-bold mb-1" style="color: var(--navy-900); font-size: 1.1rem;">Contact</h5>
+                            <h5 class="fw-bold mb-1" style="color: var(--text-main); font-size: 1.1rem;">Contact</h5>
                             <p class="text-muted mb-0" style="font-size: 1.05rem;">+91 95023 27644</p>
                         </div>
                     </div>
@@ -1133,16 +869,16 @@ PAGE CONTENT
             </div>
 
             <div class="col-lg-5 offset-lg-1" data-aos="fade-left" data-aos-delay="150">
-                <div style="background: var(--cream); padding: 3rem 2.5rem; border-radius: var(--radius-lg); border-top: 4px solid var(--gold-500); box-shadow: var(--shadow-md);">
+                <div style="background: var(--off-white); padding: 3rem 2.5rem; border-radius: var(--radius-lg); border-top: 4px solid var(--clinic-green); box-shadow: var(--shadow-md);">
                     <h3 class="mb-4"
-                        style="font-family: var(--font-display); font-weight: 700; color: var(--navy-900);">
-                        <i class="bi bi-clock-history me-2" style="color: var(--teal-500);"></i> Opening Hours
+                        style="font-family: var(--font-display); font-weight: 700; color: var(--text-main);">
+                        <i class="bi bi-clock-history me-2" style="color: var(--clinic-green);"></i> Opening Hours
                     </h3>
 
                     <ul class="list-unstyled mb-0">
                         <li class="d-flex justify-content-between mb-3 border-bottom pb-3">
                             <span class="text-muted fw-bold">Monday - Saturday</span>
-                            <span class="fw-bold" style="color: var(--navy-900);">9:30 AM - 9:00 PM</span>
+                            <span class="fw-bold" style="color: var(--text-main);">9:30 AM - 9:00 PM</span>
                         </li>
                         <li class="d-flex justify-content-between mb-3 border-bottom pb-3">
                             <span class="text-muted fw-bold">Sunday</span>
@@ -1150,11 +886,12 @@ PAGE CONTENT
                         </li>
                         <li class="d-flex justify-content-between pt-2 mb-4">
                             <span class="text-muted fw-bold">Emergency Care</span>
-                            <span class="fw-bold" style="color: var(--navy-900);">Available via Phone</span>
+                            <span class="fw-bold" style="color: var(--text-main);">Available via Phone</span>
                         </li>
                     </ul>
 
-                    <a href="{{ url_for('contact') }}#book" class="btn-hero-primary w-100 justify-content-center"
+                    <a href="{{ url_for('contact') }}#book"
+                       class="btn-book w-100 justify-content-center d-flex align-items-center gap-2"
                        style="padding: 1rem;">
                         <i class="bi bi-calendar2-check"></i> Book an Appointment
                     </a>
@@ -1165,7 +902,7 @@ PAGE CONTENT
     </div>
 </section>
 
-<section class="blog-section section-pad" aria-label="Latest Insights and Blogs">
+<section class="blog-section section-pad" aria-label="Latest Insights and Blogs" style="background: var(--off-white);">
     <div class="container">
 
         <div class="d-flex flex-wrap justify-content-between align-items-end mb-5" data-aos="fade-up">
@@ -1173,8 +910,8 @@ PAGE CONTENT
                 <span class="section-eyebrow">Aesthetic Insights</span>
                 <h2 class="section-title mb-0">Latest Articles & News</h2>
             </div>
-            <a href="{{ url_for('blogs') }}" class="btn-hero-outline"
-               style="border-color: var(--navy-900); color: var(--navy-900); margin-top: 1rem;">
+            <a href="{{ url_for('blogs') }}" class="slider-btn-outline"
+               style="border-color: var(--clinic-green); color: var(--clinic-green); margin-top: 1rem;">
                 View All Articles <i class="bi bi-arrow-right"></i>
             </a>
         </div>
@@ -1182,21 +919,22 @@ PAGE CONTENT
         <div class="row g-4 align-items-stretch">
             {% for blog in blogs %}
             <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
-                <article class="blog-card">
-                    <div class="blog-card__image">
-                        <span class="blog-card__category">{{ blog.category }}</span>
+                <article class="service-card" style="padding: 0;">
+                    <div style="position: relative; height: 200px; overflow: hidden;">
+                        <span style="position: absolute; top: 1rem; left: 1rem; background: var(--clinic-green); color: var(--white); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700; z-index: 2;">{{ blog.category }}</span>
                         <img src="{{ url_for('static', filename='images/' + blog.image) }}"
                              alt="{{ blog.title }}"
+                             style="width: 100%; height: 100%; object-fit: cover;"
                              onerror="this.src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=800&auto=format&fit=crop';">
                     </div>
-                    <div class="blog-card__body">
-                        <div class="blog-card__meta">
+                    <div style="padding: 1.5rem;">
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
                             <i class="bi bi-calendar3"></i> {{ blog.date }}
                         </div>
-                        <h3 class="blog-card__title">{{ blog.title }}</h3>
-                        <p class="blog-card__excerpt">{{ blog.excerpt }}</p>
+                        <h3 class="sc-title" style="font-size: 1.1rem; line-height: 1.4;">{{ blog.title }}</h3>
+                        <p class="sc-desc" style="font-size: 0.9rem;">{{ blog.excerpt }}</p>
                         <div>
-                            <a href="#" class="blog-card__link">
+                            <a href="{{ url_for('blog_detail', slug=blog.slug) }}" class="sc-link">
                                 Read Article <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
@@ -1208,7 +946,6 @@ PAGE CONTENT
 
     </div>
 </section>
-
 
 <section class="cta-band section-pad" aria-label="Book a consultation">
     <div class="container cta-band__content">
@@ -1243,7 +980,6 @@ PAGE CONTENT
 </section>
 
 {% endblock %}
-
 
 {# ══════════════════════════════════════════════════════════════════════════════
 Page-level JS (counter animation for stats)

@@ -2,21 +2,168 @@
 
 {% block title %}Clinic Photos | Dr. Sreenivas Aesthetics{% endblock %}
 
+{% block extra_head %}
+<style>
+/* ── GALLERY HEADER WITH FEATURE IMAGE ── */
+.gallery-header {
+    background: var(--off-white);
+    padding: 8rem 0 5rem;
+    text-align: center;
+    border-bottom: 3px solid var(--clinic-green);
+}
+
+/* Updated Wrapper for Perfect Image Display */
+.header-feature-img-wrap {
+    max-width: 850px; /* Widened slightly for a better heroic look */
+    margin: 0 auto;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 8px solid var(--white); /* Thicker border for a premium framed look */
+    background: var(--white);
+}
+.header-feature-img-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Removed max-height and object-fit: cover so the image never crops! */
+}
+
+/* ── INTRO TEXT STYLE ── */
+.gallery-intro {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 3.5rem auto;
+}
+.gallery-intro h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+.gallery-intro p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+.clinic-divider {
+    border-top: 3px solid var(--clinic-blue);
+    opacity: 1;
+    width: 60px;
+    margin: 1.5rem auto 0;
+}
+
+/* ── PHOTO GRID ── */
+.photo-grid-section {
+    padding: 5rem 0;
+    background: var(--white);
+}
+.gallery-item {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    height: 300px;
+    cursor: pointer;
+    background: var(--off-white);
+}
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--clinic-green);
+}
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section-pad" style="background: var(--cream); min-height: 80vh; padding-top: 100px;">
+<section class="gallery-header">
+    <div class="container" data-aos="fade-up">
+
+        <!-- Premium Feature Image Wrapper -->
+        <div class="header-feature-img-wrap">
+            <img src="{{ url_for('static', filename='images/clinic-sign.jpg') }}" alt="Dr. Sreenivas Aesthetics Clinic Sign">
+        </div>
+
+    </div>
+</section>
+
+<section class="photo-grid-section">
     <div class="container">
-        <div class="text-center mb-5">
-            <span class="section-eyebrow">Our Facility & Results</span>
-            <h2 class="section-title">Clinic Photos</h2>
-            <hr class="divider-gold mx-auto">
-            <p class="text-muted">Take a look inside our state-of-the-art clinic and view our patient transformations.</p>
+
+        <!-- Animated Intro Text Before Photos -->
+        <div class="gallery-intro" data-aos="fade-up" data-aos-duration="800">
+            <h2>Experience True Transformation</h2>
+            <p>We are a premier aesthetic clinic for men and women. We offer professional skin, body, and hair care treatments which deliver optimum, natural-looking results in a highly sterile and luxurious environment.</p>
+            <hr class="clinic-divider">
         </div>
 
         <div class="row g-4">
-            <div class="col-12 text-center p-5" style="border: 2px dashed var(--clr-border); border-radius: 12px;">
-                <i class="bi bi-images text-muted" style="font-size: 3rem;"></i>
-                <p class="mt-3 text-muted">Photo gallery images will be uploaded here.</p>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic1.jpg') }}" alt="Clinic Area 1" onerror="this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop';">
+                </div>
             </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic2.jpg') }}" alt="Clinic Area 2" onerror="this.src='https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic3.jpg') }}" alt="Clinic Area 3" onerror="this.src='https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic4.jpg') }}" alt="Clinic Area 4" onerror="this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic5.jpg') }}" alt="Clinic Area 5" onerror="this.src='https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic6.jpg') }}" alt="Clinic Area 6" onerror="this.src='https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic7.jpg') }}" alt="Clinic Area 7" onerror="this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic8.jpg') }}" alt="Clinic Area 8" onerror="this.src='https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/clinic9.jpg') }}" alt="Clinic Area 9" onerror="this.src='https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?q=80&w=800&auto=format&fit=crop';">
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

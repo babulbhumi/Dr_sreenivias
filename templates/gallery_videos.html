@@ -2,20 +2,261 @@
 
 {% block title %}Video Gallery | Dr. Sreenivas Aesthetics{% endblock %}
 
+{% block extra_head %}
+<style>
+/* ── VIDEO GALLERY HEADER WITH FEATURE VIDEO (FIXED SPACING) ── */
+.gallery-header {
+    background: var(--off-white);
+    padding: 7rem 0 3.5rem; /* Reduced padding to fix the massive empty gaps */
+    text-align: center;
+    border-bottom: 3px solid var(--clinic-blue);
+}
+
+/* Premium Cinematic Wrapper for the 10-Second Header Video */
+.header-feature-video-wrap {
+    max-width: 900px; /* Slightly wider for a grander look */
+    margin: 0 auto;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); /* Deeper, softer shadow to make it pop */
+    border: 8px solid var(--white);
+    background: #000; /* Dark background before video loads */
+    aspect-ratio: 16 / 9; /* FORCES a perfect widescreen shape */
+    position: relative;
+}
+.header-feature-video-wrap video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures video fills the box perfectly without stretching */
+}
+
+/* ── INTRO TEXT STYLE ── */
+.gallery-intro {
+    text-align: center;
+    max-width: 750px;
+    margin: 0 auto 3.5rem auto;
+}
+.gallery-intro h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+.gallery-intro p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+.clinic-divider {
+    border-top: 3px solid var(--clinic-blue);
+    opacity: 1;
+    width: 60px;
+    margin: 1.5rem auto 0;
+}
+
+/* ── VIDEO GRID STYLES ── */
+.video-grid-section {
+    padding: 4rem 0;
+    background: var(--white);
+}
+.shorts-section {
+    padding: 4rem 0;
+    background: var(--off-white);
+    border-top: 1px solid var(--grey-light);
+}
+.video-card {
+    background: var(--white);
+    border: 1px solid var(--grey-light);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    height: 100%;
+}
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--clinic-green);
+}
+
+/* Horizontal Video Wrapper (16:9) */
+.video-wrapper-horizontal {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+}
+.video-wrapper-horizontal iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Vertical Shorts Wrapper (9:16) */
+.video-wrapper-vertical {
+    position: relative;
+    padding-bottom: 177.77%; /* 9:16 Aspect Ratio for Shorts */
+    height: 0;
+    overflow: hidden;
+    background: #000;
+}
+.video-wrapper-vertical iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section-pad" style="background: var(--white); min-height: 80vh; padding-top: 100px;">
+<section class="gallery-header">
+    <div class="container" data-aos="fade-up">
+
+        <!-- Premium 10-Second Video Header -->
+        <div class="header-feature-video-wrap">
+            <video autoplay loop muted playsinline>
+                <source src="{{ url_for('static', filename='videos/header-video.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+    </div>
+</section>
+
+<!-- ── STANDARD HORIZONTAL VIDEOS ── -->
+<section class="video-grid-section">
     <div class="container">
-        <div class="text-center mb-5">
-            <span class="section-eyebrow">Watch & Learn</span>
-            <h2 class="section-title">Video Gallery</h2>
-            <hr class="divider-gold mx-auto">
-            <p class="text-muted">Explore patient journeys, procedure explainers, and clinic tours.</p>
+
+        <!-- Animated Intro Text Before Videos -->
+        <div class="gallery-intro" data-aos="fade-up" data-aos-duration="800">
+            <h2>Artistry in Motion</h2>
+            <p>As a premier aesthetic clinic for men and women, we pride ourselves on transparency. Watch our experts perform advanced skin, body, and hair care treatments designed to deliver optimum results.</p>
+            <hr class="clinic-divider">
+        </div>
+
+        <div class="mb-4" data-aos="fade-up">
+            <h2 class="section-title h3">Featured Procedures</h2>
+            <hr class="divider-gold" style="border-top-color: var(--clinic-blue);">
         </div>
 
         <div class="row g-4">
-            <div class="col-12 text-center p-5" style="border: 2px dashed var(--clr-border); border-radius: 12px;">
-                <i class="bi bi-play-btn text-muted" style="font-size: 3rem;"></i>
-                <p class="mt-3 text-muted">YouTube video embeds will be added here.</p>
+            <div class="col-md-6" data-aos="fade-up">
+                <div class="video-card">
+                    <div class="video-wrapper-horizontal">
+                        <iframe src="https://www.youtube.com/embed/NB3Z2AfGYRM" title="Clinic Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="video-card">
+                    <div class="video-wrapper-horizontal">
+                        <iframe src="https://www.youtube.com/embed/aJddmaJHino" title="Clinic Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up">
+                <div class="video-card">
+                    <div class="video-wrapper-horizontal">
+                        <iframe src="https://www.youtube.com/embed/fmqRzv1Bzjg" title="Clinic Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="video-card">
+                    <div class="video-wrapper-horizontal">
+                        <iframe src="https://www.youtube.com/embed/w6XwD4iAQSI" title="Clinic Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── YOUTUBE SHORTS (VERTICAL VIDEOS) ── -->
+<section class="shorts-section">
+    <div class="container">
+        <div class="mb-4" data-aos="fade-up">
+            <h2 class="section-title h3">Quick Insights & Results</h2>
+            <hr class="divider-gold" style="border-top-color: var(--clinic-blue);">
+        </div>
+
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/fUFBE-alfxU" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/qnfTENLwGzw" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/vahwgDm3AHU" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/TJ8ZiDwkalo" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/NB3Z2AfGYRM" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/CWND2MK71ME" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/YAeHAcCskkU" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                <div class="video-card">
+                    <div class="video-wrapper-vertical">
+                        <iframe src="https://www.youtube.com/embed/PjFYa0D9cgk" title="YouTube Short" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

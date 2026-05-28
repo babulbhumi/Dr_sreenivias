@@ -4,162 +4,175 @@
 
 {% block extra_head %}
 <style>
-/* ── PREMIUM HERO SECTION with VIDEO BACKGROUND ── */
-.services-overview-hero {
-    position: relative;
-    padding: 10rem 0 8rem;
-    text-align: center;
-    color: var(--white);
-    overflow: hidden;
-    border-bottom: 3px solid var(--gold-500);
-}
-.hero-video-bg {
-    position: absolute;
-    top: 50%; left: 50%;
-    min-width: 100%; min-height: 100%;
-    width: auto; height: auto;
-    transform: translateX(-50%) translateY(-50%);
-    z-index: 0;
-    object-fit: cover;
-}
-.hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(10,22,40,0.85) 0%, rgba(10,22,40,0.6) 100%);
-    z-index: 1;
-}
+    /* ── CLINICAL HERO SECTION ── */
+    .services-overview-hero {
+        position: relative;
+        padding: 10rem 0 8rem;
+        text-align: center;
+        background: var(--white);
+        color: var(--text-main);
+        overflow: hidden;
+        border-bottom: 3px solid var(--clinic-green);
+    }
+    .hero-video-bg {
+        position: absolute;
+        top: 50%; left: 50%;
+        min-width: 100%; min-height: 100%;
+        width: auto; height: auto;
+        transform: translateX(-50%) translateY(-50%);
+        z-index: 0;
+        object-fit: cover;
+        opacity: 0.15; /* Subdued video opacity so text remains readable over a white base */
+    }
+    .hero-overlay {
+        position: absolute; inset: 0;
+        background: rgba(255, 255, 255, 0.85); /* Bright white overlay */
+        z-index: 1;
+    }
 
-.services-overview-hero h1 {
-    font-family: var(--font-display);
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    font-weight: 700;
-    margin-bottom: 1.2rem;
-    position: relative;
-    z-index: 2;
-}
-.services-overview-hero h1 span {
-    color: var(--gold-400);
-    font-style: italic;
-    font-weight: 400;
-}
-.services-overview-hero p {
-    color: rgba(255,255,255,.85);
-    max-width: 600px;
-    margin: 0 auto;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    position: relative;
-    z-index: 2;
-}
+    .services-overview-hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 5vw, 4.2rem);
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+        position: relative;
+        z-index: 2;
+        color: var(--text-main);
+    }
+    .services-overview-hero h1 span {
+        color: var(--clinic-green);
+        font-style: normal;
+    }
+    .services-overview-hero p {
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        position: relative;
+        z-index: 2;
+    }
 
-/* ── LUXURY CARD GRID ── */
-.services-grid-section {
-    background: var(--cream);
-    padding: 6rem 0;
-    min-height: 60vh;
-}
+    /* ── CLINICAL CARD GRID ── */
+    .services-grid-section {
+        background: var(--off-white);
+        padding: 6rem 0;
+        min-height: 60vh;
+    }
 
-.luxury-service-card {
-    background: var(--white);
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    z-index: 1;
-}
-.luxury-service-card::before {
-    content: "";
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.03));
-    border-radius: 16px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -1;
-}
-.luxury-service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(10, 22, 40, 0.08);
-    border-color: rgba(201, 168, 76, 0.3);
-}
-.luxury-service-card:hover::before { opacity: 1; }
+    .luxury-service-card {
+        background: var(--white);
+        border: 1px solid var(--grey-light);
+        border-radius: 16px;
+        padding: 2.5rem 2rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        transition: all 0.4s ease;
+        z-index: 1;
+    }
+    .luxury-service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 210, 58, 0.08); /* Faint green shadow */
+        border-color: rgba(0, 210, 58, 0.3);
+    }
 
-.lsc-icon-box {
-    width: 60px; height: 60px;
-    background: linear-gradient(135deg, rgba(42,157,143,0.1), rgba(42,157,143,0.02));
-    border: 1px solid rgba(42,157,143,0.2);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.6rem;
-    color: var(--teal-500);
-    margin-bottom: 1.8rem;
-    transition: all 0.4s ease;
-}
-.luxury-service-card:hover .lsc-icon-box {
-    background: var(--navy-900);
-    color: var(--gold-400);
-    border-color: var(--navy-900);
-    transform: scale(1.05) rotate(-5deg);
-}
+    .lsc-icon-box {
+        width: 60px; height: 60px;
+        background: var(--clinic-mint);
+        border-radius: 12px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.6rem;
+        color: var(--clinic-green);
+        margin-bottom: 1.8rem;
+        transition: all 0.4s ease;
+    }
+    .luxury-service-card:hover .lsc-icon-box {
+        background: var(--clinic-green);
+        color: var(--white);
+        transform: scale(1.05) rotate(-5deg);
+    }
 
-.lsc-title {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: var(--navy-900);
-    margin-bottom: 0.8rem;
-    line-height: 1.25;
-}
+    .lsc-title {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 0.8rem;
+        line-height: 1.25;
+    }
 
-.lsc-desc {
-    color: var(--clr-text-muted);
-    font-size: 0.95rem;
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    flex-grow: 1;
-}
+    .lsc-desc {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        flex-grow: 1;
+    }
 
-/* Elegant Text Link */
-.lsc-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--gold-500);
-    text-decoration: none;
-    transition: all 0.3s ease;
-    margin-top: auto;
-}
-.lsc-link i { font-size: 1.1rem; transition: transform 0.3s ease; }
-.luxury-service-card:hover .lsc-link {
-    color: var(--teal-500);
-    gap: 0.8rem;
-}
+    /* Elegant Text Link */
+    .lsc-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--clinic-blue);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: auto;
+    }
+    .lsc-link i { font-size: 1.1rem; transition: transform 0.3s ease; }
+    .luxury-service-card:hover .lsc-link {
+        color: var(--clinic-green);
+        gap: 0.8rem;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<section class="services-overview-hero">
+<!-- Clinical Hero with Bright Video Background -->
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     SERVICES HERO BANNER (Image Background)
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="services-hero" style="padding: 4rem 0 3rem; background: var(--off-white);">
+    <div class="container">
+        <div data-aos="zoom-in" data-aos-duration="800"
+             style="position: relative; border-radius: var(--radius-lg); overflow: hidden; padding: 6rem 2rem; text-align: center; box-shadow: var(--shadow-lg);">
 
-    <video class="hero-video-bg" autoplay muted loop playsinline
-           poster="{{ url_for('static', filename='images/services-hero-bg.jpg') }}">
-        <source src="{{ url_for('static', filename='videos/clinic-bg.mp4') }}" type="video/mp4">
-    </video>
+            <!-- 1. The Background Image -->
+            <img src="{{ url_for('static', filename='images/services-bg.jpg') }}"
+                 alt="Medical Specialities"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"
+                 onerror="this.src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1920&auto=format&fit=crop';">
 
-    <div class="hero-overlay"></div>
+            <!-- 2. Dark Gradient Overlay -->
+            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10, 20, 35, 0.85) 0%, rgba(10, 20, 35, 0.5) 100%); z-index: 1;"></div>
 
-    <div class="container" data-aos="fade-up" style="position: relative; z-index: 2;">
-        <span style="color: var(--gold-400); font-weight: 700; letter-spacing: 2px; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 1rem;">Our Expertise</span>
-        <h1>Medical <span>Specialities</span></h1>
-        <p>A comprehensive portfolio of surgical and non-surgical aesthetic treatments, precisely tailored to enhance your natural contours and restore your confidence.</p>
+            <!-- 3. The Text Content (Z-index 2 brings text above the image) -->
+            <div style="position: relative; z-index: 2; max-width: 800px; margin: 0 auto;">
+
+                <span style="color: var(--clinic-green); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 1rem; display: inline-block;">
+                    Our Expertise
+                </span>
+
+                <h1 style="font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; color: var(--white); margin-bottom: 1.2rem;">
+                    Medical <span style="color: var(--clinic-green);">Specialities</span>
+                </h1>
+
+                <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.9); line-height: 1.7; margin-bottom: 0;">
+                    A comprehensive portfolio of surgical and non-surgical aesthetic treatments, precisely tailored to
+                    enhance your natural contours and restore your confidence.
+                </p>
+
+            </div>
+        </div>
     </div>
 </section>
-
+<!-- Clinical Grid -->
 <section class="services-grid-section">
     <div class="container">
         <div class="row g-4 align-items-stretch">
@@ -173,7 +186,8 @@
                     </div>
 
                     <h3 class="lsc-title">{{ svc.name | default(svc.label) }}</h3>
-                    <p class="lsc-desc">{{ svc.tagline | default('An expert medical aesthetic procedure designed for optimal, natural-looking results.') }}</p>
+                    <p class="lsc-desc">{{ svc.tagline | default('An expert medical aesthetic procedure designed for
+                        optimal, natural-looking results.') }}</p>
 
                     <a href="{{ url_for('service_detail', slug=slug) }}" class="lsc-link">
                         Discover More <i class="bi bi-arrow-right"></i>
