@@ -89,9 +89,14 @@
           --transition:  all .3s ease;
         }
 
-        /* ── GLOBAL THEME OVERRIDES ── */
+        /* ── GLOBAL THEME OVERRIDES & OVERFLOW FIX ── */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden; /* CRITICAL FIX: Eliminates white space on the right in mobile */
+        }
+
         body { background-color: var(--white); color: var(--text-main); }
-        h1, h2, h3, h4, h5, h6 { color: var(--text-main); font-weight: 700; }
+        h1, h2, h3, h4, h5, h6 { color: var(--text-main); font-weight: 700; overflow-wrap: break-word; word-wrap: break-word; }
         p { color: var(--text-muted); }
 
         /* ── NAVBAR TEXT COLOR FIX ── */
@@ -168,7 +173,7 @@
         /* Mobile specific dropdown toggle logic */
         @media (max-width: 991px) {
             .navbar .dropdown-menu {
-                display: none !important; /* CRITICAL FIX: Forces it to take 0 space when closed */
+                display: none !important;
                 opacity: 1 !important;
                 visibility: visible !important;
                 background-color: var(--off-white) !important;
@@ -179,7 +184,7 @@
                 padding: 0.5rem 0;
             }
             .navbar .nav-item.dropdown .dropdown-menu.show {
-                display: block !important; /* Pops open perfectly when tapped */
+                display: block !important;
             }
         }
 
@@ -251,7 +256,6 @@
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
             .dropdown-menu-services { width: 100% !important; border-radius: 8px !important; }
 
-            /* Transforms giant blocks into a sleek list for mobile */
             .dropdown-service-card {
                 flex-direction: row !important;
                 justify-content: flex-start !important;
@@ -273,7 +277,7 @@
                 margin-top: 1rem;
                 max-height: 80vh;
                 overflow-y: auto;
-                width: 100%; /* Ensures menu stays full width below header */
+                width: 100%;
             }
 
             .nav-item.ms-lg-3 { margin-left: 0 !important; margin-top: 1.5rem; }
