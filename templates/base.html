@@ -104,8 +104,8 @@
         }
 
         /* ── MOBILE HAMBURGER MENU & LOGO ALIGNMENT FIX ── */
-        .navbar > .container {
-            flex-wrap: nowrap !important; /* Forces logo and button on same line */
+        .navbar-brand {
+            max-width: 75%; /* Limits logo width so the button always fits */
         }
         .clinic-logo-img {
             height: 65px;
@@ -119,7 +119,6 @@
             padding: 0.4rem 0.6rem;
             border-radius: 8px;
             box-shadow: none !important;
-            flex-shrink: 0; /* Prevents button from squishing */
         }
         .navbar-toggler .toggler-icon i {
             color: var(--clinic-green) !important;
@@ -128,8 +127,7 @@
 
         @media (max-width: 480px) {
             .clinic-logo-img {
-                height: 50px; /* Scales down on very small phones to leave room for button */
-                max-width: 65vw;
+                height: 50px;
             }
             .navbar-toggler {
                 padding: 0.25rem 0.5rem;
@@ -154,7 +152,7 @@
                 opacity: 0;
                 visibility: hidden;
                 transition: opacity 0.3s ease, visibility 0.3s ease;
-                pointer-events: none; /* Prevents invisible clicking */
+                pointer-events: none;
             }
             .navbar .nav-item.dropdown:hover .dropdown-menu,
             .navbar .nav-item.dropdown .dropdown-menu.show {
@@ -275,6 +273,7 @@
                 margin-top: 1rem;
                 max-height: 80vh;
                 overflow-y: auto;
+                width: 100%; /* Ensures menu stays full width below header */
             }
 
             .nav-item.ms-lg-3 { margin-left: 0 !important; margin-top: 1.5rem; }
@@ -300,14 +299,17 @@
 
 <nav class="navbar navbar-expand-lg sticky-top" id="mainNav" aria-label="Primary navigation">
     <div class="container">
-        <!-- Using custom class for the image to enforce mobile sizing -->
+        <!-- Logo -->
         <a class="navbar-brand" href="/" style="padding: 0; margin-right: 0;">
             <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Dr. Sreenivas Aesthetics Logo" class="clinic-logo-img">
         </a>
+
+        <!-- Hamburger Menu Button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="toggler-icon"><i class="bi bi-list"></i></span>
         </button>
 
+        <!-- Dropdown Menu Wrapper -->
         <div class="collapse navbar-collapse" id="navMenu">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
                 <li class="nav-item">
@@ -317,7 +319,7 @@
                     <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About Us</a>
                 </li>
 
-                <!-- Dropdown Link -->
+                <!-- Services Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if 'service' in (request.endpoint or '') %}active{% endif %}" href="{{ url_for('services_overview') }}" role="button" aria-expanded="false" id="servicesDropdown">Services</a>
                     <div class="dropdown-menu dropdown-menu-services shadow-lg" aria-labelledby="servicesDropdown">
@@ -362,7 +364,7 @@
                     </div>
                 </li>
 
-                <!-- Dropdown Link -->
+                <!-- Gallery Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle {% if 'gallery' in (request.endpoint or '') %}active{% endif %}" href="#" role="button" aria-expanded="false">Gallery</a>
                     <ul class="dropdown-menu shadow-sm">
