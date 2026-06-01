@@ -82,17 +82,16 @@ DOCTORS = [
 ]
 
 # ---------------------------------------------------------------------------
-# Latest Blogs Data
+# Latest Blogs Data (Dictionary)
+# I have updated the "image" path for all 6 blogs below.
+# Make sure to upload unique images with these filenames to your static/images folder!
 # ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Latest Blogs Data (Now a Dictionary using { } instead of [ ])
-#
 LATEST_BLOGS = {
     "breast-reduction-surgery": {
         "slug": "breast-reduction-surgery",
         "title": "Everything You Need to Know About Breast Reduction Surgery",
         "date": "April 26, 2025",
-        "image": "clinic-interior.jpg",  # Replace with actual image filename later
+        "image": "blog-breast-reduction.jpg",  # Unique image
         "excerpt": "Struggling with large breasts? Learn how breast reduction surgery can alleviate chronic pain, improve posture, and restore your confidence.",
         "category": "Plastic Surgery",
         "content": """
@@ -135,7 +134,7 @@ LATEST_BLOGS = {
         "slug": "plastic-vs-cosmetic-surgery",
         "title": "Plastic vs Cosmetic Surgery | Dr Sreenivas Nellore",
         "date": "April 12, 2025",
-        "image": "clinic-interior.jpg",
+        "image": "blog-plastic-vs-cosmetic.jpg", # Unique image
         "excerpt": "Discover the key differences between plastic and cosmetic surgery, and learn which procedure is right for your functional or aesthetic goals.",
         "category": "Cosmetic Surgery",
         "content": """
@@ -183,7 +182,7 @@ LATEST_BLOGS = {
         "slug": "best-cosmetic-surgeon-nellore",
         "title": "Best Cosmetic Surgeon Near You Nellore: How to Choose the Right One",
         "date": "March 29, 2025",
-        "image": "clinic-interior.jpg",
+        "image": "blog-best-surgeon.jpg", # Unique image
         "excerpt": "Choosing the right cosmetic surgeon is the most important decision in your aesthetic journey. Here are the top factors to consider when selecting a specialist in Nellore.",
         "category": "Cosmetic Surgery",
         "content": """
@@ -214,7 +213,7 @@ LATEST_BLOGS = {
         "slug": "liposuction-vs-tummy-tuck",
         "title": "Liposuction vs. Tummy Tuck: Which is Right for You?",
         "date": "May 05, 2025",
-        "image": "clinic-interior.jpg",  # Replace with actual image filename later
+        "image": "blog-lipo-vs-tummy-tuck.jpg", # Unique image
         "excerpt": "Struggling with a stubborn midsection? Discover the key differences between liposuction and an abdominoplasty to find out which procedure fits your goals.",
         "category": "Body Contouring",
         "content": """
@@ -249,7 +248,7 @@ LATEST_BLOGS = {
         "slug": "non-surgical-facial-rejuvenation",
         "title": "The Ultimate Guide to Non-Surgical Facial Rejuvenation",
         "date": "May 15, 2025",
-        "image": "clinic-interior.jpg",
+        "image": "blog-facial-rejuvenation.jpg", # Unique image
         "excerpt": "Want to reverse the signs of aging without going under the knife? Learn how Botox, Dermal Fillers, and Aesthetic Medicine can refresh your appearance.",
         "category": "Aesthetic Medicine",
         "content": """
@@ -292,7 +291,7 @@ LATEST_BLOGS = {
         "slug": "what-is-a-mommy-makeover",
         "title": "What is a Mommy Makeover? Reclaiming Your Pre-Pregnancy Body",
         "date": "May 22, 2025",
-        "image": "clinic-interior.jpg",
+        "image": "blog-mommy-makeover.jpg", # Unique image
         "excerpt": "Pregnancy and breastfeeding take a toll on a woman's body. Discover how a customized Mommy Makeover can restore your contours and your confidence.",
         "category": "Plastic Surgery",
         "content": """
@@ -412,6 +411,7 @@ def inject_globals():
 # ---------------------------------------------------------------------------
 @app.route("/")
 def index():
+    # Pass the dictionary values as a list to the template
     return render_template("index.html", doctors=DOCTORS, blogs=LATEST_BLOGS.values())
 
 

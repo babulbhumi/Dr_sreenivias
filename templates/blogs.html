@@ -92,6 +92,7 @@
         <article class="blog-post" data-aos="fade-up">
 
             <a href="{{ url_for('blog_detail', slug=blog.slug) }}" class="blog-post-img-wrapper">
+                <!-- blog.image now pulls a unique filename for each post -->
                 <img src="{{ url_for('static', filename='images/' + blog.image) }}"
                      alt="{{ blog.title }}" class="blog-post-img"
                      onerror="this.src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop';">

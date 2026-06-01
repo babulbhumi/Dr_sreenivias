@@ -1,198 +1,232 @@
 {% extends "base.html" %}
 
-{% block title %}All Specialities | Dr. Sreenivas Aesthetics{% endblock %}
+{% block title %}Our Medical Specialities | Dr. Sreenivas Aesthetics{% endblock %}
 
 {% block extra_head %}
 <style>
-    /* ── CLINICAL HERO SECTION ── */
+    /* ── CLINICAL HERO SECTION (FULL WIDTH) ── */
     .services-overview-hero {
         position: relative;
-        padding: 10rem 0 8rem;
-        text-align: center;
-        background: var(--white);
-        color: var(--text-main);
+        padding: 12rem 0; /* Taller banner to show more of the image */
+        background: var(--navy);
         overflow: hidden;
-        border-bottom: 3px solid var(--clinic-green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .hero-video-bg {
+
+    .hero-bg-img {
         position: absolute;
-        top: 50%; left: 50%;
-        min-width: 100%; min-height: 100%;
-        width: auto; height: auto;
-        transform: translateX(-50%) translateY(-50%);
-        z-index: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        opacity: 0.15; /* Subdued video opacity so text remains readable over a white base */
+        object-position: center 30%; /* Focuses slightly upward to prevent chopping off heads */
+        z-index: 0;
     }
+
     .hero-overlay {
-        position: absolute; inset: 0;
-        background: rgba(255, 255, 255, 0.85); /* Bright white overlay */
+        position: absolute;
+        inset: 0;
+        /* Richer gradient: Darker at the bottom, cleaner at the top so the image pops */
+        background: linear-gradient(to bottom, rgba(10, 22, 40, 0.5) 0%, rgba(10, 22, 40, 0.85) 100%);
         z-index: 1;
     }
 
-    .services-overview-hero h1 {
-        font-family: var(--font-display);
-        font-size: clamp(2.8rem, 5vw, 4.2rem);
-        font-weight: 700;
-        margin-bottom: 1.2rem;
+    .hero-content {
         position: relative;
         z-index: 2;
-        color: var(--text-main);
-    }
-    .services-overview-hero h1 span {
-        color: var(--clinic-green);
-        font-style: normal;
-    }
-    .services-overview-hero p {
-        color: var(--text-muted);
-        max-width: 600px;
+        max-width: 900px;
         margin: 0 auto;
-        font-size: 1.1rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+
+    .hero-eyebrow {
+        background: rgba(0, 210, 58, 0.15); /* Elegant pill badge */
+        border: 1px solid rgba(0, 210, 58, 0.3);
+        color: var(--clinic-green);
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        padding: 0.5rem 1.5rem;
+        border-radius: 50px;
+        margin-bottom: 1.5rem;
+        display: inline-block;
+        backdrop-filter: blur(4px);
+    }
+
+    .hero-content h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 6vw, 4.5rem); /* Larger and bolder */
+        font-weight: 800;
+        color: var(--white);
+        margin-bottom: 1.2rem;
+        line-height: 1.1;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .hero-content h1 span {
+        color: var(--clinic-green);
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.95);
         line-height: 1.7;
-        position: relative;
-        z-index: 2;
+        margin: 0 auto;
+        max-width: 680px; /* Constrains text width for perfect wrapping */
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     }
 
     /* ── CLINICAL CARD GRID ── */
     .services-grid-section {
-        background: var(--off-white);
+        background: var(--white);
+        border-top: 1px solid var(--grey-light);
         padding: 6rem 0;
-        min-height: 60vh;
     }
 
-    .luxury-service-card {
+    .service-card {
         background: var(--white);
         border: 1px solid var(--grey-light);
-        border-radius: 16px;
+        border-radius: var(--radius-lg);
         padding: 2.5rem 2rem;
         height: 100%;
         display: flex;
         flex-direction: column;
         position: relative;
-        transition: all 0.4s ease;
+        transition: all 0.3s ease;
         z-index: 1;
     }
-    .luxury-service-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 35px rgba(0, 210, 58, 0.08); /* Faint green shadow */
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
         border-color: rgba(0, 210, 58, 0.3);
     }
 
-    .lsc-icon-box {
-        width: 60px; height: 60px;
-        background: var(--clinic-mint);
-        border-radius: 12px;
-        display: flex; align-items: center; justify-content: center;
-        font-size: 1.6rem;
-        color: var(--clinic-green);
-        margin-bottom: 1.8rem;
-        transition: all 0.4s ease;
+    .custom-logo-box {
+        width: 65px; height: 65px;
+        margin-bottom: 1.5rem;
     }
-    .luxury-service-card:hover .lsc-icon-box {
-        background: var(--clinic-green);
-        color: var(--white);
-        transform: scale(1.05) rotate(-5deg);
+    .custom-logo-box img {
+        width: 100%; height: 100%;
+        object-fit: contain;
+        object-position: left;
     }
 
-    .lsc-title {
+    .service-card h3 {
         font-family: var(--font-display);
-        font-size: 1.6rem;
+        font-size: 1.3rem;
         font-weight: 700;
         color: var(--text-main);
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.75rem;
         line-height: 1.25;
     }
 
-    .lsc-desc {
-        color: var(--text-muted);
+    .service-card p {
         font-size: 0.95rem;
-        line-height: 1.7;
-        margin-bottom: 2rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
         flex-grow: 1;
     }
 
-    /* Elegant Text Link */
     .lsc-link {
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        font-size: 0.85rem;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
         color: var(--clinic-blue);
+        font-weight: 700;
         text-decoration: none;
         transition: all 0.3s ease;
         margin-top: auto;
     }
     .lsc-link i { font-size: 1.1rem; transition: transform 0.3s ease; }
-    .luxury-service-card:hover .lsc-link {
+    .service-card:hover .lsc-link {
         color: var(--clinic-green);
         gap: 0.8rem;
+    }
+
+    /* ── MOBILE RESPONSIVENESS FOR THIS PAGE ── */
+    @media (max-width: 768px) {
+        .services-overview-hero {
+            padding: 7rem 1.5rem;
+        }
+        .hero-content h1 {
+            font-size: 2.4rem !important;
+        }
+        .hero-bg-img {
+            object-position: center; /* Centers image fully on narrow mobile screens */
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Clinical Hero with Bright Video Background -->
-<!-- ═══════════════════════════════════════════════════════════════════════════
-     SERVICES HERO BANNER (Image Background)
-═══════════════════════════════════════════════════════════════════════════ -->
-<section class="services-hero" style="padding: 4rem 0 3rem; background: var(--off-white);">
-    <div class="container">
-        <div data-aos="zoom-in" data-aos-duration="800"
-             style="position: relative; border-radius: var(--radius-lg); overflow: hidden; padding: 6rem 2rem; text-align: center; box-shadow: var(--shadow-lg);">
 
-            <!-- 1. The Background Image -->
-            <img src="{{ url_for('static', filename='images/services-bg.jpg') }}"
-                 alt="Medical Specialities"
-                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"
-                 onerror="this.src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1920&auto=format&fit=crop';">
+<section class="services-overview-hero">
 
-            <!-- 2. Dark Gradient Overlay -->
-            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10, 20, 35, 0.85) 0%, rgba(10, 20, 35, 0.5) 100%); z-index: 1;"></div>
+    <img src="{{ url_for('static', filename='images/services-bg.jpg') }}"
+         alt="Medical Specialities"
+         class="hero-bg-img"
+         onerror="this.src='https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1920&auto=format&fit=crop';">
 
-            <!-- 3. The Text Content (Z-index 2 brings text above the image) -->
-            <div style="position: relative; z-index: 2; max-width: 800px; margin: 0 auto;">
+    <div class="hero-overlay"></div>
 
-                <span style="color: var(--clinic-green); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.85rem; margin-bottom: 1rem; display: inline-block;">
-                    Our Expertise
-                </span>
+    <div class="container hero-content" data-aos="zoom-in" data-aos-duration="800">
 
-                <h1 style="font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; color: var(--white); margin-bottom: 1.2rem;">
-                    Medical <span style="color: var(--clinic-green);">Specialities</span>
-                </h1>
+        <span class="hero-eyebrow">
+            Our Expertise
+        </span>
 
-                <p style="font-size: 1.15rem; color: rgba(255, 255, 255, 0.9); line-height: 1.7; margin-bottom: 0;">
-                    A comprehensive portfolio of surgical and non-surgical aesthetic treatments, precisely tailored to
-                    enhance your natural contours and restore your confidence.
-                </p>
+        <h1>Medical <span>Specialities</span></h1>
 
-            </div>
-        </div>
+        <p>
+            A comprehensive portfolio of surgical and non-surgical aesthetic treatments, precisely tailored to
+            enhance your natural contours and restore your confidence.
+        </p>
+
     </div>
 </section>
-<!-- Clinical Grid -->
+
 <section class="services-grid-section">
     <div class="container">
+
+        {% set custom_logos = {
+        'plastic-surgery': 'icon-plastic-surgery.png',
+        'aesthetics': 'icon-aesthetics.png',
+        'laser': 'icon-laser.png',
+        'hair-transplantation': 'icon-hair.png',
+        'rhinoplasty': 'icon-rhinoplasty.png',
+        'breast-surgery': 'icon-breast.png',
+        'liposuction': 'icon-liposuction.png',
+        'tummy-tuck-body-lift': 'icon-tummy-tuck.png',
+        'facelift': 'icon-facelift.png',
+        'intimate-wellness': 'icon-intimate.png',
+        'gynecomastia': 'icon-gynecomastia.png'
+        } %}
+
         <div class="row g-4 align-items-stretch">
 
             {% for slug, svc in services.items() %}
             <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 50 }}">
-                <div class="luxury-service-card">
+                <div class="service-card">
 
-                    <div class="lsc-icon-box">
-                        <i class="bi {{ svc.icon | default('bi-stars') }}"></i>
+                    <div class="custom-logo-box">
+                        <img src="{{ url_for('static', filename='images/' + custom_logos.get(slug, 'logo.jpg')) }}"
+                             alt="{{ svc.name }}"
+                             onerror="this.style.display='none';">
                     </div>
 
-                    <h3 class="lsc-title">{{ svc.name | default(svc.label) }}</h3>
-                    <p class="lsc-desc">{{ svc.tagline | default('An expert medical aesthetic procedure designed for
-                        optimal, natural-looking results.') }}</p>
+                    <h3>{{ svc.name }}</h3>
+
+                    <p>{{ svc.tagline | default('An expert medical aesthetic procedure designed for optimal, natural-looking results.') }}</p>
 
                     <a href="{{ url_for('service_detail', slug=slug) }}" class="lsc-link">
-                        Discover More <i class="bi bi-arrow-right"></i>
+                        Learn More <i class="bi bi-arrow-right"></i>
                     </a>
-
                 </div>
             </div>
             {% endfor %}
@@ -200,4 +234,5 @@
         </div>
     </div>
 </section>
+
 {% endblock %}

@@ -24,48 +24,29 @@
     /* ── HERO ─────────────────────────────────────────────── */
     .service-hero {
       position: relative;
-      min-height: 70vh;
+      min-height: 60vh;
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, var(--navy) 0%, #112240 60%, #0D3348 100%);
+      background: var(--navy);
       overflow: hidden;
+      padding: 4rem 0;
     }
 
-    .service-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(42,157,143,.18) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,.10) 0%, transparent 60%);
-      pointer-events: none;
+    .hero-bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
     }
-
-    /* animated ambient orbs */
-    .hero-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: .12;
-      animation: floatOrb 8s ease-in-out infinite;
-    }
-    .hero-orb-1 { width:420px; height:420px; background:var(--teal);  top:-80px;  right:-60px; animation-delay:0s; }
-    .hero-orb-2 { width:280px; height:280px; background:var(--gold);  bottom:0;   left:5%;     animation-delay:3s; }
-
-    @keyframes floatOrb {
-      0%,100% { transform:translateY(0)   scale(1);   }
-      50%      { transform:translateY(-30px) scale(1.06); }
-    }
-
-    /* decorative grid lines */
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(10, 22, 40, 0.65);
+        z-index: 1;
     }
 
     .hero-badge {
@@ -102,9 +83,9 @@
 
     .hero-subtitle {
       font-size: 1.15rem;
-      color: rgba(255,255,255,.72);
+      color: rgba(255,255,255,.9);
       line-height: 1.75;
-      max-width: 540px;
+      max-width: 650px;
       margin-bottom: 2rem;
     }
 
@@ -136,7 +117,7 @@
       font-weight: 600;
       padding: .85rem 2rem;
       border-radius: 6px;
-      border: 1.5px solid rgba(255,255,255,.35);
+      border: 1.5px solid rgba(255,255,255,.45);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
@@ -145,7 +126,7 @@
     }
     .btn-outline-light-custom:hover {
       border-color: var(--white);
-      background: rgba(255,255,255,.08);
+      background: rgba(255,255,255,.15);
       color: var(--white);
     }
 
@@ -167,58 +148,10 @@
     }
     .hero-stat-label {
       font-size: .78rem;
-      color: rgba(255,255,255,.55);
+      color: rgba(255,255,255,.75);
       letter-spacing: .08em;
       text-transform: uppercase;
     }
-
-    /* hero side image / icon panel */
-    .hero-visual {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-icon-ring {
-      width: 320px;
-      height: 320px;
-      border-radius: 50%;
-      border: 1.5px dashed rgba(201,168,76,.30);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      animation: spinRing 24s linear infinite;
-    }
-    @keyframes spinRing { to { transform:rotate(360deg); } }
-
-    .hero-icon-inner {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(42,157,143,.30);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: spinRing 24s linear infinite reverse;
-    }
-
-    .hero-service-icon {
-      font-size: 5rem;
-      filter: drop-shadow(0 0 24px rgba(42,157,143,.6));
-      animation: none;
-    }
-
-    /* floating accent dots */
-    .hero-dot {
-      position: absolute;
-      border-radius: 50%;
-      background: var(--gold);
-    }
-    .dot-1 { width:10px; height:10px; top:18%; right:22%; opacity:.6; }
-    .dot-2 { width:6px;  height:6px;  bottom:28%; left:15%; opacity:.45; }
-    .dot-3 { width:14px; height:14px; top:60%; right:10%; opacity:.3; background:var(--teal); }
 
     /* ── BREADCRUMB ───────────────────────────────────────── */
     .breadcrumb-section {
@@ -309,6 +242,39 @@
 
     /* overview main text area */
     .overview-main p { color: #3a4a5c; font-size: 1.05rem; line-height: 1.85; margin-bottom: 1.2rem; }
+
+    /* Custom Accordion Styling for Dense Content Pages */
+    .custom-procedures-accordion .accordion-item {
+        border: 1px solid rgba(0,0,0,.08);
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+        background: var(--white);
+    }
+    .custom-procedures-accordion .accordion-button {
+        background: var(--off-white);
+        font-weight: 700;
+        color: var(--navy);
+        padding: 1.2rem 1.5rem;
+        box-shadow: none !important;
+    }
+    .custom-procedures-accordion .accordion-button:not(.collapsed) {
+        background: rgba(42,157,143,.05);
+        color: var(--teal);
+    }
+    .custom-procedures-accordion .accordion-body {
+        padding: 1.5rem;
+        color: var(--muted);
+        line-height: 1.7;
+    }
+    .service-content-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 16px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 1.5rem;
+    }
 
     .ideal-candidate {
       background: linear-gradient(135deg, rgba(10,22,40,.04), rgba(42,157,143,.06));
@@ -683,9 +649,6 @@
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media(max-width:768px) {
       .service-hero { min-height:auto; padding:100px 0 60px; }
-      .hero-icon-ring { width:200px; height:200px; }
-      .hero-icon-inner { width:140px; height:140px; }
-      .hero-service-icon { font-size:3rem; }
       .hero-stats { gap:1.5rem; }
       .step-timeline::before { display:none; }
       .step-item { flex-direction:column; gap:1rem; }
@@ -703,7 +666,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url_for('index') }}"><i class="bi bi-house-fill me-1"></i>Home</a>
             </li>
-            <li class="breadcrumb-item"><a href="#">Services</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('services_overview') }}">Services</a></li>
             <li class="breadcrumb-item"><a href="#">{{ service.category }}</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ service.name }}</li>
         </ol>
@@ -711,16 +674,17 @@
 </nav>
 
 <section class="service-hero" id="serviceHero">
-    <div class="hero-grid" aria-hidden="true"></div>
-    <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
-    <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
-    <div class="hero-dot dot-1" aria-hidden="true"></div>
-    <div class="hero-dot dot-2" aria-hidden="true"></div>
-    <div class="hero-dot dot-3" aria-hidden="true"></div>
 
-    <div class="container position-relative">
+    <img src="{{ url_for('static', filename='images/hero-' ~ slug ~ '.jpg') }}"
+         alt="{{ service.name }}"
+         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;"
+         onerror="this.src='{{ url_for('static', filename='images/services-bg.jpg') }}';">
+
+    <div style="position: absolute; inset: 0; background: rgba(10, 22, 40, 0.65); z-index: 1;"></div>
+
+    <div class="container position-relative" style="z-index: 3;">
         <div class="row align-items-center gy-5">
-            <div class="col-lg-7" data-aos="fade-right" data-aos-duration="900">
+            <div class="col-lg-9" data-aos="fade-right" data-aos-duration="900">
                 <div class="hero-badge">
                     <i class="bi bi-award-fill"></i>
                     {{ service.category }}
@@ -729,7 +693,7 @@
                 <p class="hero-subtitle">{{ service.tagline }}</p>
 
                 <div class="hero-cta-group">
-                    <a href="{{ url_for('contact') }}" class="btn-gold">
+                    <a href="{{ url_for('contact') }}#book" class="btn-gold">
                         <i class="bi bi-calendar2-check-fill"></i>
                         Book a Free Consultation
                     </a>
@@ -748,16 +712,6 @@
                         </div>
                         {% endfor %}
                     {% endif %}
-                </div>
-            </div>
-
-            <div class="col-lg-5 text-center" data-aos="fade-left" data-aos-duration="900" data-aos-delay="200">
-                <div class="hero-visual">
-                    <div class="hero-icon-ring">
-                        <div class="hero-icon-inner">
-                            <span class="hero-service-icon">{{ service.icon }}</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -790,37 +744,382 @@
                 <h2 class="section-heading">What is<br>{{ service.name }}?</h2>
                 <div class="section-divider"></div>
 
-                {% if service.overview_paragraphs %}
-                    {% for para in service.overview_paragraphs %}
-                    <p>{{ para }}</p>
-                    {% endfor %}
-                {% endif %}
+                {% if slug == 'plastic-surgery' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Plastic surgery is the surgical speciality involved in repairing, restoring, or altering the human body.
+                    </p>
+                    <p>
+                        There are two main kinds of surgical procedures: reconstructive surgery and cosmetic surgery. Craniofacial surgery, hand surgery, microsurgery, and burn treatment are all included in reconstructive surgery. While reconstructive surgery attempts to repair or enhance the function of a body part, cosmetic (or aesthetic) surgery aims to enhance its appearance.
+                    </p>
 
-                {% if service.ideal_candidates %}
-                <div class="ideal-candidate mb-4">
-                    <h6><i class="bi bi-person-check-fill me-2" style="color:var(--teal)"></i>Ideal Candidates</h6>
-                    <ul>
-                        {% for point in service.ideal_candidates %}
-                        <li>{{ point }}</li>
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/plastic-recon.jpg') }}" alt="Reconstructive Surgery" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Reconstructive Surgery</h4>
+                            <p style="font-size: 0.95rem;">Intended to restore both form and function. It treats burns, traumatic injuries, congenital abnormalities, and infection.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/plastic-cosmetic.jpg') }}" alt="Cosmetic Surgery" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Cosmetic Enhancement</h4>
+                            <p style="font-size: 0.95rem;">Performed to repair or alter normal physical features to enhance attractiveness and proportion.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/plastic-hand.jpg') }}" alt="Hand Surgery" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Hand & Microsurgery</h4>
+                            <p style="font-size: 0.95rem;">Vital for repairing nerve compression, birth defects, trauma, and intricate tissue transplantation.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/plastic-cleft.jpg') }}" alt="Cleft Palate" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Craniofacial & Cleft</h4>
+                            <p style="font-size: 0.95rem;">Palatoplasty surgery is performed to heal a cleft palate and correct maxillofacial facial injuries.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'aesthetics' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Enhance your natural beauty with premium non-surgical treatments and flawless permanent makeup artistry.
+                    </p>
+                    <p>
+                        Aesthetic medicine improves the appearance of the face and body through safe, non-invasive or minimally invasive procedures. Our treatments are designed to address wrinkles, pigmentation, acne, and overall skin health, giving you a radiant and youthful glow.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/aesthetics-skin.jpg') }}" alt="Skin Rejuvenation" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Skin Rejuvenation</h4>
+                            <p style="font-size: 0.95rem;">Clinical-grade facial treatments, peels, and PRP therapies to combat environmental skin damage.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/aesthetics-pmu.jpg') }}" alt="Permanent Make-Up" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Semi-Permanent Make-Up</h4>
+                            <p style="font-size: 0.95rem;">Enhance features with microblading, lip pigmentation, and BB Glow for a flawless, long-lasting look.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/aesthetics-injectables.jpg') }}" alt="Injectables" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Injectables & Fillers</h4>
+                            <p style="font-size: 0.95rem;">Botox and dermal fillers target dynamic wrinkles and restore volume to cheeks, lips, and under-eyes.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/aesthetics-acne.jpg') }}" alt="Acne & Scars" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Acne & Pigmentation</h4>
+                            <p style="font-size: 0.95rem;">Advanced peels and targeted therapies to clear acne, diminish scars, and balance uneven skin tone.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'laser' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Erase imperfections and reveal flawless skin with advanced, medical-grade laser technology.
+                    </p>
+                    <p>
+                        Extensive exposure to sunshine hastens the ageing process. Laser skin therapy is an efficient method of skin healing that rejuvenates the skin. The therapy utilises intense, pulsating beams of light to accurately eliminate damaged skin layers and stimulate collagen regeneration from within.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/laser-resurfacing.jpg') }}" alt="Skin Resurfacing" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Skin Resurfacing</h4>
+                            <p style="font-size: 0.95rem;">Powerful beam energy encourages deep collagen formation, resulting in improved skin tone and reduced fine lines.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/laser-advanced.jpg') }}" alt="Advanced Toning" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Laser Toning & Clarity</h4>
+                            <p style="font-size: 0.95rem;">Q-Switched lasers safely address hyperpigmentation, dark spots, and melasma for a clear, even complexion.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/laser-tattoo.jpg') }}" alt="Tattoo Removal" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Hair & Tattoo Removal</h4>
+                            <p style="font-size: 0.95rem;">Highly focused specific wavelengths safely target and destroy dark pigment, unwanted tattoo ink, and hair follicles.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/laser-scar.jpg') }}" alt="Scar Revision" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Scar Revision</h4>
+                            <p style="font-size: 0.95rem;">Targeted laser light breaks down scar tissue and encourages healthy skin regeneration for old and new scars.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'hair-transplantation' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Restore your hairline and your confidence with permanent, natural-looking follicular unit extraction (FUE).
+                    </p>
+                    <p>
+                        Hair loss can affect anyone, but advanced surgical and non-surgical restoration techniques offer permanent solutions. Our clinical approach focuses on high-density packing, natural hairline design, and minimal downtime to ensure you look and feel your absolute best.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/hair-fue.jpg') }}" alt="FUE Transplant" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">FUE Hair Transplant</h4>
+                            <p style="font-size: 0.95rem;">Seamless extraction of individual follicles for a dense, natural-looking transplant with no linear scarring.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/hair-prp.jpg') }}" alt="PRP Therapy" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">PRP & Non-Surgical Growth</h4>
+                            <p style="font-size: 0.95rem;">Platelet-Rich Plasma therapy stimulates dormant follicles to thicken existing hair and halt shedding.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/hair-beard.jpg') }}" alt="Beard Transplant" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Beard & Eyebrow Restoration</h4>
+                            <p style="font-size: 0.95rem;">Precision grafting to fill in patchy beards, reconstruct eyebrows, and enhance facial masculine contours.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/hair-restoration.jpg') }}" alt="Female Hair Loss" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Women's Hair Restoration</h4>
+                            <p style="font-size: 0.95rem;">Customized surgical and medical treatments specifically designed for the unique patterns of female hair loss.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'rhinoplasty' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Refine your profile and achieve perfect facial harmony with precision nose reshaping.
+                    </p>
+                    <p>
+                        Rhinoplasty is one of the most transformative aesthetic procedures available. Whether your goal is to correct a structural breathing issue (functional rhinoplasty) or refine the shape, bump, or tip of your nose (aesthetic rhinoplasty), we focus on balance, proportion, and natural-looking elegance.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/rhino-aesthetic.jpg') }}" alt="Aesthetic Rhinoplasty" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Aesthetic Reshaping</h4>
+                            <p style="font-size: 0.95rem;">Refining the nasal bridge, narrowing the tip, or adjusting nostril size for a balanced and beautiful profile.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/rhino-functional.jpg') }}" alt="Functional Rhinoplasty" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Functional & Septoplasty</h4>
+                            <p style="font-size: 0.95rem;">Correcting a deviated septum or structural defects to drastically improve breathing and airflow.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/rhino-revision.jpg') }}" alt="Revision Rhinoplasty" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Revision Rhinoplasty</h4>
+                            <p style="font-size: 0.95rem;">Complex secondary surgeries to correct or improve the results of a previous, unsatisfactory nose job.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/rhino-profile.jpg') }}" alt="Profile Harmonization" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Profile Harmonization</h4>
+                            <p style="font-size: 0.95rem;">Analyzing the nose in relation to the chin and forehead to achieve true, mathematical facial symmetry.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'breast-surgery' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Achieve perfect proportion and renewed confidence with custom-tailored breast enhancements.
+                    </p>
+                    <p>
+                        Breast surgery is deeply personal. We offer comprehensive solutions—including augmentation for volume, lifts for youthful positioning, reduction for physical relief, and expert reconstruction—to ensure your results beautifully match your body type and personal goals.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/breast-aug.jpg') }}" alt="Breast Augmentation" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Breast Augmentation</h4>
+                            <p style="font-size: 0.95rem;">Using premium implants or fat transfer to increase volume, symmetry, and overall breast shape naturally.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/breast-reduction.jpg') }}" alt="Breast Reduction" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Breast Reduction</h4>
+                            <p style="font-size: 0.95rem;">Relieving neck and back pain by safely removing excess glandular tissue, fat, and skin for a lighter, firmer contour.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/breast-lift.jpg') }}" alt="Breast Lift" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Breast Lift (Mastopexy)</h4>
+                            <p style="font-size: 0.95rem;">Restoring youthful elevation and firmness to drooping breasts affected by gravity, weight loss, or pregnancy.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/breast-recon.jpg') }}" alt="Breast Reconstruction" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Breast Reconstruction</h4>
+                            <p style="font-size: 0.95rem;">Compassionate, world-class reconstructive techniques for post-mastectomy or trauma patients to rebuild the breast mound.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'liposuction' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Sculpt your dream silhouette by permanently eliminating stubborn, diet-resistant fat.
+                    </p>
+                    <p>
+                        Even with strict diet and exercise, localized fat deposits can obscure your natural muscle tone. Our advanced liposuction and body sculpting techniques safely remove these fat cells, refining your curves and defining your underlying musculature.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/lipo-traditional.jpg') }}" alt="Targeted Liposuction" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Targeted Liposuction</h4>
+                            <p style="font-size: 0.95rem;">Efficiently removing bulk fat from the abdomen, flanks, thighs, arms, or chin using safe, precise suction techniques.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/lipo-hd.jpg') }}" alt="HD Sculpting" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">High-Definition Sculpting</h4>
+                            <p style="font-size: 0.95rem;">Meticulously etching the fat around the muscles to create an athletic, "six-pack" appearance and high-def contours.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/lipo-transfer.jpg') }}" alt="Fat Transfer" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Fat Transfer & Grafting</h4>
+                            <p style="font-size: 0.95rem;">Purifying your own removed fat and utilizing it to naturally volumize the buttocks, breasts, or facial hollows.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/lipo-noninvasive.jpg') }}" alt="Non-Surgical Fat Reduction" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Non-Surgical Alternatives</h4>
+                            <p style="font-size: 0.95rem;">Offering injectable and energy-based therapies to dissolve smaller pockets of fat without incisions or downtime.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'tummy-tuck-body-lift' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Reclaim a flat, firm, and toned abdomen by removing excess skin and tightening core muscles.
+                    </p>
+                    <p>
+                        Pregnancy and massive weight loss often leave behind stretched abdominal muscles and loose, sagging skin that liposuction alone cannot fix. A tummy tuck (abdominoplasty) or full body lift surgically excises this tissue and repairs the abdominal wall for a truly restorative transformation.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/body-tummy.jpg') }}" alt="Tummy Tuck" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Abdominoplasty</h4>
+                            <p style="font-size: 0.95rem;">Removing excess skin and fat while suturing separated abdominal muscles back together for a flat, tight core.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/body-mummy.jpg') }}" alt="Mommy Makeover" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Mommy Makeover</h4>
+                            <p style="font-size: 0.95rem;">A customized combination of breast surgery and a tummy tuck to restore the body's pre-pregnancy contours in one session.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/body-lift.jpg') }}" alt="Lower Body Lift" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Lower Body Lift</h4>
+                            <p style="font-size: 0.95rem;">Ideal after extreme weight loss, lifting the buttocks, thighs, and abdomen simultaneously for a total 360-degree overhaul.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/body-arm.jpg') }}" alt="Arm & Thigh Lifts" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Arm & Thigh Lifts</h4>
+                            <p style="font-size: 0.95rem;">Brachioplasty and thighplasty to excise "bat wings" and inner thigh sagging, revealing leaner, tighter limbs.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'facelift' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Erase a decade of aging with a natural, meticulously executed facial lift.
+                    </p>
+                    <p>
+                        A facelift doesn't change who you are—it restores how you looked. By addressing deep tissue sagging, removing excess skin, and lifting the facial structures, we counteract gravity and volume loss to deliver a refreshed, rested, and beautifully natural appearance.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/face-lift.jpg') }}" alt="Full Facelift" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Traditional Facelift</h4>
+                            <p style="font-size: 0.95rem;">Comprehensive lifting of the lower face, cheeks, and jowls by repositioning the underlying SMAS muscle layer.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/face-mini.jpg') }}" alt="Mini Facelift" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Mini Lift</h4>
+                            <p style="font-size: 0.95rem;">A less invasive procedure with shorter incisions and faster recovery, perfect for addressing early signs of lower facial aging.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/face-neck.jpg') }}" alt="Neck Lift" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Neck Lift</h4>
+                            <p style="font-size: 0.95rem;">Eliminating the "turkey neck" by tightening the platysma muscle and removing loose skin below the jawline.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/face-brow.jpg') }}" alt="Brow & Eyelid Lift" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Brow & Eyelid Lift</h4>
+                            <p style="font-size: 0.95rem;">Blepharoplasty and brow lifts to remove heavy, drooping eyelid skin and erase a tired or angry upper face expression.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'intimate-wellness' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Reclaim your physical comfort and intimate confidence in a completely private, judgment-free environment.
+                    </p>
+                    <p>
+                        Changes due to childbirth, aging, or genetics can cause physical discomfort and affect your confidence. Our intimate wellness procedures are performed with the utmost discretion and clinical precision to enhance aesthetic appearance and restore functional comfort.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/intimate-labia.jpg') }}" alt="Labiaplasty" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Labiaplasty</h4>
+                            <p style="font-size: 0.95rem;">Surgical reduction or reshaping of the labia minora or majora to relieve physical discomfort during exercise or intimacy.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/intimate-rejuv.jpg') }}" alt="Vaginal Rejuvenation" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Vaginoplasty</h4>
+                            <p style="font-size: 0.95rem;">Surgical tightening of the vaginal canal and perineal body, often utilized after multiple vaginal deliveries.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/intimate-tightening.jpg') }}" alt="Non-Surgical Tightening" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Non-Surgical Therapies</h4>
+                            <p style="font-size: 0.95rem;">Utilizing advanced laser and radiofrequency technology to promote collagen remodeling, lubrication, and tissue tightening without surgery.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/intimate-wellness-aes.jpg') }}" alt="Intimate Aesthetics" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Intimate Aesthetics</h4>
+                            <p style="font-size: 0.95rem;">Fat grafting, filler injections, or lightening treatments designed to restore a youthful aesthetic to the external genitalia.</p>
+                        </div>
+                    </div>
+
+                {% elif slug == 'gynecomastia' %}
+                    <p style="font-size: 1.15rem; color: var(--navy); font-weight: 500;">
+                        Permanently eliminate 'man boobs' and reclaim a flat, firm, and masculine chest contour.
+                    </p>
+                    <p>
+                        Gynecomastia is the overdevelopment of male breast tissue caused by hormonal imbalances, genetics, or certain medications. It is extremely common and highly treatable. Our specialized surgical techniques remove both excess fat and dense glandular tissue to sculpt a defined, masculine chest permanently.
+                    </p>
+
+                    <div class="row g-4 mb-5 mt-3">
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/gyno-gland.jpg') }}" alt="Gland Excision" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">Glandular Excision</h4>
+                            <p style="font-size: 0.95rem;">Direct surgical removal of the firm, dense breast gland tissue located beneath the areola through a discreet, unnoticeable incision.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/gyno-lipo.jpg') }}" alt="Chest Liposuction" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Chest Liposuction</h4>
+                            <p style="font-size: 0.95rem;">Vacuum-assisted removal of excess localized fat deposits surrounding the chest to flatten the area and enhance contour.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/gyno-contour.jpg') }}" alt="Masculine Contouring" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--teal); font-weight: 700; font-size: 1.2rem;">High-Def Contouring</h4>
+                            <p style="font-size: 0.95rem;">Combining excision and liposuction to meticulously reveal the underlying pectoral muscles for a natural, athletic look.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{ url_for('static', filename='images/gyno-recovery.jpg') }}" alt="Recovery" class="service-content-img" onerror="this.style.display='none';">
+                            <h4 style="font-family: var(--font-display); color: var(--gold); font-weight: 700; font-size: 1.2rem;">Scarless Protocols</h4>
+                            <p style="font-size: 0.95rem;">Utilizing advanced, minimally invasive incisions around the areola border to ensure post-surgical marks are virtually invisible.</p>
+                        </div>
+                    </div>
+
+
+                {% else %}
+                    {% if service.overview_paragraphs %}
+                        {% for para in service.overview_paragraphs %}
+                        <p>{{ para }}</p>
                         {% endfor %}
-                    </ul>
-                </div>
+                    {% endif %}
+
+                    {% if service.ideal_candidates %}
+                    <div class="ideal-candidate mb-4">
+                        <h6><i class="bi bi-person-check-fill me-2" style="color:var(--teal)"></i>Ideal Candidates</h6>
+                        <ul>
+                            {% for point in service.ideal_candidates %}
+                            <li>{{ point }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if service.glance %}
+                    <div class="safety-notice mb-4">
+                        <h6><i class="bi bi-shield-check-fill"></i> Procedure at a Glance</h6>
+                        <table class="table table-sm mb-0" style="font-size:.9rem;color:var(--muted)">
+                            <tbody>
+                            <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Duration</td><td>{{ service.glance.duration }}</td></tr>
+                            <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Anaesthesia</td><td>{{ service.glance.anaesthesia }}</td></tr>
+                            <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Recovery</td><td>{{ service.glance.recovery }}</td></tr>
+                            <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Results Visible</td><td>{{ service.glance.results_visible }}</td></tr>
+                            <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Sessions</td><td>{{ service.glance.sessions }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
                 {% endif %}
 
-                {% if service.glance %}
-                <div class="safety-notice mb-4">
-                    <h6><i class="bi bi-shield-check-fill"></i> Procedure at a Glance</h6>
-                    <table class="table table-sm mb-0" style="font-size:.9rem;color:var(--muted)">
-                        <tbody>
-                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Duration</td><td>{{ service.glance.duration }}</td></tr>
-                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Anaesthesia</td><td>{{ service.glance.anaesthesia }}</td></tr>
-                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Recovery</td><td>{{ service.glance.recovery }}</td></tr>
-                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Results Visible</td><td>{{ service.glance.results_visible }}</td></tr>
-                        <tr><td class="fw-600 text-navy pe-3" style="color:var(--navy);font-weight:600;white-space:nowrap">Sessions</td><td>{{ service.glance.sessions }}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                {% endif %}
             </div>
 
             <div class="col-lg-4" data-aos="fade-left" data-aos-delay="150">
@@ -860,7 +1159,7 @@
                 <div class="text-center p-4 rounded-3 mt-4" style="background:linear-gradient(135deg,var(--navy),#112240);">
                     <p class="text-white fw-600 mb-2" style="font-size:.95rem;font-weight:600">Ready to take the first step?</p>
                     <p style="color:rgba(255,255,255,.6);font-size:.85rem;margin-bottom:1.4rem">Book your private consultation with our specialists today.</p>
-                    <a href="{{ url_for('contact') }}" class="btn-gold w-100 justify-content-center">
+                    <a href="{{ url_for('contact') }}#book" class="btn-gold w-100 justify-content-center">
                         <i class="bi bi-telephone-fill"></i> Schedule Consultation
                     </a>
                 </div>
@@ -992,7 +1291,7 @@
         <p>Your personalised consultation with Dr. Pavuluru Sreenivasa Rao or Dr. Veli Jaswantha Lakshmi is the first step. Confidential. No pressure. Expert advice.</p>
 
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="{{ url_for('contact') }}" class="btn-gold" style="font-size:1.05rem;padding:1rem 2.4rem">
+            <a href="{{ url_for('contact') }}#book" class="btn-gold" style="font-size:1.05rem;padding:1rem 2.4rem">
                 <i class="bi bi-calendar2-check-fill"></i> Book Your Free Consultation
             </a>
             <a href="tel:+919502327644" class="btn-outline-light-custom" style="font-size:1.05rem;padding:1rem 2.4rem">
@@ -1003,7 +1302,7 @@
 </section>
 
 <div class="sticky-cta" id="stickyCta" aria-label="Book appointment">
-    <a href="{{ url_for('contact') }}">
+    <a href="{{ url_for('contact') }}#book">
         <i class="bi bi-calendar2-check-fill"></i> Book Consultation
     </a>
 </div>

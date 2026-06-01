@@ -76,16 +76,6 @@
           --clr-text-muted:  var(--text-muted);
           --clr-border:      var(--grey-light);
 
-          /* ── Legacy Re-maps ── */
-          --navy-950: var(--white);
-          --navy-900: var(--off-white);
-          --navy-800: var(--off-white);
-          --gold-500: var(--clinic-green);
-          --gold-400: var(--clinic-green);
-          --teal-500: var(--clinic-blue);
-          --teal-100: var(--clinic-mint);
-          --cream:    var(--white);
-
           --font-display: 'Montserrat', system-ui, sans-serif;
           --font-body:    'Montserrat', system-ui, sans-serif;
 
@@ -113,17 +103,64 @@
             color: var(--clinic-green) !important;
         }
 
-        /* ── FIX FOR DROPDOWN MENUS (GALLERY, ETC) ── */
+        /* ── MOBILE HAMBURGER MENU VISIBILITY FIX ── */
+        .navbar-toggler {
+            border: 2px solid var(--clinic-green) !important;
+            background-color: var(--clinic-mint) !important;
+            padding: 0.4rem 0.6rem;
+            border-radius: 8px;
+            box-shadow: none !important;
+        }
+        .navbar-toggler .toggler-icon i {
+            color: var(--clinic-green) !important;
+            font-size: 1.8rem;
+        }
+
+        /* ── FIX FOR DROPDOWN MENUS ── */
         .navbar .dropdown-menu {
             background-color: var(--white) !important;
             border: 1px solid var(--grey-light) !important;
             box-shadow: var(--shadow-md) !important;
-            margin-top: 0; transition: opacity 0.3s ease, visibility 0.3s ease;
-            opacity: 0; visibility: hidden; display: block;
+            margin-top: 0;
         }
-        .navbar .nav-item.dropdown:hover .dropdown-menu,
-        .navbar .nav-item.dropdown .dropdown-menu.show { opacity: 1; visibility: visible; }
-        .navbar .nav-item.dropdown .dropdown-menu::before { content: ''; position: absolute; top: -15px; left: 0; right: 0; height: 15px; }
+
+        /* Desktop specific dropdown logic */
+        @media (min-width: 992px) {
+            .navbar .dropdown-menu {
+                display: block !important;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+                pointer-events: none; /* Prevents invisible clicking */
+            }
+            .navbar .nav-item.dropdown:hover .dropdown-menu,
+            .navbar .nav-item.dropdown .dropdown-menu.show {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+            .navbar .nav-item.dropdown .dropdown-menu::before {
+                content: ''; position: absolute; top: -15px; left: 0; right: 0; height: 15px;
+            }
+        }
+
+        /* Mobile specific dropdown toggle logic */
+        @media (max-width: 991px) {
+            .navbar .dropdown-menu {
+                display: none !important; /* CRITICAL FIX: Forces it to take 0 space when closed */
+                opacity: 1 !important;
+                visibility: visible !important;
+                background-color: var(--off-white) !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 8px !important;
+                margin-top: 0.5rem;
+                padding: 0.5rem 0;
+            }
+            .navbar .nav-item.dropdown .dropdown-menu.show {
+                display: block !important; /* Pops open perfectly when tapped */
+            }
+        }
 
         .navbar .dropdown-item {
             color: var(--text-main) !important;
@@ -159,11 +196,6 @@
             text-decoration: none; color: var(--text-main); height: 100%; transition: all 0.3s ease; background: var(--white);
         }
         .dropdown-service-card:hover { background: var(--off-white); }
-        .ds-icon {
-            width: 45px; height: 45px; border-radius: 50%; background: var(--clinic-mint); color: var(--clinic-green);
-            display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 0.6rem; transition: all 0.3s ease;
-        }
-        .dropdown-service-card:hover .ds-icon { background: var(--clinic-green); color: var(--white); transform: scale(1.1); }
         .ds-label { font-size: 0.8rem; font-weight: 600; line-height: 1.3; color: var(--text-main); }
 
         /* ── SITE FOOTER REVISED (3 COLUMNS GRID) ── */
@@ -190,11 +222,53 @@
             grid-template-columns: 1.3fr 0.8fr 1.1fr;
             gap: 3rem;
         }
+
+        /* ═══════════════════════════════════════════════════════════════════════════
+           MOBILE RESPONSIVENESS MASTER PATCH
+        ═══════════════════════════════════════════════════════════════════════════ */
         @media (max-width: 991px) {
             .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+            .dropdown-menu-services { width: 100% !important; border-radius: 8px !important; }
+
+            /* Transforms giant blocks into a sleek list for mobile */
+            .dropdown-service-card {
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                text-align: left !important;
+                padding: 0.85rem 1rem !important;
+                gap: 1rem !important;
+                border-right: none !important;
+                border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+                background: transparent !important;
+            }
+            .dropdown-service-card .ds-icon { margin-bottom: 0 !important; }
+            .dropdown-service-card .ds-icon img { width: 28px !important; height: 28px !important; }
+
+            .navbar-collapse {
+                background: var(--white);
+                padding: 1.5rem;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-lg);
+                margin-top: 1rem;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .nav-item.ms-lg-3 { margin-left: 0 !important; margin-top: 1.5rem; }
+            .btn-book { width: 100%; text-align: center; display: block; }
         }
-        @media (max-width: 767px) {
+
+        @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-section { min-height: 85vh !important; }
+            .hero-caption h1 { font-size: 2.2rem !important; margin-bottom: 1.5rem; }
+            .page-hero__title { font-size: 2.2rem !important; }
+            .about-cta-inner, .services-hero > .container > div { padding: 3rem 1.5rem !important; }
+            .doc-portrait-panel { min-height: 400px !important; }
+            .doctor-card__image-wrap { height: 300px !important; }
+            .why-image-panel { height: 350px !important; }
+            .d-flex.flex-wrap.gap-3 > a, .hero-caption .d-flex a { width: 100%; justify-content: center; }
+            .about-cta-inner h2, .about-cta-inner p { text-align: center; }
         }
     </style>
 </head>
@@ -219,28 +293,54 @@
                     <a class="nav-link {% if request.endpoint == 'about' %}active{% endif %}" href="{{ url_for('about') }}">About Us</a>
                 </li>
 
+                <!-- Dropdown Link -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if 'service' in (request.endpoint or '') %}active{% endif %}" href="{{ url_for('services_overview') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="servicesDropdown">Services</a>
+                    <a class="nav-link dropdown-toggle {% if 'service' in (request.endpoint or '') %}active{% endif %}" href="{{ url_for('services_overview') }}" role="button" aria-expanded="false" id="servicesDropdown">Services</a>
                     <div class="dropdown-menu dropdown-menu-services shadow-lg" aria-labelledby="servicesDropdown">
                         <div class="row g-0">
                             <div class="col-12 dropdown-header-row">
                                 <span class="dropdown-eyebrow">Our Specialities</span>
                                 <a href="{{ url_for('services_overview') }}" class="dropdown-view-all">View All Services <i class="bi bi-arrow-right"></i></a>
                             </div>
+
+                            <!-- Custom Logos Dictionary -->
+                            {% set nav_logos = {
+                                'plastic-surgery': 'icon-plastic-surgery.png',
+                                'aesthetics': 'icon-aesthetics.png',
+                                'laser': 'icon-laser.png',
+                                'hair-transplantation': 'icon-hair.png',
+                                'rhinoplasty': 'icon-rhinoplasty.png',
+                                'breast-surgery': 'icon-breast.png',
+                                'liposuction': 'icon-liposuction.png',
+                                'tummy-tuck-body-lift': 'icon-tummy-tuck.png',
+                                'facelift': 'icon-facelift.png',
+                                'intimate-wellness': 'icon-intimate.png',
+                                'gynecomastia': 'icon-gynecomastia.png'
+                            } %}
+
                             {% for slug, svc in services.items() %}
-                            <div class="col-6 col-md-4">
+                            <div class="col-12 col-lg-4">
                                 <a href="{{ url_for('service_detail', slug=slug) }}" class="dropdown-service-card">
-                                    <span class="ds-icon"><i class="bi {{ svc.icon | default('bi-plus-circle') }}"></i></span>
+                                    <span class="ds-icon" style="background: transparent; margin-bottom: 0.8rem;">
+                                        <img src="{{ url_for('static', filename='images/' + nav_logos.get(slug, 'logo.jpg')) }}"
+                                             alt="{{ svc.label }}"
+                                             style="width: 38px; height: 38px; object-fit: contain; transition: transform 0.3s ease;"
+                                             onmouseover="this.style.transform='scale(1.15)'"
+                                             onmouseout="this.style.transform='scale(1)'"
+                                             onerror="this.style.display='none';">
+                                    </span>
                                     <span class="ds-label">{{ svc.name | default(svc.label) }}</span>
                                 </a>
                             </div>
                             {% endfor %}
+
                         </div>
                     </div>
                 </li>
 
+                <!-- Dropdown Link -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {% if 'gallery' in (request.endpoint or '') %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Gallery</a>
+                    <a class="nav-link dropdown-toggle {% if 'gallery' in (request.endpoint or '') %}active{% endif %}" href="#" role="button" aria-expanded="false">Gallery</a>
                     <ul class="dropdown-menu shadow-sm">
                         <li><a class="dropdown-item" href="{{ url_for('gallery_photos') }}"><i class="bi bi-image me-2"></i> Clinic Photos</a></li>
                         <li><a class="dropdown-item" href="{{ url_for('gallery_videos') }}"><i class="bi bi-play-circle me-2"></i> Video Gallery</a></li>
@@ -270,6 +370,7 @@
     <div class="container">
         <div class="footer-grid">
 
+            <!-- COLUMN 1: BRAND & SOCIALS -->
             <div class="footer-col footer-col--brand">
                 <a href="{{ url_for('index') }}" class="footer-brand-name">
                     Dr. Sreenivas Aesthetics
@@ -283,6 +384,7 @@
                 </div>
             </div>
 
+            <!-- COLUMN 2: QUICK LINKS -->
             <div class="footer-col">
                 <h3 class="footer-heading">Quick Links</h3>
                 <ul class="footer-links">
@@ -294,6 +396,7 @@
                 </ul>
             </div>
 
+            <!-- COLUMN 3: CONTACT INFO -->
             <div class="footer-col footer-col--contact">
                 <h3 class="footer-heading">Contact Us</h3>
                 <address class="footer-address">
@@ -337,32 +440,55 @@
 <script>
     AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 80 });
 
-    /* ── Navbar Logic ── */
+    /* ── Perfectly Calibrated Navbar Logic ── */
     document.addEventListener('DOMContentLoaded', function() {
+        const isMobile = () => window.innerWidth < 992;
         const dropdowns = document.querySelectorAll('.navbar .nav-item.dropdown');
+
         dropdowns.forEach(item => {
-            const toggle = item.querySelector('[data-bs-toggle="dropdown"]');
+            const toggle = item.querySelector('.dropdown-toggle');
             const menu = item.querySelector('.dropdown-menu');
 
+            // Handle Click (For Mobile Accordion & Desktop Navigation)
             toggle.addEventListener('click', function(e) {
-                e.preventDefault(); e.stopPropagation();
-                if (menu.classList.contains('show')) {
-                    menu.classList.remove('show');
-                } else {
-                    document.querySelectorAll('.dropdown-menu.show').forEach(m => m.classList.remove('show'));
+                if (!isMobile()) {
+                    // On desktop, clicking the text goes straight to the page
+                    window.location.href = this.getAttribute('href');
+                    return;
+                }
+
+                // On mobile, clicking acts like a smooth accordion toggle
+                e.preventDefault();
+                e.stopPropagation();
+
+                const isOpen = menu.classList.contains('show');
+
+                // Close all other open menus
+                document.querySelectorAll('.dropdown-menu.show').forEach(m => {
+                    m.classList.remove('show');
+                });
+
+                // If it was closed, open it
+                if (!isOpen) {
                     menu.classList.add('show');
                 }
             });
 
-            if (window.innerWidth >= 992) {
-                item.addEventListener('mouseenter', () => menu.classList.add('show'));
-                item.addEventListener('mouseleave', () => menu.classList.remove('show'));
-            }
+            // Handle Hover (For Desktop mega-menus)
+            item.addEventListener('mouseenter', () => {
+                if (!isMobile()) menu.classList.add('show');
+            });
+            item.addEventListener('mouseleave', () => {
+                if (!isMobile()) menu.classList.remove('show');
+            });
         });
 
+        // Clicking anywhere outside the menu on mobile closes it
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.nav-item.dropdown')) {
-                document.querySelectorAll('.dropdown-menu.show').forEach(menu => menu.classList.remove('show'));
+            if (isMobile() && !e.target.closest('.nav-item.dropdown')) {
+                document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                    menu.classList.remove('show');
+                });
             }
         });
     });

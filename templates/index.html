@@ -602,7 +602,6 @@ PAGE CONTENT
         </div>
     </div>
 </div>
-
 <section class="services-section section-pad">
     <div class="container">
 
@@ -616,18 +615,19 @@ PAGE CONTENT
             </p>
         </div>
 
-        {% set bootstrap_icons = {
-        'plastic-surgery': 'bi-bandaid',
-        'aesthetics': 'bi-stars',
-        'laser': 'bi-lightning-charge',
-        'hair-transplantation': 'bi-person-bounding-box',
-        'rhinoplasty': 'bi-emoji-smile',
-        'breast-surgery': 'bi-heart-pulse',
-        'liposuction': 'bi-person-standing',
-        'tummy-tuck-body-lift': 'bi-arrow-left-right',
-        'facelift': 'bi-magic',
-        'intimate-wellness': 'bi-shield-heart',
-        'gynecomastia': 'bi-person-lines-fill'
+        <!-- Replaced bootstrap_icons with custom_logos dictionary -->
+        {% set custom_logos = {
+        'plastic-surgery': 'icon-plastic-surgery.png',
+        'aesthetics': 'icon-aesthetics.png',
+        'laser': 'icon-laser.png',
+        'hair-transplantation': 'icon-hair.png',
+        'rhinoplasty': 'icon-rhinoplasty.png',
+        'breast-surgery': 'icon-breast.png',
+        'liposuction': 'icon-liposuction.png',
+        'tummy-tuck-body-lift': 'icon-tummy-tuck.png',
+        'facelift': 'icon-facelift.png',
+        'intimate-wellness': 'icon-intimate.png',
+        'gynecomastia': 'icon-gynecomastia.png'
         } %}
 
         <div class="row g-4">
@@ -636,9 +636,15 @@ PAGE CONTENT
                  data-aos="fade-up"
                  data-aos-delay="{{ loop.index0 * 50 }}">
                 <div class="service-card">
-                    <div class="sc-icon-wrap">
-                        <i class="bi {{ bootstrap_icons.get(slug, 'bi-plus-circle') }}"></i>
+
+                    <!-- Custom Logo Image Wrapper -->
+                    <div style="width: 65px; height: 65px; margin-bottom: 1.25rem;">
+                        <img src="{{ url_for('static', filename='images/' + custom_logos.get(slug, 'logo.jpg')) }}"
+                             alt="{{ svc.name }}"
+                             style="width: 100%; height: 100%; object-fit: contain; object-position: left;"
+                             onerror="this.style.display='none';">
                     </div>
+
                     <h3 class="sc-title">{{ svc.name }}</h3>
                     <p class="sc-desc">{{ svc.tagline }}</p>
                     <a href="{{ url_for('service_detail', slug=slug) }}" class="sc-link">
