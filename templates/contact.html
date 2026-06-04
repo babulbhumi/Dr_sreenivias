@@ -87,6 +87,13 @@ Page-scoped styles
     }
     .form-label-custom span { color:var(--gold-500); }
 
+    .form-label-custom .optional-tag {
+      color: var(--clr-text-muted);
+      font-weight: 500;
+      text-transform: capitalize;
+      letter-spacing: normal;
+    }
+
     .form-control-custom {
       width:100%; border-radius:var(--radius-sm);
       border:1.5px solid var(--clr-border);
@@ -493,7 +500,7 @@ Page-scoped styles
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="form-label-custom" for="inputEmail">
-                                            Email Address <span>*</span>
+                                            Email Address <span class="optional-tag">(Optional)</span>
                                         </label>
                                         <div class="input-icon-wrap">
                                             <input type="email" id="inputEmail" name="email"
@@ -580,7 +587,7 @@ Page-scoped styles
 
                             <div class="form-group">
                                 <label class="form-label-custom" for="inputMessage">
-                                    Your Message / Concerns <span>*</span>
+                                    Your Message / Concerns <span class="optional-tag">(Optional)</span>
                                 </label>
                                 <textarea id="inputMessage" name="message"
                                           class="form-control-custom"
@@ -844,15 +851,13 @@ Page-scoped styles
 {# ══════════════════════════════════════════════════════════════════════════════
 Page JS — AJAX form submission + real-time validation
 ══════════════════════════════════════════════════════════════════════════════ #}
+
 {% block extra_scripts %}
 <script>
     (function () {
       'use strict';
 
-      /* ── Helpers ── */
       const $  = id => document.getElementById(id);
-      const qs = sel => document.querySelector(sel);
-
       const form      = $('bookingForm');
       const submitBtn = $('submitBtn');
 
@@ -863,43 +868,23 @@ Page JS — AJAX form submission + real-time validation
         dateInput.setAttribute('min', today);
       }
 
-      /* ── Per-field validation rules ── */
+      /* ── Validation Rules: Only Name, Phone, and Service are mandatory ── */
       const rules = [
-        {
-          input : $('inputName'),
-          error : $('errName'),
-          test  : v => v.trim().length >= 2,
-        },
-        {
-          input : $('inputPhone'),
-          error : $('errPhone'),
-          test  : v => /^[\d\s\-\+\(\)]{7,15}$/.test(v.trim()),
-        },
-        {
-          input : $('inputEmail'),
-          error : $('errEmail'),
-          test  : v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
-        },
-        {
-          input : $('inputService'),
-          error : $('errService'),
-          test  : v => v !== '',
-        },
-        {
-          input : $('inputMessage'),
-          error : $('errMessage'),
-          test  : v => v.trim().length >= 10,
-        },
+        { input: $('inputName'), error: $('errName'), test: v => v.trim().length >= 2 },
+        { input: $('inputPhone'), error: $('errPhone'), test: v => /^[\d\s\-\+\(\)]{7,15}$/.test(v.trim()) },
+        { input: $('inputService'), error: $('errService'), test: v => v !== '' },
+        /* Email is completely optional, but if they type something, verify it's an actual email format */
+        { input: $('inputEmail'), error: $('errEmail'), test: v => v.trim() === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) }
       ];
 
-      /* Live validation on blur */
+      /* Live validation */
       rules.forEach(({ input, error, test }) => {
         if (!input) return;
         const validate = () => {
           const ok = test(input.value);
           input.classList.toggle('is-error', !ok);
-          input.classList.toggle('is-valid',  ok);
-          error.classList.toggle('visible',  !ok);
+          input.classList.toggle('is-valid',  ok && input.value.trim() !== ''); // Only green check if filled
+          if (error) { error.classList.toggle('visible',  !ok); }
           return ok;
         };
         input.addEventListener('blur', validate);
@@ -908,11 +893,8 @@ Page JS — AJAX form submission + real-time validation
         });
       });
 
-      /* ── Toast helpers ── */
       function showToast(type, msg) {
-        ['Success','Error'].forEach(t => {
-          $('toast' + t).classList.remove('visible');
-        });
+        ['Success','Error'].forEach(t => $('toast' + t).classList.remove('visible'));
         const el  = $('toast' + (type === 'success' ? 'Success' : 'Error'));
         const txt = $('toast' + (type === 'success' ? 'Success' : 'Error') + 'Msg');
         txt.textContent = msg;
@@ -920,30 +902,26 @@ Page JS — AJAX form submission + real-time validation
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
 
-      /* ── Form submit ── */
       form.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        /* Validate all fields */
         let allValid = true;
         rules.forEach(({ input, error, test }) => {
           if (!input) return;
           const ok = test(input.value);
           input.classList.toggle('is-error', !ok);
-          input.classList.toggle('is-valid',  ok);
-          error.classList.toggle('visible',  !ok);
+          if (error) { error.classList.toggle('visible',  !ok); }
           if (!ok) allValid = false;
         });
+
         if (!allValid) {
           showToast('error', 'Please correct the highlighted fields before submitting.');
           return;
         }
 
-        /* Loading state */
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
 
-        /* Build payload */
         const payload = {
           name           : $('inputName').value.trim(),
           phone          : $('inputPhone').value.trim(),
@@ -966,20 +944,17 @@ Page JS — AJAX form submission + real-time validation
           if (res.ok && data.status === 'success') {
             showToast('success', data.message);
             form.reset();
-            rules.forEach(({ input }) => {
-              if (input) { input.classList.remove('is-valid','is-error'); }
-            });
+            rules.forEach(({ input }) => { if (input) input.classList.remove('is-valid','is-error'); });
           } else {
-            showToast('error', data.message || 'Something went wrong. Please try again.');
+            showToast('error', data.message || 'Something went wrong.');
           }
         } catch (err) {
-          showToast('error', 'Network error — please call us directly on 095023 27644.');
+          showToast('error', 'Network error — please call us directly.');
         } finally {
           submitBtn.classList.remove('loading');
           submitBtn.disabled = false;
         }
       });
-
     })();
 </script>
 {% endblock %}

@@ -6,6 +6,11 @@ import sqlite3, os, hashlib, urllib.parse
 from datetime import datetime
 from functools import wraps
 
+# --- Automated Email Imports ---
+import smtplib, ssl, threading
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 # ─── THIS IS THE CRITICAL IMPORT ─────────────────────────────────
 from services_data import SERVICES
 
@@ -83,15 +88,13 @@ DOCTORS = [
 
 # ---------------------------------------------------------------------------
 # Latest Blogs Data (Dictionary)
-# I have updated the "image" path for all 6 blogs below.
-# Make sure to upload unique images with these filenames to your static/images folder!
 # ---------------------------------------------------------------------------
 LATEST_BLOGS = {
     "breast-reduction-surgery": {
         "slug": "breast-reduction-surgery",
         "title": "Everything You Need to Know About Breast Reduction Surgery",
         "date": "April 26, 2025",
-        "image": "blog-breast-reduction.jpg",  # Unique image
+        "image": "blog-breast-reduction.jpg",
         "excerpt": "Struggling with large breasts? Learn how breast reduction surgery can alleviate chronic pain, improve posture, and restore your confidence.",
         "category": "Plastic Surgery",
         "content": """
@@ -134,7 +137,7 @@ LATEST_BLOGS = {
         "slug": "plastic-vs-cosmetic-surgery",
         "title": "Plastic vs Cosmetic Surgery | Dr Sreenivas Nellore",
         "date": "April 12, 2025",
-        "image": "blog-plastic-vs-cosmetic.jpg", # Unique image
+        "image": "blog-plastic-vs-cosmetic.jpg",
         "excerpt": "Discover the key differences between plastic and cosmetic surgery, and learn which procedure is right for your functional or aesthetic goals.",
         "category": "Cosmetic Surgery",
         "content": """
@@ -182,7 +185,7 @@ LATEST_BLOGS = {
         "slug": "best-cosmetic-surgeon-nellore",
         "title": "Best Cosmetic Surgeon Near You Nellore: How to Choose the Right One",
         "date": "March 29, 2025",
-        "image": "blog-best-surgeon.jpg", # Unique image
+        "image": "blog-best-surgeon.jpg",
         "excerpt": "Choosing the right cosmetic surgeon is the most important decision in your aesthetic journey. Here are the top factors to consider when selecting a specialist in Nellore.",
         "category": "Cosmetic Surgery",
         "content": """
@@ -213,7 +216,7 @@ LATEST_BLOGS = {
         "slug": "liposuction-vs-tummy-tuck",
         "title": "Liposuction vs. Tummy Tuck: Which is Right for You?",
         "date": "May 05, 2025",
-        "image": "blog-lipo-vs-tummy-tuck.jpg", # Unique image
+        "image": "blog-lipo-vs-tummy-tuck.jpg",
         "excerpt": "Struggling with a stubborn midsection? Discover the key differences between liposuction and an abdominoplasty to find out which procedure fits your goals.",
         "category": "Body Contouring",
         "content": """
@@ -248,7 +251,7 @@ LATEST_BLOGS = {
         "slug": "non-surgical-facial-rejuvenation",
         "title": "The Ultimate Guide to Non-Surgical Facial Rejuvenation",
         "date": "May 15, 2025",
-        "image": "blog-facial-rejuvenation.jpg", # Unique image
+        "image": "blog-facial-rejuvenation.jpg",
         "excerpt": "Want to reverse the signs of aging without going under the knife? Learn how Botox, Dermal Fillers, and Aesthetic Medicine can refresh your appearance.",
         "category": "Aesthetic Medicine",
         "content": """
@@ -291,16 +294,13 @@ LATEST_BLOGS = {
         "slug": "what-is-a-mommy-makeover",
         "title": "What is a Mommy Makeover? Reclaiming Your Pre-Pregnancy Body",
         "date": "May 22, 2025",
-        "image": "blog-mommy-makeover.jpg", # Unique image
+        "image": "blog-mommy-makeover.jpg",
         "excerpt": "Pregnancy and breastfeeding take a toll on a woman's body. Discover how a customized Mommy Makeover can restore your contours and your confidence.",
         "category": "Plastic Surgery",
         "content": """
             <p class="lead mb-4">Motherhood is a beautiful journey, but it often leaves behind physical changes that diet and exercise simply cannot fix. Deflated breasts, stretched abdominal muscles, and stubborn fat pockets can leave you feeling like a stranger in your own body.</p>
 
             <p>At Dr. Sreenivas Aesthetics, we believe mothers deserve to feel confident and beautiful. This is why the <strong>Mommy Makeover</strong> has become one of our most popular and transformative procedures.</p>
-
-            <h3>What Exactly is a Mommy Makeover?</h3>
-            <p>A Mommy Makeover is not a single surgery; it is a customized combination of body contouring procedures performed during a single operation. By combining surgeries, patients save on recovery time and anesthesia costs while achieving a complete transformation.</p>
 
             <h3>Common Procedures Included:</h3>
             <div class="row mb-4">
@@ -332,7 +332,6 @@ LATEST_BLOGS = {
 # Config & Database setup
 # ---------------------------------------------------------------------------
 DB_PATH = os.path.join(os.path.dirname(__file__), "appointments.db")
-WHATSAPP_NUMBER = "917903812908"
 ADMIN_USERNAME = "admin"
 ADMIN_PASSWORD_HASH = hashlib.sha256("admin@2025".encode()).hexdigest()
 
@@ -367,6 +366,64 @@ init_db()
 
 
 # ---------------------------------------------------------------------------
+# Automated Email System
+# ---------------------------------------------------------------------------
+def send_automated_emails(name, phone, email, date, service, doctor, message):
+    sender_email = "harbhumi62@gmail.com"
+    app_password = "scumnpbemqtlnlls"  # Your 16-digit Google App Password
+
+    try:
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+            server.login(sender_email, app_password)
+
+            # --- 1. Send Notification to YOU (The Clinic) ---
+            admin_msg = MIMEMultipart()
+            admin_msg['From'] = sender_email
+            admin_msg['To'] = sender_email
+            admin_msg['Subject'] = f"New Booking Request: {name}"
+            admin_body = f"""New Consultation Request!
+
+Name: {name}
+Phone: {phone}
+Email: {email if email else 'Not provided'}
+Date: {date if date else 'Not provided'}
+Service: {service}
+Doctor: {doctor if doctor else 'No preference'}
+Message: {message if message else 'None'}
+"""
+            admin_msg.attach(MIMEText(admin_body, 'plain'))
+            server.send_message(admin_msg)
+
+            # --- 2. Send Auto-Reply to the Customer (Only if they gave an email) ---
+            if email:
+                cust_msg = MIMEMultipart()
+                cust_msg['From'] = f"Dr. Sreenivas Aesthetics <{sender_email}>"
+                cust_msg['To'] = email
+                cust_msg['Subject'] = "Your Consultation Request is Confirmed!"
+
+                cust_body = f"""Hello {name},
+
+Service of Interest: {service}
+
+Your appointment is booked you can visit within next 48 hour .
+
+📍 Clinic Address:
+No 16/2/431, First Floor, Mini Bypass Road, above IDFC Bank, opposite Millineum Substation, Srinivasa Agraharam, Ramamurthy Nagar, Nellore, AP 524001
+
+📞 Contact: 095023 27644
+
+🗺️ Google Maps Location:
+https://maps.app.goo.gl/91D9PzVw5E7gW9Xm8
+"""
+                cust_msg.attach(MIMEText(cust_body, 'plain'))
+                server.send_message(cust_msg)
+
+    except Exception as e:
+        print(f"Error sending automated email: {e}")
+
+
+# ---------------------------------------------------------------------------
 # Admin auth decorator
 # ---------------------------------------------------------------------------
 def login_required(f):
@@ -380,22 +437,34 @@ def login_required(f):
 
 
 # ---------------------------------------------------------------------------
-# WhatsApp URL builder
+# WhatsApp URL builder (For Admin to message Customer)
 # ---------------------------------------------------------------------------
 def build_whatsapp_url(data: dict) -> str:
+    customer_name = data.get('name', 'there')
+    service = data.get('service', 'our services')
+    raw_phone = data.get('phone', '')
+
+    # Clean the phone number (remove spaces, dashes, or parentheses)
+    clean_phone = "".join(filter(str.isdigit, raw_phone))
+
+    # If the customer typed a standard 10-digit Indian number, add the '91' country code
+    if len(clean_phone) == 10:
+        clean_phone = "91" + clean_phone
+
+    # The exact message formatted for the customer with hospital details & map link
     msg = (
-        f"*New Appointment — Dr. Sreenivas Aesthetics*\n\n"
-        f"*Name:* {data.get('name', '')}\n"
-        f"*Phone:* {data.get('phone', '')}\n"
-        f"*Email:* {data.get('email', '')}\n"
-        f"*Service:* {data.get('service', '')}\n"
-        f"*Doctor Preference:* {data.get('doctor', 'No preference')}\n"
-        f"*Preferred Date:* {data.get('preferred_date', 'Not specified')}\n"
-        f"*Message:* {data.get('message', '')}\n"
-        f"*Source:* {data.get('source', 'Not specified')}\n\n"
-        f"_Submitted: {datetime.now().strftime('%d %b %Y, %I:%M %p')}_"
+        f"Hello {customer_name},\n\n"
+        f"Service of Interest: {service}\n\n"
+        f"Your appointment is booked you can visit within next 48 hour .\n\n"
+        f"📍 Clinic Address:\n"
+        f"No 16/2/431, First Floor, Mini Bypass Road, above IDFC Bank, "
+        f"opposite Millineum Substation, Srinivasa Agraharam, Ramamurthy Nagar, Nellore, AP 524001\n\n"
+        f"📞 Contact: 095023 27644\n\n"
+        f"🗺️ Google Maps Location:\n"
+        f"https://maps.app.goo.gl/91D9PzVw5E7gW9Xm8"
     )
-    return f"https://wa.me/{WHATSAPP_NUMBER}?text={urllib.parse.quote(msg)}"
+
+    return f"https://wa.me/{clean_phone}?text={urllib.parse.quote(msg)}"
 
 
 # ---------------------------------------------------------------------------
@@ -411,7 +480,6 @@ def inject_globals():
 # ---------------------------------------------------------------------------
 @app.route("/")
 def index():
-    # Pass the dictionary values as a list to the template
     return render_template("index.html", doctors=DOCTORS, blogs=LATEST_BLOGS.values())
 
 
@@ -445,13 +513,11 @@ def gallery_videos():
 
 @app.route("/blogs")
 def blogs():
-    # Pass the dictionary values as a list to the template
     return render_template("blogs.html", blogs=LATEST_BLOGS.values())
 
 
 @app.route("/blog/<string:slug>")
 def blog_detail(slug):
-    # Look up the specific blog
     blog = LATEST_BLOGS.get(slug)
     if not blog:
         abort(404)
@@ -459,7 +525,7 @@ def blog_detail(slug):
 
 
 # ---------------------------------------------------------------------------
-# Contact / Appointment (Saves to DB & returns WhatsApp URL)
+# Contact / Appointment (Saves to DB & Triggers Emails)
 # ---------------------------------------------------------------------------
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
@@ -473,12 +539,14 @@ def contact():
         doctor = data.get("doctor", "").strip()
         preferred_date = data.get("preferred_date", "").strip()
         message = data.get("message", "").strip()
-        source = data.get("source", "").strip()
+        source = data.get("source", "Website Contact Form").strip()
 
-        if not name or not phone or not email or not service or not message:
+        # ─── UPDATED VALIDATION ───
+        # Only Name, Phone, and Service are strictly required
+        if not name or not phone or not service:
             return jsonify({
                 "status": "error",
-                "message": "Please fill in all required fields."
+                "message": "Please fill in all required fields (Name, Phone, Service)."
             }), 400
 
         created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -495,20 +563,12 @@ def contact():
         except Exception as e:
             print(f"DB error: {e}")
 
-        wa_url = build_whatsapp_url({
-            "name": name, "phone": phone, "email": email,
-            "service": service, "doctor": doctor,
-            "preferred_date": preferred_date,
-            "message": message, "source": source,
-        })
+        threading.Thread(target=send_automated_emails,
+                         args=(name, phone, email, preferred_date, service, doctor, message)).start()
 
         return jsonify({
             "status": "success",
-            "message": (
-                f"Thank you, {name}! Your request has been received. "
-                "Redirecting you to WhatsApp..."
-            ),
-            "whatsapp_url": wa_url,
+            "message": f"Thank you, {name}! Your request has been received. Our team will contact you soon."
         })
 
     return render_template("contact.html")
@@ -616,11 +676,5 @@ def internal_error(e):
     return render_template("500.html"), 500
 
 
-# --- DEBUGGING TRICK ---
-with app.app_context():
-    print("--- REGISTERED ROUTES ---")
-    for rule in app.url_map.iter_rules():
-        print(f"Endpoint Name: {rule.endpoint} | Path: {rule}")
-    print("-------------------------")
 if __name__ == "__main__":
     app.run(debug=True)
