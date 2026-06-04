@@ -373,16 +373,18 @@ def send_automated_emails(name, phone, email, date, service, doctor, message):
     app_password = "scumnpbemqtlnlls"  # Your 16-digit Google App Password
 
     try:
-        context = ssl.create_default_context()
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-            server.login(sender_email, app_password)
+        # Use Port 587 and STARTTLS (More reliable for cloud hosting like Render)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.ehlo()
+        server.starttls() # Secure the connection
+        server.login(sender_email, app_password)
 
-            # --- 1. Send Notification to YOU (The Clinic) ---
-            admin_msg = MIMEMultipart()
-            admin_msg['From'] = sender_email
-            admin_msg['To'] = sender_email
-            admin_msg['Subject'] = f"New Booking Request: {name}"
-            admin_body = f"""New Consultation Request!
+        # --- 1. Send Notification to YOU (The Clinic) ---
+        admin_msg = MIMEMultipart()
+        admin_msg['From'] = sender_email
+        admin_msg['To'] = sender_email
+        admin_msg['Subject'] = f"New Booking Request: {name}"
+        admin_body = f"""New Consultation Request!
 
 Name: {name}
 Phone: {phone}
@@ -392,17 +394,17 @@ Service: {service}
 Doctor: {doctor if doctor else 'No preference'}
 Message: {message if message else 'None'}
 """
-            admin_msg.attach(MIMEText(admin_body, 'plain'))
-            server.send_message(admin_msg)
+        admin_msg.attach(MIMEText(admin_body, 'plain'))
+        server.send_message(admin_msg)
 
-            # --- 2. Send Auto-Reply to the Customer (Only if they gave an email) ---
-            if email:
-                cust_msg = MIMEMultipart()
-                cust_msg['From'] = f"Dr. Sreenivas Aesthetics <{sender_email}>"
-                cust_msg['To'] = email
-                cust_msg['Subject'] = "Your Consultation Request is Confirmed!"
+        # --- 2. Send Auto-Reply to the Customer (Only if they gave an email) ---
+        if email:
+            cust_msg = MIMEMultipart()
+            cust_msg['From'] = f"Dr. Sreenivas Aesthetics <{sender_email}>"
+            cust_msg['To'] = email
+            cust_msg['Subject'] = "Your Consultation Request is Confirmed!"
 
-                cust_body = f"""Hello {name},
+            cust_body = f"""Hello {name},
 
 Service of Interest: {service}
 
@@ -416,8 +418,10 @@ No 16/2/431, First Floor, Mini Bypass Road, above IDFC Bank, opposite Millineum 
 🗺️ Google Maps Location:
 https://maps.app.goo.gl/91D9PzVw5E7gW9Xm8
 """
-                cust_msg.attach(MIMEText(cust_body, 'plain'))
-                server.send_message(cust_msg)
+            cust_msg.attach(MIMEText(cust_body, 'plain'))
+            server.send_message(cust_msg)
+
+        server.quit() # Safely close the connection
 
     except Exception as e:
         print(f"Error sending automated email: {e}")
