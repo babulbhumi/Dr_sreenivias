@@ -7,7 +7,7 @@ from datetime import datetime
 from functools import wraps
 
 # --- Automated Email Imports ---
-import smtplib, ssl, threading
+import smtplib, ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
@@ -373,11 +373,13 @@ def send_automated_emails(name, phone, email, date, service, doctor, message):
     app_password = "scumnpbemqtlnlls"  # Your 16-digit Google App Password
 
     try:
+        print(f"Attempting to send email for {name}...", flush=True)
         # Use Port 587 and STARTTLS (More reliable for cloud hosting like Render)
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()
         server.starttls() # Secure the connection
         server.login(sender_email, app_password)
+        print("Successfully logged into Gmail!", flush=True)
 
         # --- 1. Send Notification to YOU (The Clinic) ---
         admin_msg = MIMEMultipart()
@@ -394,8 +396,10 @@ Service: {service}
 Doctor: {doctor if doctor else 'No preference'}
 Message: {message if message else 'None'}
 """
-        admin_msg.attach(MIMEText(admin_body, 'plain'))
+        # CRITICAL FIX: Ensure utf-8 encoding is used so emojis don't crash the server
+        admin_msg.attach(MIMEText(admin_body, 'plain', 'utf-8'))
         server.send_message(admin_msg)
+        print("Admin notification successfully sent to clinic!", flush=True)
 
         # --- 2. Send Auto-Reply to the Customer (Only if they gave an email) ---
         if email:
@@ -418,13 +422,18 @@ No 16/2/431, First Floor, Mini Bypass Road, above IDFC Bank, opposite Millineum 
 🗺️ Google Maps Location:
 https://maps.app.goo.gl/91D9PzVw5E7gW9Xm8
 """
-            cust_msg.attach(MIMEText(cust_body, 'plain'))
+            # CRITICAL FIX: Add utf-8 encoding for emojis
+            cust_msg.attach(MIMEText(cust_body, 'plain', 'utf-8'))
             server.send_message(cust_msg)
+            print(f"Customer confirmation successfully sent to {email}!", flush=True)
+        else:
+            print("No customer email provided. Skipping customer confirmation.", flush=True)
 
         server.quit() # Safely close the connection
+        print("Email process completely finished.", flush=True)
 
     except Exception as e:
-        print(f"Error sending automated email: {e}")
+        print(f"Error sending automated email: {e}", flush=True)
 
 
 # ---------------------------------------------------------------------------
@@ -567,8 +576,8 @@ def contact():
         except Exception as e:
             print(f"DB error: {e}")
 
-        threading.Thread(target=send_automated_emails,
-                         args=(name, phone, email, preferred_date, service, doctor, message)).start()
+        # CRITICAL FIX: Execute synchronously without a background thread so Render doesn't kill it!
+        send_automated_emails(name, phone, email, preferred_date, service, doctor, message)
 
         return jsonify({
             "status": "success",
