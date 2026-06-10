@@ -19,6 +19,12 @@
           content="{% block og_desc %}Premium cosmetic & plastic surgery clinic in Nellore, Andhra Pradesh.{% endblock %}"/>
     <meta property="og:image" content="{{ url_for('static', filename='images/og-cover.jpg') }}"/>
 
+    <!-- Favicons for all browsers and devices -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",

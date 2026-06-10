@@ -374,10 +374,8 @@ def send_automated_emails(name, phone, email, date, service, doctor, message):
 
     try:
         print(f"Attempting to send email for {name}...", flush=True)
-        # Use Port 587 and STARTTLS (More reliable for cloud hosting like Render)
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.ehlo()
-        server.starttls() # Secure the connection
+        # FIX IMPLEMENTED HERE: Use SMTP_SSL on port 465 with a 10-second timeout
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=10)
         server.login(sender_email, app_password)
         print("Successfully logged into Gmail!", flush=True)
 
